@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/lucide-static@0.460.0/font/lucide.css">
+<style>
+body{margin:0;background:#E9EBEF;font-family:'Geist',system-ui,sans-serif;color:#111111;-webkit-font-smoothing:antialiased}
+a{color:#101B35;text-decoration:underline;text-underline-offset:2px}a:hover{color:#1E55B8}
+[class^="icon-"],[class*=" icon-"]{line-height:1;display:inline-flex}
+.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px 'Geist Mono',monospace;padding:3px 7px;background:#101B35;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 13px/1.2 'Geist',sans-serif;color:#111}.dv-opts{display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px 'Geist Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 12px/1.3 'Geist',sans-serif;color:rgba(0,0,0,.6)}.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}.dv-opt:target .dv-oid{background:#C5FF45;color:#111}.dv-next{margin:24px 0 0;font:12px/1.5 'Geist',sans-serif;color:rgba(0,0,0,.55)}
+</style>
+</helmet>
+<sc-if value="{{ hayToast }}" hint-placeholder-val="{{ false }}"><div role="status" style="position:fixed;left:50%;transform:translateX(-50%);bottom:28px;z-index:50;max-width:calc(100vw - 32px);box-sizing:border-box;padding:12px 18px;border-radius:12px;background:#111111;color:#FFFFFF;font:600 15px 'Nunito',sans-serif">{{ toastTxt }}</div></sc-if>
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Refinamiento de <a class="dv-oid" href="#1a">1a</a> <a class="dv-oid" href="#1b">1b</a> <a class="dv-oid" href="#1c">1c</a>: Quicksand + Nunito, perfil ficticio, elegibilidad informativa</span></div>
+<div class="dv-opts">
+
+<!-- 2a INICIO DESKTOP -->
+<div class="dv-opt" id="2a"><div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>Inicio · desktop 1440</div>
+<div class="dv-card" data-screen-label="2a Inicio desktop" style="width:1440px;min-height:1080px;display:flex;background:#F5F6F8;font-family:'Nunito',sans-serif;font-size:16px;color:#111111">
+  <aside style="width:264px;flex:none;background:#101B35;color:#FFFFFF;display:flex;flex-direction:column;padding:28px 18px 22px;gap:28px">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 10px">
+      <div style="position:relative;width:30px;height:20px;flex:none"><div style="position:absolute;left:0;top:2px;width:16px;height:16px;border-radius:50%;background:#C5FF45"></div><div style="position:absolute;left:11px;top:2px;width:16px;height:16px;border-radius:50%;border:2px solid #FFFFFF;box-sizing:border-box"></div></div>
+      <span style="font-family:'Quicksand',sans-serif;font-size:26px;font-weight:700;letter-spacing:-0.02em">luni</span>
+    </div>
+    <a href="Luni%20Preparar%20solicitud.dc.html#anadir" style="text-decoration:none;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border:0;border-radius:12px;background:#C5FF45;color:#101B35;font:700 15px 'Nunito',sans-serif;cursor:pointer" style-hover="background:#D4FF73" style-focus="outline:2px solid #FFFFFF;outline-offset:2px"><i class="icon-plus" style="font-size:18px"></i>Añadir vacante</a>
+    <nav style="display:flex;flex-direction:column;gap:2px">
+      <a href="#2a" style="display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border-radius:10px;background:#1E2A48;color:#FFFFFF;text-decoration:none;font-size:16px;font-weight:700"><i class="icon-house" style="font-size:19px;color:#C5FF45"></i>Inicio</a>
+      <a href="Luni%20Seguimiento.dc.html#vacantes" style="display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border-radius:10px;color:#D3D8E3;text-decoration:none;font-size:16px;font-weight:500" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-briefcase-business" style="font-size:19px"></i><span style="flex:1">Vacantes</span><span style="font-size:14px;color:#A9B1C4;font-variant-numeric:tabular-nums">9</span></a>
+      <a href="Luni%20Postulaciones.dc.html" style="display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border-radius:10px;color:#D3D8E3;text-decoration:none;font-size:16px;font-weight:500" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-send" style="font-size:19px"></i><span style="flex:1">Postulaciones</span><span style="font-size:14px;color:#A9B1C4;font-variant-numeric:tabular-nums">9</span></a>
+      <a href="Luni%20Configurar%20perfil.dc.html" style="display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border-radius:10px;color:#D3D8E3;text-decoration:none;font-size:16px;font-weight:500" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-file-text" style="font-size:19px"></i>Mis CV</a>
+      <a href="Luni%20Respuestas%20y%20Configuraci%C3%B3n.dc.html" style="display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border-radius:10px;color:#D3D8E3;text-decoration:none;font-size:16px;font-weight:500" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-user-round" style="font-size:19px"></i>Perfil y respuestas</a>
+    </nav>
+    <div style="flex:1"></div>
+    <div style="display:flex;flex-direction:column;gap:2px">
+      <a href="Luni%20Postulaciones.dc.html#notificaciones" style="display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border-radius:10px;color:#D3D8E3;text-decoration:none;font-size:16px;font-weight:500" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-bell" style="font-size:19px"></i><span style="flex:1">Notificaciones</span><span style="min-width:22px;height:22px;padding:0 7px;box-sizing:border-box;border-radius:11px;background:#C5FF45;color:#101B35;font-size:14px;line-height:22px;font-weight:700;text-align:center;font-variant-numeric:tabular-nums">6</span></a>
+      <a href="Luni%20Respuestas%20y%20Configuraci%C3%B3n.dc.html#config" style="display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border-radius:10px;color:#D3D8E3;text-decoration:none;font-size:16px;font-weight:500" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-settings" style="font-size:19px"></i>Configuración</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;padding:16px 10px 0;border-top:1px solid #26314D">
+      <div style="width:36px;height:36px;flex:none;border-radius:50%;background:#2A3656;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">AR</div>
+      <div style="display:flex;flex-direction:column;gap:1px;min-width:0"><span style="font-size:15px;font-weight:600">Alma Ruiz</span><span style="font-size:14px;color:#A9B1C4">Perfil ficticio · Panamá</span></div>
+    </div>
+  </aside>
+  <main style="flex:1;min-width:0;padding:40px 48px 48px;display:flex;flex-direction:column;gap:28px">
+    <header style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <span style="font-size:15px;font-weight:600;color:#5B6272">Domingo, 11 de octubre</span>
+        <h1 style="margin:0;font-family:'Quicksand',sans-serif;font-size:34px;font-weight:700;letter-spacing:-0.02em;color:#101B35">Buenos días, Alma.</h1>
+      </div>
+      <sc-if value="{{ demo }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;border-radius:17px;border:1.5px dashed #6B7385;background:#FFFFFF;color:#2E3445;font-size:14px;font-weight:700"><i class="icon-flask-conical" style="font-size:16px"></i>Datos de demostración · perfil ficticio</span></sc-if>
+    </header>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:10px;padding:8px;background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px">
+        <label style="flex:1;display:flex;align-items:center;gap:12px;padding:0 12px"><i class="icon-link" style="font-size:19px;color:#5B6272"></i><input aria-label="Enlace de la vacante" placeholder="Pega el enlace de una vacante" style="flex:1;border:0;outline:0;height:46px;font:400 16px 'Nunito',sans-serif;color:#111;background:transparent"></label>
+        <a href="Luni%20Preparar%20solicitud.dc.html#anadir" style="text-decoration:none;box-sizing:border-box;display:flex;align-items:center;gap:8px;height:50px;padding:0 24px;border:0;border-radius:12px;background:#C5FF45;color:#101B35;font:700 16px 'Nunito',sans-serif;cursor:pointer" style-hover="background:#B5F02E" style-focus="outline:2px solid #101B35;outline-offset:2px">Analizar vacante<i class="icon-arrow-right" style="font-size:18px"></i></a>
+      </div>
+      <p style="margin:0 0 0 4px;font-size:14px;color:#5B6272">¿No tienes enlace? <a href="Luni%20Preparar%20solicitud.dc.html#anadir" style="font-weight:600">Pegar descripción</a> o completar los datos manualmente.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px">
+      <div style="padding:18px 24px;display:flex;align-items:baseline;gap:12px;border-right:1px solid #ECEEF2"><span style="font-size:30px;font-weight:700;color:#101B35;font-variant-numeric:tabular-nums">5</span><span style="font-size:16px;color:#2E3445">Enviadas</span><span style="font-size:14px;color:#5B6272;margin-left:auto">1 esta semana</span></div>
+      <div style="padding:18px 24px;display:flex;align-items:baseline;gap:12px;border-right:1px solid #ECEEF2"><span style="font-size:30px;font-weight:700;color:#101B35;font-variant-numeric:tabular-nums">4</span><span style="font-size:16px;color:#2E3445">En preparación</span><span style="font-size:14px;color:#5B6272;margin-left:auto">1 lista para autorizar</span></div>
+      <div style="padding:18px 24px;display:flex;align-items:baseline;gap:12px;border-right:1px solid #ECEEF2"><span style="font-size:30px;font-weight:700;color:#101B35;font-variant-numeric:tabular-nums">1</span><span style="font-size:16px;color:#2E3445">Entrevistas</span><span style="font-size:14px;color:#5B6272;margin-left:auto">Martes 13 oct</span></div>
+      <a href="Luni%20Postulaciones.dc.html" style="display:flex;align-items:center;gap:6px;padding:0 24px;font-size:15px;font-weight:600;color:#101B35;text-decoration:none" style-hover="text-decoration:underline">Ver postulaciones<i class="icon-chevron-right" style="font-size:16px"></i></a>
+    </div>
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:32px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:32px">
+        <section style="display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:baseline;gap:10px"><h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:21px;font-weight:700;color:#101B35">Necesitan tu atención</h2><sc-if value="{{ conPendientes }}" hint-placeholder-val="{{ true }}"><span style="font-size:15px;font-weight:600;color:#5B6272;font-variant-numeric:tabular-nums">4</span></sc-if></div>
+          <sc-if value="{{ conPendientes }}" hint-placeholder-val="{{ true }}">
+          <div style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;display:flex;flex-direction:column">
+            <div style="display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:16px;align-items:center;padding:20px 22px;border-bottom:1px solid #ECEEF2">
+              <div style="width:40px;height:40px;border-radius:12px;background:#E7F5EC;color:#17663F;display:flex;align-items:center;justify-content:center"><i class="icon-shield-check" style="font-size:19px"></i></div>
+              <div style="display:flex;flex-direction:column;gap:4px;min-width:0"><span style="font-size:14px;font-weight:700;color:#17663F">Lista para autorizar</span><span style="font-size:16px;font-weight:700">Cobalto Pay · Senior Product Designer</span><span style="font-size:15px;color:#4A5163">15 de 15 campos completos. Falta tu autorización; nada se ha enviado.</span></div>
+              <a href="Luni%20Preparar%20solicitud.dc.html#revision" style="text-decoration:none;box-sizing:border-box;height:42px;padding:0 18px;border:0;border-radius:11px;background:#101B35;color:#FFFFFF;font:700 15px 'Nunito',sans-serif;cursor:pointer;white-space:nowrap" style-hover="background:#1E2A48" style-focus="outline:2px solid #101B35;outline-offset:2px">Revisar y autorizar</a>
+            </div>
+            <div style="display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:16px;align-items:center;padding:20px 22px;border-bottom:1px solid #ECEEF2">
+              <div style="width:40px;height:40px;border-radius:12px;background:#FDECEA;color:#A4271B;display:flex;align-items:center;justify-content:center"><i class="icon-circle-help" style="font-size:19px"></i></div>
+              <div style="display:flex;flex-direction:column;gap:4px;min-width:0"><span style="font-size:14px;font-weight:700;color:#A4271B">Resultado de envío incierto</span><span style="font-size:16px;font-weight:700">Atlas Logística · Product Designer II</span><span style="font-size:15px;color:#4A5163">La plataforma no confirmó el envío. Compruébalo antes de reintentar.</span></div>
+              <a href="Luni%20Postulaciones.dc.html#atlas" style="display:inline-flex;align-items:center;gap:6px;height:42px;padding:0 6px;font-size:15px;font-weight:700;color:#101B35;white-space:nowrap">Comprobar envío<i class="icon-chevron-right" style="font-size:16px"></i></a>
+            </div>
+            <div style="display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:16px;align-items:center;padding:20px 22px;border-bottom:1px solid #ECEEF2">
+              <div style="width:40px;height:40px;border-radius:12px;background:#FFF4D9;color:#7A4E00;display:flex;align-items:center;justify-content:center"><i class="icon-shield-alert" style="font-size:19px"></i></div>
+              <div style="display:flex;flex-direction:column;gap:4px;min-width:0"><span style="font-size:14px;font-weight:700;color:#7A4E00">Pregunta sensible</span><span style="font-size:16px;font-weight:700">Nodo Health · Product Designer</span><span style="font-size:15px;color:#4A5163">Piden una declaración legal de autorización laboral. Luni no la responde por ti.</span></div>
+              <a href="Luni%20Preparar%20solicitud.dc.html#respuestas" style="display:inline-flex;align-items:center;gap:6px;height:42px;padding:0 6px;font-size:15px;font-weight:700;color:#101B35;white-space:nowrap">Responder<i class="icon-chevron-right" style="font-size:16px"></i></a>
+            </div>
+            <div style="display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:16px;align-items:center;padding:20px 22px">
+              <div style="width:40px;height:40px;border-radius:12px;background:#E9F0FD;color:#1E55B8;display:flex;align-items:center;justify-content:center"><i class="icon-list-todo" style="font-size:19px"></i></div>
+              <div style="display:flex;flex-direction:column;gap:4px;min-width:0"><span style="font-size:14px;font-weight:700;color:#1E55B8">Faltan datos · 12 de 15 campos</span><span style="font-size:16px;font-weight:700">Lumen Studio · UX/UI Designer</span><span style="font-size:15px;color:#4A5163">Pendientes: disponibilidad, expectativa salarial y una referencia.</span></div>
+              <a href="Luni%20Preparar%20solicitud.dc.html#respuestas" style="display:inline-flex;align-items:center;gap:6px;height:42px;padding:0 6px;font-size:15px;font-weight:700;color:#101B35;white-space:nowrap">Completar<i class="icon-chevron-right" style="font-size:16px"></i></a>
+            </div>
+          </div>
+          </sc-if>
+          <sc-if value="{{ vacio }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:32px;display:flex;align-items:center;gap:16px">
+            <div style="width:44px;height:44px;border-radius:50%;background:#E7F5EC;color:#17663F;display:flex;align-items:center;justify-content:center"><i class="icon-check" style="font-size:22px"></i></div>
+            <div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:17px;font-weight:700">Nada pendiente por hoy</span><span style="font-size:15px;color:#4A5163">Tus solicitudes en preparación no necesitan datos ni autorizaciones.</span></div>
+          </div>
+          </sc-if>
+        </section>
+        <section style="display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between"><h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:21px;font-weight:700;color:#101B35">Vacantes guardadas con mejor compatibilidad</h2><a href="Luni%20Seguimiento.dc.html" style="font-size:15px;font-weight:600">Ver todas</a></div>
+          <div style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px">
+            <a href="#2b" style="display:grid;grid-template-columns:64px minmax(0,1fr) 230px 20px;gap:16px;align-items:center;padding:18px 22px;border-bottom:1px solid #ECEEF2;color:inherit;text-decoration:none" style-hover="background:#FAFBFC">
+              <span style="display:flex;flex-direction:column;gap:0"><span style="font-size:22px;font-weight:700;color:#101B35;font-variant-numeric:tabular-nums">78%</span><span style="font-size:14px;color:#7A4E00;font-weight:600">Provisional</span></span>
+              <div style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font-size:16px;font-weight:700">Senior Product Designer, Pagos</span><span style="font-size:14px;color:#5B6272">Brisa Fintech · Remoto LATAM · Guardada el 9 oct</span></div>
+              <span style="justify-self:start;display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border-radius:8px;background:#FFF4D9;font-size:14px;font-weight:700;color:#7A4E00"><i class="icon-map-pin" style="font-size:15px"></i>Ubicación por confirmar</span>
+              <i class="icon-chevron-right" style="font-size:17px;color:#8A92A3"></i>
+            </a>
+            <a href="#2b" style="display:grid;grid-template-columns:64px minmax(0,1fr) 230px 20px;gap:16px;align-items:center;padding:18px 22px;border-bottom:1px solid #ECEEF2;color:inherit;text-decoration:none" style-hover="background:#FAFBFC">
+              <span style="font-size:22px;font-weight:700;color:#101B35;font-variant-numeric:tabular-nums">74%</span>
+              <div style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font-size:16px;font-weight:700">Product Designer, Growth</span><span style="font-size:14px;color:#5B6272">Quinta Digital · Remoto, Américas · Guardada el 7 oct</span></div>
+              <span style="justify-self:start;display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border-radius:8px;background:#E7F5EC;font-size:14px;font-weight:700;color:#17663F"><i class="icon-circle-check" style="font-size:15px"></i>Panamá confirmado</span>
+              <i class="icon-chevron-right" style="font-size:17px;color:#8A92A3"></i>
+            </a>
+            <a href="#2b" style="display:grid;grid-template-columns:64px minmax(0,1fr) 230px 20px;gap:16px;align-items:center;padding:18px 22px;border-bottom:1px solid #ECEEF2;color:inherit;text-decoration:none" style-hover="background:#FAFBFC">
+              <span style="font-size:22px;font-weight:700;color:#101B35;font-variant-numeric:tabular-nums">71%</span>
+              <div style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font-size:16px;font-weight:700">Product Designer</span><span style="font-size:14px;color:#5B6272">Cuadra · Remoto, Centroamérica · Guardada el 6 oct</span></div>
+              <span style="justify-self:start;display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border-radius:8px;background:#E7F5EC;font-size:14px;font-weight:700;color:#17663F"><i class="icon-circle-check" style="font-size:15px"></i>Panamá confirmado</span>
+              <i class="icon-chevron-right" style="font-size:17px;color:#8A92A3"></i>
+            </a>
+            <div style="display:flex;align-items:center;gap:10px;padding:14px 22px;font-size:14px;color:#4A5163;background:#FAFBFC;border-radius:0 0 16px 16px"><i class="icon-eye-off" style="font-size:16px"></i><span>4 ocultas: 2 híbridas o presenciales (prefieres solo remoto), 1 cerrada y 1 que excluye Panamá.</span><a href="#2b" style="margin-left:auto;font-weight:600">Ver ocultas</a></div>
+          </div>
+        </section>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:32px">
+        <section style="display:flex;flex-direction:column;gap:14px">
+          <h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:21px;font-weight:700;color:#101B35">Próximos</h2>
+          <div style="background:#101B35;color:#FFFFFF;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font-size:15px;font-weight:700;color:#C5FF45">Martes 13 oct · 10:00</span><span style="font-size:14px;color:#C2C8D6">Hora de Panamá</span></div>
+            <div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:18px;font-weight:700">Entrevista de portafolio</span><span style="font-size:15px;color:#D3D8E3">Verde Labs · Product Designer · Videollamada</span></div>
+            <div style="display:flex;align-items:center;gap:16px"><a href="Luni%20Postulaciones.dc.html#verde" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;box-sizing:border-box;height:42px;padding:0 16px;border:0;border-radius:11px;background:#C5FF45;color:#101B35;font:700 15px 'Nunito',sans-serif;cursor:pointer" style-focus="outline:2px solid #FFFFFF;outline-offset:2px">Preparar notas</a><a href="Luni%20Postulaciones.dc.html#verde" style="font-size:15px;font-weight:600;color:#FFFFFF">Ver postulación</a></div>
+          </div>
+          <div style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px">
+            <div style="display:flex;gap:16px;padding:16px 20px;border-bottom:1px solid #ECEEF2"><span style="width:52px;flex:none;display:flex;flex-direction:column;font-size:14px;font-weight:700;color:#5B6272;line-height:1.3">Jue<span style="font-size:18px;color:#101B35;font-variant-numeric:tabular-nums">15 oct</span></span><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:600">Hacer seguimiento a Pliego</span><span style="font-size:14px;color:#5B6272">Aplicaste hace 8 días · sin respuesta</span></div></div>
+            <div style="display:flex;gap:16px;padding:16px 20px"><span style="width:52px;flex:none;display:flex;flex-direction:column;font-size:14px;font-weight:700;color:#5B6272;line-height:1.3">Lun<span style="font-size:18px;color:#101B35;font-variant-numeric:tabular-nums">19 oct</span></span><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:600">Reverificar las vacantes guardadas</span><span style="font-size:14px;color:#5B6272">Comprobación semanal de cierre</span></div></div>
+          </div>
+        </section>
+        <section style="display:flex;flex-direction:column;gap:14px">
+          <h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:21px;font-weight:700;color:#101B35">Actividad reciente</h2>
+          <ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column">
+            <li style="display:grid;grid-template-columns:14px minmax(0,1fr);gap:12px;padding-bottom:18px"><span style="width:9px;height:9px;margin-top:7px;border-radius:50%;background:#101B35"></span><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:15px"><strong style="font-weight:700">Enviada</strong> a Mareo Travel · confirmada por la plataforma</span><span style="font-size:14px;color:#5B6272">Ayer, 18:42</span></div></li>
+            <li style="display:grid;grid-template-columns:14px minmax(0,1fr);gap:12px;padding-bottom:18px"><span style="width:9px;height:9px;margin-top:7px;border-radius:50%;border:1.5px solid #101B35;box-sizing:border-box"></span><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:15px">Vacante de Cuadra marcada como <strong style="font-weight:700">cerrada</strong>; tu postulación sigue activa</span><span style="font-size:14px;color:#5B6272">Ayer, 09:10</span></div></li>
+            <li style="display:grid;grid-template-columns:14px minmax(0,1fr);gap:12px;padding-bottom:18px"><span style="width:9px;height:9px;margin-top:7px;border-radius:50%;border:1.5px solid #101B35;box-sizing:border-box"></span><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:15px">Analizaste Senior Product Designer en Brisa Fintech</span><span style="font-size:14px;color:#5B6272">9 oct, 16:05</span></div></li>
+            <li style="display:grid;grid-template-columns:14px minmax(0,1fr);gap:12px"><span style="width:9px;height:9px;margin-top:7px;border-radius:50%;border:1.5px solid #101B35;box-sizing:border-box"></span><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:15px">Confirmaste 3 respuestas en tu biblioteca</span><span style="font-size:14px;color:#5B6272">8 oct, 11:20</span></div></li>
+          </ol>
+        </section>
+      </div>
+    </div>
+  </main>
+</div></div>
+
+<!-- 2b DETALLE DESKTOP -->
+<div class="dv-opt" id="2b"><div class="dv-olabel"><a class="dv-oid" href="#2b">2b</a>Detalle de vacante · desktop 1440 · prueba “Corregir manualmente”</div>
+<div class="dv-card" data-screen-label="2b Detalle de vacante desktop" style="width:1440px;min-height:1300px;display:flex;background:#F5F6F8;font-family:'Nunito',sans-serif;font-size:16px;color:#111111">
+  <aside style="width:264px;flex:none;background:#101B35;color:#FFFFFF;display:flex;flex-direction:column;padding:28px 18px 22px;gap:28px">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 10px">
+      <div style="position:relative;width:30px;height:20px;flex:none"><div style="position:absolute;left:0;top:2px;width:16px;height:16px;border-radius:50%;background:#C5FF45"></div><div style="position:absolute;left:11px;top:2px;width:16px;height:16px;border-radius:50%;border:2px solid #FFFFFF;box-sizing:border-box"></div></div>
+      <span style="font-family:'Quicksand',sans-serif;font-size:26px;font-weight:700;letter-spacing:-0.02em">luni</span>
+    </div>
+    <a href="Luni%20Preparar%20solicitud.dc.html#anadir" style="text-decoration:none;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border:0;border-radius:12px;background:#C5FF45;color:#101B35;font:700 15px 'Nunito',sans-serif;cursor:pointer" style-hover="background:#D4FF73" style-focus="outline:2px solid #FFFFFF;outline-offset:2px"><i class="icon-plus" style="font-size:18px"></i>Añadir vacante</a>
+    <nav style="display:flex;flex-direction:column;gap:2px">
+      <a href="#2a" style="display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border-radius:10px;color:#D3D8E3;text-decoration:none;font-size:16px;font-weight:500" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-house" style="font-size:19px"></i>Inicio</a>
+      <a href="Luni%20Seguimiento.dc.html#vacantes" style="display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border-radius:10px;background:#1E2A48;color:#FFFFFF;text-decoration:none;font-size:16px;font-weight:700"><i class="icon-briefcase-business" style="font-size:19px;color:#C5FF45"></i><span style="flex:1">Vacantes</span><span style="font-size:14px;color:#A9B1C4;font-variant-numeric:tabular-nums">9</span></a>
+      <a href="Luni%20Postulaciones.dc.html" style="display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border-radius:10px;color:#D3D8E3;text-decoration:none;font-size:16px;font-weight:500" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-send" style="font-size:19px"></i><span style="flex:1">Postulaciones</span><span style="font-size:14px;color:#A9B1C4;font-variant-numeric:tabular-nums">9</span></a>
+      <a href="Luni%20Configurar%20perfil.dc.html" style="display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border-radius:10px;color:#D3D8E3;text-decoration:none;font-size:16px;font-weight:500" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-file-text" style="font-size:19px"></i>Mis CV</a>
+      <a href="Luni%20Respuestas%20y%20Configuraci%C3%B3n.dc.html" style="display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border-radius:10px;color:#D3D8E3;text-decoration:none;font-size:16px;font-weight:500" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-user-round" style="font-size:19px"></i>Perfil y respuestas</a>
+    </nav>
+    <div style="flex:1"></div>
+    <div style="display:flex;flex-direction:column;gap:2px">
+      <a href="Luni%20Postulaciones.dc.html#notificaciones" style="display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border-radius:10px;color:#D3D8E3;text-decoration:none;font-size:16px;font-weight:500" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-bell" style="font-size:19px"></i><span style="flex:1">Notificaciones</span><span style="min-width:22px;height:22px;padding:0 7px;box-sizing:border-box;border-radius:11px;background:#C5FF45;color:#101B35;font-size:14px;line-height:22px;font-weight:700;text-align:center;font-variant-numeric:tabular-nums">6</span></a>
+      <a href="Luni%20Respuestas%20y%20Configuraci%C3%B3n.dc.html#config" style="display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border-radius:10px;color:#D3D8E3;text-decoration:none;font-size:16px;font-weight:500" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-settings" style="font-size:19px"></i>Configuración</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;padding:16px 10px 0;border-top:1px solid #26314D">
+      <div style="width:36px;height:36px;flex:none;border-radius:50%;background:#2A3656;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">AR</div>
+      <div style="display:flex;flex-direction:column;gap:1px;min-width:0"><span style="font-size:15px;font-weight:600">Alma Ruiz</span><span style="font-size:14px;color:#A9B1C4">Perfil ficticio · Panamá</span></div>
+    </div>
+  </aside>
+  <main style="flex:1;min-width:0;display:flex;flex-direction:column">
+    <div style="padding:28px 48px;background:#FFFFFF;border-bottom:1px solid #DDE1E8;display:flex;flex-direction:column;gap:22px">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <nav style="display:flex;align-items:center;gap:6px;font-size:15px;color:#5B6272"><a href="Luni%20Seguimiento.dc.html#vacantes" style="color:#5B6272;text-decoration:none" style-hover="text-decoration:underline">Vacantes</a><i class="icon-chevron-right" style="font-size:15px"></i><span style="color:#111;font-weight:600">Brisa Fintech</span></nav>
+        <sc-if value="{{ demo }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;border-radius:17px;border:1.5px dashed #6B7385;color:#2E3445;font-size:14px;font-weight:700"><i class="icon-flask-conical" style="font-size:16px"></i>Datos de demostración · perfil ficticio</span></sc-if>
+      </div>
+      <div style="display:flex;gap:20px;align-items:flex-start">
+        <div style="width:60px;height:60px;flex:none;border-radius:16px;background:#EEF0F4;display:flex;align-items:center;justify-content:center;font-family:'Quicksand',sans-serif;font-size:24px;font-weight:700;color:#101B35">B</div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:12px;min-width:0">
+          <div style="display:flex;flex-direction:column;gap:4px"><h1 style="margin:0;font-family:'Quicksand',sans-serif;font-size:30px;font-weight:700;letter-spacing:-0.01em;color:#101B35">Senior Product Designer, Pagos</h1><span style="font-size:17px;color:#2E3445">Brisa Fintech</span></div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <span style="display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:9px;background:#EEF0F4;font-size:15px;color:#2E3445"><i class="icon-globe" style="font-size:15px"></i>Remoto · LATAM</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:9px;background:#EEF0F4;font-size:15px;color:#2E3445"><i class="icon-clock" style="font-size:15px"></i>Tiempo completo</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:9px;background:#EEF0F4;font-size:15px;color:#2E3445"><i class="icon-banknote" style="font-size:15px"></i>Salario no publicado</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <button onClick="{{ simulado }}" style="height:46px;padding:0 10px;border:0;background:transparent;color:#4A5163;font:600 15px 'Nunito',sans-serif;cursor:pointer;border-radius:10px" style-hover="background:#F5F6F8;color:#111" style-focus="outline:2px solid #101B35;outline-offset:2px">Descartar</button>
+            <button onClick="{{ simulado }}" style="height:46px;padding:0 16px;border:1px solid #C9CED8;border-radius:12px;background:#FFFFFF;color:#101B35;font:600 15px 'Nunito',sans-serif;cursor:pointer;display:flex;align-items:center;gap:6px" style-hover="background:#F5F6F8" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-bookmark" style="font-size:16px"></i>Guardar para después</button>
+            <a href="Luni%20Preparar%20solicitud.dc.html#cv" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;box-sizing:border-box;height:46px;padding:0 20px;border:0;border-radius:12px;background:#C5FF45;color:#101B35;font:700 15px 'Nunito',sans-serif;cursor:pointer;display:flex;align-items:center;gap:8px" style-hover="background:#B5F02E" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-check" style="font-size:17px"></i>Aprobar y preparar solicitud</a>
+          </div>
+          <span style="font-size:14px;color:#5B6272">Aprobar solo prepara la solicitud. Nada se envía sin tu autorización.</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:32px;flex-wrap:wrap;font-size:15px;color:#2E3445;padding-top:18px;border-top:1px solid #ECEEF2">
+        <span style="display:flex;gap:6px"><span style="color:#5B6272">Publicada</span><strong style="font-weight:700">2 oct 2026</strong><span style="color:#5B6272">según el anuncio</span></span>
+        <span style="display:flex;gap:6px"><span style="color:#5B6272">Guardada</span><strong style="font-weight:700">9 oct 2026</strong></span>
+        <span style="display:flex;gap:6px;align-items:center"><span style="color:#5B6272">Última verificación</span><strong style="font-weight:700">hoy, 08:14</strong><span style="display:inline-flex;align-items:center;gap:4px;color:#17663F;font-weight:700"><i class="icon-circle-check" style="font-size:15px"></i>Abierta</span></span>
+        <a href="#2b" style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-weight:600">Ver anuncio original<i class="icon-external-link" style="font-size:15px"></i></a>
+      </div>
+    </div>
+    <div style="padding:32px 48px 48px;display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:32px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:20px">
+          <div style="display:flex;gap:32px;align-items:center">
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <span style="font-size:14px;font-weight:700;color:#5B6272">Compatibilidad orientativa</span>
+              <span style="font-size:60px;line-height:1;font-weight:700;color:#101B35;font-variant-numeric:tabular-nums;letter-spacing:-0.02em">78%</span>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:10px">
+              <span style="align-self:flex-start;display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:15px;background:#FFF4D9;color:#7A4E00;font-size:14px;font-weight:700"><i class="icon-hourglass" style="font-size:14px"></i>Evaluación provisional</span>
+              <p style="margin:0;font-size:16px;line-height:1.5;color:#2E3445;text-wrap:pretty">Compara el anuncio con tu perfil confirmado. No indica probabilidad de contratación. Falta confirmar tu nivel de inglés.</p>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;padding-top:18px;border-top:1px solid #ECEEF2">
+            <div style="display:flex;height:8px;border-radius:4px;overflow:hidden;gap:3px"><div style="flex:3;background:#17663F"></div><div style="flex:1;background:#D9A21B"></div><div style="flex:1;background:repeating-linear-gradient(45deg,#B9BFCB 0 3px,#EEF0F4 3px 6px)"></div></div>
+            <div style="display:flex;gap:24px;font-size:15px;color:#2E3445;font-variant-numeric:tabular-nums">
+              <span style="display:flex;align-items:center;gap:6px"><i class="icon-circle-check" style="font-size:16px;color:#17663F"></i>Cumple 3</span>
+              <span style="display:flex;align-items:center;gap:6px"><i class="icon-circle-minus" style="font-size:16px;color:#8F6400"></i>Parcial 1</span>
+              <span style="display:flex;align-items:center;gap:6px"><i class="icon-circle-help" style="font-size:16px;color:#4A5163"></i>Sin confirmar 1</span>
+              <span style="margin-left:auto;color:#5B6272">5 requisitos obligatorios</span>
+            </div>
+          </div>
+        </section>
+        <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;display:flex;flex-direction:column">
+          <div style="padding:20px 26px;border-bottom:1px solid #ECEEF2;display:flex;align-items:baseline;justify-content:space-between"><h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:19px;font-weight:700;color:#101B35">Requisitos obligatorios</h2><span style="font-size:14px;color:#5B6272">Fuente: CV ficticio de demostración</span></div>
+          <div style="display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;padding:18px 26px;border-bottom:1px solid #ECEEF2"><span style="display:inline-flex;align-items:flex-start;gap:6px;font-size:15px;font-weight:700;color:#17663F"><i class="icon-circle-check" style="font-size:16px;margin-top:2px"></i>Cumple</span><div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:16px;font-weight:700">5+ años en Product Design</span><span style="font-size:15px;color:#4A5163;text-wrap:pretty">5 años y 10 meses en diseño de producto desde ene 2021, sin contar dos veces los meses superpuestos. Marketing no se suma.</span></div></div>
+          <div style="display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;padding:18px 26px;border-bottom:1px solid #ECEEF2"><span style="display:inline-flex;align-items:flex-start;gap:6px;font-size:15px;font-weight:700;color:#17663F"><i class="icon-circle-check" style="font-size:16px;margin-top:2px"></i>Cumple</span><div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:16px;font-weight:700">Sistemas de diseño en Figma</span><span style="font-size:15px;color:#4A5163">Mencionado en el puesto actual del CV.</span></div></div>
+          <div style="display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;padding:18px 26px;border-bottom:1px solid #ECEEF2"><span style="display:inline-flex;align-items:flex-start;gap:6px;font-size:15px;font-weight:700;color:#17663F"><i class="icon-circle-check" style="font-size:16px;margin-top:2px"></i>Cumple</span><div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:16px;font-weight:700">Diseño de flujos end-to-end</span><span style="font-size:15px;color:#4A5163">Respaldado por 2 proyectos confirmados en el perfil.</span></div></div>
+          <div style="display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;padding:18px 26px;border-bottom:1px solid #ECEEF2"><span style="display:inline-flex;align-items:flex-start;gap:6px;font-size:15px;font-weight:700;color:#8F6400"><i class="icon-circle-minus" style="font-size:16px;margin-top:2px"></i>Parcial</span><div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:16px;font-weight:700">Experiencia en pagos o fintech</span><span style="font-size:15px;color:#4A5163">Hay un proyecto de checkout. No hay experiencia directa en fintech.</span></div></div>
+          <div style="display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;padding:18px 26px;background:#FAFBFC;border-radius:0 0 16px 16px"><span style="display:inline-flex;align-items:flex-start;gap:6px;font-size:15px;font-weight:700;color:#2E3445"><i class="icon-circle-help" style="font-size:16px;margin-top:2px"></i>Sin confirmar</span><div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:16px;font-weight:700">Inglés avanzado (C1)</span><span style="font-size:15px;color:#4A5163">El perfil no indica tu nivel. Luni no lo supone.</span><a href="#2b" style="font-size:15px;font-weight:700">Confirmar nivel en Perfil</a></div></div>
+        </section>
+        <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;display:flex;flex-direction:column">
+          <div style="padding:20px 26px;border-bottom:1px solid #ECEEF2;display:flex;align-items:baseline;justify-content:space-between"><h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:19px;font-weight:700;color:#101B35">Deseables</h2><span style="font-size:14px;color:#5B6272">Pesan menos en el porcentaje</span></div>
+          <div style="display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;padding:16px 26px;border-bottom:1px solid #ECEEF2"><span style="display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:700;color:#17663F"><i class="icon-circle-check" style="font-size:16px"></i>Cumple</span><span style="font-size:16px">Prototipado con HTML/CSS</span></div>
+          <div style="display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;padding:16px 26px;border-bottom:1px solid #ECEEF2"><span style="display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:700;color:#2E3445"><i class="icon-circle-help" style="font-size:16px"></i>Sin confirmar</span><span style="font-size:16px">Investigación cuantitativa <span style="color:#5B6272">· no aparece en el perfil</span></span></div>
+          <div style="display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;padding:16px 26px"><span style="display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:700;color:#A4271B"><i class="icon-circle-x" style="font-size:16px"></i>Falta</span><span style="font-size:16px">Experiencia en B2B SaaS</span></div>
+        </section>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between"><h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:19px;font-weight:700;color:#101B35">Elegibilidad desde Panamá</h2><span style="font-size:14px;color:#5B6272">Aparte de la compatibilidad</span></div>
+          <sc-if value="{{ eligAuto }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:center;gap:12px"><div style="width:40px;height:40px;flex:none;border-radius:12px;background:#FFF4D9;color:#7A4E00;display:flex;align-items:center;justify-content:center"><i class="icon-map-pin" style="font-size:19px"></i></div><div style="display:flex;flex-direction:column;gap:1px"><span style="font-size:17px;font-weight:700;color:#7A4E00">Ubicación por confirmar</span><span style="font-size:14px;color:#5B6272">Resultado automático</span></div></div>
+            <dl style="margin:0;display:grid;grid-template-columns:96px minmax(0,1fr);row-gap:10px;column-gap:12px;font-size:15px;line-height:1.45">
+              <dt style="color:#5B6272">Evidencia</dt><dd style="margin:0;text-wrap:pretty">El anuncio dice “Remoto · LATAM” sin listar países. No menciona Panamá.</dd>
+              <dt style="color:#5B6272">Fuente</dt><dd style="margin:0">Anuncio original, sección Ubicación</dd>
+              <dt style="color:#5B6272">Verificado</dt><dd style="margin:0">Hoy, 08:14</dd>
+            </dl>
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding-top:4px">
+              <button onClick="{{ simulado }}" style="white-space:nowrap;flex:none;height:42px;padding:0 16px;border:1px solid #101B35;border-radius:11px;background:#FFFFFF;color:#101B35;font:700 15px 'Nunito',sans-serif;cursor:pointer;display:flex;align-items:center;gap:8px" style-hover="background:#F5F6F8" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-refresh-cw" style="font-size:16px"></i>Verificar ubicación</button>
+              <sc-if value="{{ noCorrigiendo }}" hint-placeholder-val="{{ true }}"><button onClick="{{ abrirCorreccion }}" style="height:42px;padding:0 4px;border:0;background:transparent;color:#101B35;font:600 15px 'Nunito',sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Corregir manualmente</button></sc-if>
+            </div>
+          </sc-if>
+          <sc-if value="{{ corrigiendo }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:14px;padding:18px;border-radius:12px;background:#F5F6F8;border:1px solid #DDE1E8">
+              <span style="font-size:16px;font-weight:700">Corregir resultado</span>
+              <div role="radiogroup" aria-label="Resultado corregido" style="display:flex;gap:8px">
+                <button onClick="{{ elegirConfirmado }}" aria-pressed="{{ esConfirmado }}" style="flex:1;height:44px;border-radius:10px;border:{{ bordeConfirmado }};background:#FFFFFF;color:#111;font:600 15px 'Nunito',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-circle-check" style="font-size:16px;color:#17663F"></i>Panamá confirmado</button>
+                <button onClick="{{ elegirExcluido }}" aria-pressed="{{ esExcluido }}" style="flex:1;height:44px;border-radius:10px;border:{{ bordeExcluido }};background:#FFFFFF;color:#111;font:600 15px 'Nunito',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-circle-x" style="font-size:16px;color:#A4271B"></i>Panamá excluido</button>
+              </div>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:15px;font-weight:600">Nota o fuente (obligatoria)
+                <textarea value="{{ nota }}" onChange="{{ onNota }}" rows="3" placeholder="Ej.: Respuesta de la reclutadora por correo, 11 oct" style="font:400 15px/1.45 'Nunito',sans-serif;padding:10px 12px;border:1px solid #B9BFCB;border-radius:10px;resize:vertical;color:#111;background:#FFFFFF" style-focus="outline:2px solid #101B35;outline-offset:1px"></textarea>
+              </label>
+              <div style="display:flex;align-items:center;gap:12px">
+                <button onClick="{{ guardar }}" disabled="{{ guardarDisabled }}" style="height:42px;padding:0 16px;border:0;border-radius:11px;background:{{ guardarBg }};color:{{ guardarColor }};font:700 15px 'Nunito',sans-serif;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Guardar corrección</button>
+                <button onClick="{{ cancelar }}" style="height:42px;padding:0 6px;border:0;background:transparent;color:#4A5163;font:600 15px 'Nunito',sans-serif;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Cancelar</button>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ eligManual }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:12px"><div style="width:40px;height:40px;flex:none;border-radius:12px;background:{{ manualBg }};color:{{ manualColor }};display:flex;align-items:center;justify-content:center"><i class="{{ manualIcon }}" style="font-size:19px"></i></div><div style="display:flex;flex-direction:column;gap:1px"><span style="font-size:17px;font-weight:700;color:{{ manualColor }}">{{ estadoManual }}</span><span style="display:inline-flex;align-items:center;gap:5px;font-size:14px;color:#2E3445;font-weight:600"><i class="icon-user-round-pen" style="font-size:14px"></i>Corregido por ti · hoy</span></div></div>
+            <dl style="margin:0;display:grid;grid-template-columns:96px minmax(0,1fr);row-gap:10px;column-gap:12px;font-size:15px;line-height:1.45">
+              <dt style="color:#5B6272">Tu nota</dt><dd style="margin:0;text-wrap:pretty">{{ nota }}</dd>
+              <dt style="color:#5B6272">Automático</dt><dd style="margin:0;color:#4A5163">Ubicación por confirmar · hoy, 08:14</dd>
+            </dl>
+            <button onClick="{{ deshacer }}" style="align-self:flex-start;height:40px;padding:0 4px;border:0;background:transparent;color:#101B35;font:600 15px 'Nunito',sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Volver al resultado automático</button>
+          </sc-if>
+        </section>
+        <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:16px">
+          <h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:19px;font-weight:700;color:#101B35">Próximos pasos</h2>
+          <ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:14px">
+            <li style="display:flex;gap:12px"><span style="width:26px;height:26px;flex:none;border-radius:50%;border:1.5px solid #101B35;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">1</span><span style="font-size:16px;line-height:1.45">Verifica si Brisa contrata desde Panamá.</span></li>
+            <li style="display:flex;gap:12px"><span style="width:26px;height:26px;flex:none;border-radius:50%;border:1.5px solid #101B35;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">2</span><span style="font-size:16px;line-height:1.45">Confirma tu nivel de inglés en Perfil.</span></li>
+            <li style="display:flex;gap:12px"><span style="width:26px;height:26px;flex:none;border-radius:50%;border:1.5px solid #101B35;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">3</span><span style="font-size:16px;line-height:1.45">Al aprobar, elige qué CV adjuntar.</span></li>
+          </ol>
+        </section>
+        <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:14px">
+          <h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:19px;font-weight:700;color:#101B35">Sobre la oferta</h2>
+          <dl style="margin:0;display:grid;grid-template-columns:96px minmax(0,1fr);row-gap:10px;column-gap:12px;font-size:15px">
+            <dt style="color:#5B6272">Modalidad</dt><dd style="margin:0">Remoto</dd>
+            <dt style="color:#5B6272">Ubicación</dt><dd style="margin:0">LATAM, sin países listados</dd>
+            <dt style="color:#5B6272">Contrato</dt><dd style="margin:0">Tiempo completo · tipo no indicado</dd>
+            <dt style="color:#5B6272">Salario</dt><dd style="margin:0">No publicado</dd>
+          </dl>
+          <p style="margin:0;padding-top:14px;border-top:1px solid #ECEEF2;font-size:15px;line-height:1.55;color:#2E3445;text-wrap:pretty">Buscamos una persona que lidere el diseño de la experiencia de pagos y transferencias, colaborando con producto, ingeniería y cumplimiento…</p>
+          <a href="#2b" style="font-size:15px;font-weight:600">Ver descripción completa</a>
+        </section>
+      </div>
+    </div>
+  </main>
+</div></div>
+
+<!-- 2c INICIO MOVIL -->
+<div class="dv-opt" id="2c"><div class="dv-olabel"><a class="dv-oid" href="#2c">2c</a>Inicio · móvil 390 (desplázate dentro)</div>
+<div style="width:390px;height:844px;border-radius:48px;border:10px solid #111111;background:#F5F6F8;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.08);font-family:'Nunito',sans-serif;font-size:16px;color:#111111" data-screen-label="2c Inicio móvil">
+  <div style="flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-bottom:28px">
+    <div style="height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-size:15px;font-weight:700"><span style="font-variant-numeric:tabular-nums">9:41</span><span style="display:flex;gap:6px;align-items:center"><i class="icon-signal" style="font-size:15px"></i><i class="icon-wifi" style="font-size:15px"></i><i class="icon-battery-full" style="font-size:18px"></i></span></div>
+    <div style="padding:8px 20px 0;display:flex;flex-direction:column;gap:24px">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:8px"><div style="position:relative;width:26px;height:16px"><div style="position:absolute;left:0;top:1px;width:14px;height:14px;border-radius:50%;background:#101B35"></div><div style="position:absolute;left:10px;top:1px;width:14px;height:14px;border-radius:50%;border:2px solid #101B35;box-sizing:border-box;background:#C5FF45"></div></div><span style="font-family:'Quicksand',sans-serif;font-size:23px;font-weight:700;letter-spacing:-0.02em;color:#101B35">luni</span></div>
+        <button onClick="{{ irNotif }}" aria-label="Notificaciones, 6 nuevas" style="position:relative;width:44px;height:44px;border-radius:12px;border:1px solid #DDE1E8;background:#FFFFFF;display:flex;align-items:center;justify-content:center;color:#101B35;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-bell" style="font-size:20px"></i><span style="position:absolute;top:4px;right:4px;min-width:18px;height:18px;border-radius:9px;background:#101B35;color:#C5FF45;font-size:12px;line-height:18px;font-weight:700;text-align:center">6</span></button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <span style="font-size:14px;font-weight:600;color:#5B6272">Domingo, 11 de octubre</span>
+        <h1 style="margin:0;font-family:'Quicksand',sans-serif;font-size:28px;font-weight:700;letter-spacing:-0.01em;color:#101B35">Buenos días, Alma.</h1>
+        <sc-if value="{{ demo }}" hint-placeholder-val="{{ true }}"><span style="align-self:flex-start;margin-top:4px;display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:15px;border:1.5px dashed #6B7385;background:#FFFFFF;color:#2E3445;font-size:14px;font-weight:700"><i class="icon-flask-conical" style="font-size:14px"></i>Demostración · perfil ficticio</span></sc-if>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;flex-direction:column;gap:8px;padding:8px;background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px">
+          <label style="display:flex;align-items:center;gap:10px;padding:0 10px"><i class="icon-link" style="font-size:18px;color:#5B6272"></i><input aria-label="Enlace de la vacante" placeholder="Pega el enlace de una vacante" style="flex:1;min-width:0;border:0;outline:0;height:46px;font:400 16px 'Nunito',sans-serif;background:transparent"></label>
+          <a href="Luni%20Preparar%20solicitud.dc.html#anadir" style="text-decoration:none;box-sizing:border-box;height:50px;border:0;border-radius:12px;background:#C5FF45;color:#101B35;font:700 16px 'Nunito',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Analizar vacante<i class="icon-arrow-right" style="font-size:18px"></i></a>
+        </div>
+        <a href="Luni%20Preparar%20solicitud.dc.html#anadir" style="align-self:center;display:inline-flex;align-items:center;gap:6px;min-height:44px;font-size:15px;font-weight:600"><i class="icon-clipboard-paste" style="font-size:16px"></i>Pegar descripción</a>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px">
+        <div style="padding:14px;display:flex;flex-direction:column;gap:2px;border-right:1px solid #ECEEF2"><span style="font-size:26px;font-weight:700;color:#101B35;font-variant-numeric:tabular-nums">5</span><span style="font-size:14px;color:#2E3445">Enviadas</span></div>
+        <div style="padding:14px;display:flex;flex-direction:column;gap:2px;border-right:1px solid #ECEEF2"><span style="font-size:26px;font-weight:700;color:#101B35;font-variant-numeric:tabular-nums">4</span><span style="font-size:14px;color:#2E3445">En preparación</span></div>
+        <div style="padding:14px;display:flex;flex-direction:column;gap:2px"><span style="font-size:26px;font-weight:700;color:#101B35;font-variant-numeric:tabular-nums">1</span><span style="font-size:14px;color:#2E3445">Entrevistas</span></div>
+      </div>
+      <section style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between"><h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:20px;font-weight:700;color:#101B35">Necesitan tu atención</h2><sc-if value="{{ conPendientes }}" hint-placeholder-val="{{ true }}"><a href="#2c" style="font-size:15px;font-weight:600">Ver las 4</a></sc-if></div>
+        <sc-if value="{{ conPendientes }}" hint-placeholder-val="{{ true }}">
+        <article style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:#17663F"><i class="icon-shield-check" style="font-size:16px"></i>Lista para autorizar</span><a href="Luni%20Postulaciones.dc.html#cobalto" aria-label="Ver detalle de Cobalto Pay" style="width:44px;height:44px;margin:-12px -12px -12px 0;display:flex;align-items:center;justify-content:center;color:#5B6272"><i class="icon-chevron-right" style="font-size:18px"></i></a></div>
+          <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:700">Cobalto Pay</span><span style="font-size:15px;color:#2E3445">Senior Product Designer</span></div>
+          <p style="margin:0;font-size:14px;line-height:1.45;color:#4A5163">15 de 15 campos completos. Nada se ha enviado.</p>
+          <a href="Luni%20Preparar%20solicitud.dc.html#revision" style="text-decoration:none;box-sizing:border-box;height:46px;border:0;border-radius:12px;background:#101B35;color:#FFFFFF;font:700 15px 'Nunito',sans-serif;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Revisar y autorizar</a>
+        </article>
+        <article style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:#A4271B"><i class="icon-circle-help" style="font-size:16px"></i>Envío incierto</span><a href="Luni%20Postulaciones.dc.html#atlas" aria-label="Ver detalle de Atlas Logística" style="width:44px;height:44px;margin:-12px -12px -12px 0;display:flex;align-items:center;justify-content:center;color:#5B6272"><i class="icon-chevron-right" style="font-size:18px"></i></a></div>
+          <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:700">Atlas Logística</span><span style="font-size:15px;color:#2E3445">Product Designer II</span></div>
+          <p style="margin:0;font-size:14px;line-height:1.45;color:#4A5163">La plataforma no confirmó el envío. Comprueba antes de reintentar.</p>
+          <a href="Luni%20Postulaciones.dc.html#atlas" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;box-sizing:border-box;height:46px;border:1px solid #101B35;border-radius:12px;background:#FFFFFF;color:#101B35;font:700 15px 'Nunito',sans-serif;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Comprobar envío</a>
+        </article>
+        <article style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:#7A4E00"><i class="icon-shield-alert" style="font-size:16px"></i>Pregunta sensible</span><a href="Luni%20Postulaciones.dc.html#nodo" aria-label="Ver detalle de Nodo Health" style="width:44px;height:44px;margin:-12px -12px -12px 0;display:flex;align-items:center;justify-content:center;color:#5B6272"><i class="icon-chevron-right" style="font-size:18px"></i></a></div>
+          <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:700">Nodo Health</span><span style="font-size:15px;color:#2E3445">Product Designer</span></div>
+          <p style="margin:0;font-size:14px;line-height:1.45;color:#4A5163">Piden una declaración legal. Luni no la responde por ti.</p>
+          <a href="Luni%20Preparar%20solicitud.dc.html#respuestas" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;box-sizing:border-box;height:46px;border:1px solid #101B35;border-radius:12px;background:#FFFFFF;color:#101B35;font:700 15px 'Nunito',sans-serif;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Responder</a>
+        </article>
+        </sc-if>
+        <sc-if value="{{ vacio }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:20px;display:flex;gap:12px;align-items:center"><i class="icon-circle-check" style="font-size:22px;color:#17663F"></i><span style="font-size:16px">Nada pendiente por hoy.</span></div>
+        </sc-if>
+      </section>
+      <section style="display:flex;flex-direction:column;gap:12px">
+        <h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:20px;font-weight:700;color:#101B35">Próximos</h2>
+        <div style="background:#101B35;color:#FFFFFF;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:8px">
+          <span style="font-size:14px;font-weight:700;color:#C5FF45">Martes 13 oct · 10:00 · hora de Panamá</span>
+          <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:17px;font-weight:700">Entrevista de portafolio</span><span style="font-size:15px;color:#D3D8E3">Verde Labs · Videollamada</span></div>
+        </div>
+        <div style="display:flex;gap:14px;padding:14px 16px;background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px"><span style="width:52px;flex:none;display:flex;flex-direction:column;font-size:14px;font-weight:700;color:#5B6272;line-height:1.3">Jue<span style="font-size:17px;color:#101B35">15 oct</span></span><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:600">Seguimiento a Pliego</span><span style="font-size:14px;color:#5B6272">Aplicaste hace 8 días</span></div></div>
+      </section>
+      <section style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:20px;font-weight:700;color:#101B35">Mejor compatibilidad</h2><a href="Luni%20Seguimiento.dc.html" style="font-size:15px;font-weight:600">Ver todas</a></div>
+        <div style="display:flex;gap:10px;overflow-x:auto;margin:0 -20px;padding:0 20px 4px">
+          <a href="#2b" style="flex:none;width:250px;padding:16px;background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;display:flex;flex-direction:column;gap:10px;color:inherit;text-decoration:none"><div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:24px;font-weight:700;color:#101B35;font-variant-numeric:tabular-nums">78%</span><span style="font-size:14px;color:#7A4E00;font-weight:700">Provisional</span></div><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:700">Senior Product Designer, Pagos</span><span style="font-size:14px;color:#5B6272">Brisa Fintech · Remoto LATAM</span></div><span style="align-self:flex-start;display:inline-flex;align-items:center;gap:5px;height:28px;padding:0 9px;border-radius:8px;background:#FFF4D9;font-size:14px;color:#7A4E00;font-weight:700"><i class="icon-map-pin" style="font-size:14px"></i>Ubicación por confirmar</span></a>
+          <a href="#2b" style="flex:none;width:250px;padding:16px;background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;display:flex;flex-direction:column;gap:10px;color:inherit;text-decoration:none"><span style="font-size:24px;font-weight:700;color:#101B35;font-variant-numeric:tabular-nums">74%</span><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:700">Product Designer, Growth</span><span style="font-size:14px;color:#5B6272">Quinta Digital · Remoto, Américas</span></div><span style="align-self:flex-start;display:inline-flex;align-items:center;gap:5px;height:28px;padding:0 9px;border-radius:8px;background:#E7F5EC;font-size:14px;color:#17663F;font-weight:700"><i class="icon-circle-check" style="font-size:14px"></i>Panamá confirmado</span></a>
+        </div>
+      </section>
+    </div>
+  </div>
+  <nav style="position:relative;flex:none;background:#101B35;display:grid;grid-template-columns:repeat(4,1fr);padding:8px 4px 34px;box-sizing:border-box">
+    <a href="#2c" aria-current="page" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:60px;color:#FFFFFF;text-decoration:none;font-size:13px;font-weight:700"><span style="width:52px;height:30px;border-radius:15px;background:#C5FF45;color:#101B35;display:flex;align-items:center;justify-content:center"><i class="icon-house" style="font-size:19px"></i></span>Inicio</a>
+    <a href="Luni%20Seguimiento.dc.html#vacantes" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:60px;color:#D3D8E3;text-decoration:none;font-size:13px;font-weight:600"><span style="height:30px;display:flex;align-items:center"><i class="icon-briefcase-business" style="font-size:20px"></i></span>Vacantes</a>
+    <a href="Luni%20Postulaciones.dc.html" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:60px;color:#D3D8E3;text-decoration:none;font-size:13px;font-weight:600"><span style="height:30px;display:flex;align-items:center"><i class="icon-send" style="font-size:20px"></i></span>Postulaciones</a>
+    <a href="Luni%20Respuestas%20y%20Configuraci%C3%B3n.dc.html" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:60px;color:#D3D8E3;text-decoration:none;font-size:13px;font-weight:600"><span style="height:30px;display:flex;align-items:center"><i class="icon-user-round" style="font-size:20px"></i></span>Perfil</a>
+    <span style="position:absolute;left:50%;bottom:9px;width:134px;height:5px;margin-left:-67px;border-radius:3px;background:#FFFFFF"></span>
+  </nav>
+</div></div>
+
+</div>
+<p class="dv-next">Siguiente: "aprobado, extiende al flujo completo" · "en <a class="dv-oid" href="#2b">2b</a> mueve elegibilidad arriba de la compatibilidad" · "prueba alertas móviles más compactas en <a class="dv-oid" href="#2c">2c</a>"</p>
+</section>
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Dirección visual — Inicio desktop, Detalle de vacante, Inicio móvil</span></div>
+<div class="dv-opts">
+
+<!-- 1a INICIO DESKTOP -->
+<div class="dv-opt" id="1a"><div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Inicio · desktop 1440</div>
+<div class="dv-card" data-screen-label="1a Inicio desktop" style="width:1440px;min-height:1040px;display:flex;background:#F5F6F8">
+  <aside style="width:252px;flex:none;background:#101B35;color:#FFFFFF;display:flex;flex-direction:column;padding:28px 18px 20px;gap:28px">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 10px">
+      <div style="position:relative;width:30px;height:20px;flex:none"><div style="position:absolute;left:0;top:2px;width:16px;height:16px;border-radius:50%;background:#C5FF45"></div><div style="position:absolute;left:11px;top:2px;width:16px;height:16px;border-radius:50%;border:2px solid #FFFFFF;box-sizing:border-box"></div></div>
+      <span style="font-size:24px;font-weight:600;letter-spacing:-0.04em">luni</span>
+    </div>
+    <button style="display:flex;align-items:center;justify-content:center;gap:8px;height:44px;border:0;border-radius:10px;background:#C5FF45;color:#101B35;font:600 14px 'Geist',sans-serif;cursor:pointer" style-hover="background:#D4FF73" style-focus="outline:2px solid #FFFFFF;outline-offset:2px"><i class="icon-plus" style="font-size:18px"></i>Añadir vacante</button>
+    <nav style="display:flex;flex-direction:column;gap:2px">
+      <a href="#1a" style="display:flex;align-items:center;gap:12px;height:42px;padding:0 12px;border-radius:9px;background:#1E2A48;color:#FFFFFF;text-decoration:none;font-size:14px;font-weight:500"><i class="icon-house" style="font-size:18px;color:#C5FF45"></i>Inicio</a>
+      <a href="#1b" style="display:flex;align-items:center;gap:12px;height:42px;padding:0 12px;border-radius:9px;color:#C9CFDC;text-decoration:none;font-size:14px" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-briefcase-business" style="font-size:18px"></i><span style="flex:1">Vacantes</span><span style="font:500 12px 'Geist Mono',monospace;color:#9AA3B8">24</span></a>
+      <a href="#1a" style="display:flex;align-items:center;gap:12px;height:42px;padding:0 12px;border-radius:9px;color:#C9CFDC;text-decoration:none;font-size:14px" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-send" style="font-size:18px"></i><span style="flex:1">Postulaciones</span><span style="font:500 12px 'Geist Mono',monospace;color:#9AA3B8">14</span></a>
+      <a href="#1a" style="display:flex;align-items:center;gap:12px;height:42px;padding:0 12px;border-radius:9px;color:#C9CFDC;text-decoration:none;font-size:14px" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-file-text" style="font-size:18px"></i>Mis CV</a>
+      <a href="#1a" style="display:flex;align-items:center;gap:12px;height:42px;padding:0 12px;border-radius:9px;color:#C9CFDC;text-decoration:none;font-size:14px" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-user-round" style="font-size:18px"></i>Perfil y respuestas</a>
+    </nav>
+    <div style="flex:1"></div>
+    <div style="display:flex;flex-direction:column;gap:2px">
+      <a href="#1a" style="display:flex;align-items:center;gap:12px;height:42px;padding:0 12px;border-radius:9px;color:#C9CFDC;text-decoration:none;font-size:14px" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-bell" style="font-size:18px"></i><span style="flex:1">Notificaciones</span><span style="min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:10px;background:#C5FF45;color:#101B35;font:600 11px/20px 'Geist Mono',monospace;text-align:center">4</span></a>
+      <a href="#1a" style="display:flex;align-items:center;gap:12px;height:42px;padding:0 12px;border-radius:9px;color:#C9CFDC;text-decoration:none;font-size:14px" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-settings" style="font-size:18px"></i>Configuración</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;padding:14px 10px 0;border-top:1px solid #26314D">
+      <div style="width:34px;height:34px;border-radius:50%;background:#2A3656;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600">DE</div>
+      <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;font-weight:500">Denise</span><span style="font-size:12px;color:#9AA3B8">Product Designer · Panamá</span></div>
+    </div>
+  </aside>
+  <main style="flex:1;min-width:0;padding:36px 48px 40px;display:flex;flex-direction:column;gap:28px;overflow:hidden">
+    <header style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <span style="font:500 12px 'Geist Mono',monospace;letter-spacing:.04em;color:#5B6272;text-transform:uppercase">Domingo, 11 de octubre</span>
+        <h1 style="margin:0;font-size:32px;font-weight:600;letter-spacing:-0.03em;color:#101B35">Buenos días, Denise.</h1>
+      </div>
+      <sc-if value="{{ demo }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:14px;border:1px dashed #8A92A3;color:#3D4454;font:500 12px 'Geist Mono',monospace"><i class="icon-flask-conical" style="font-size:14px"></i>Datos de demostración</span></sc-if>
+    </header>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:10px;padding:8px;background:#FFFFFF;border:1px solid #DDE1E8;border-radius:14px">
+        <label style="flex:1;display:flex;align-items:center;gap:12px;padding:0 12px"><i class="icon-link" style="font-size:18px;color:#5B6272"></i><input placeholder="Pega el enlace de una vacante" style="flex:1;border:0;outline:0;height:44px;font:400 15px 'Geist',sans-serif;color:#111;background:transparent"></label>
+        <button style="display:flex;align-items:center;gap:8px;height:48px;padding:0 22px;border:0;border-radius:10px;background:#C5FF45;color:#101B35;font:600 15px 'Geist',sans-serif;cursor:pointer" style-hover="background:#B5F02E" style-focus="outline:2px solid #101B35;outline-offset:2px">Analizar vacante<i class="icon-arrow-right" style="font-size:18px"></i></button>
+      </div>
+      <p style="margin:0 0 0 4px;font-size:13px;color:#5B6272">¿No tienes enlace? <a href="#1a">Pega la descripción</a> o completa los datos manualmente.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;background:#FFFFFF;border:1px solid #DDE1E8;border-radius:14px">
+      <div style="padding:18px 22px;display:flex;align-items:baseline;gap:12px;border-right:1px solid #ECEEF2"><span style="font-size:28px;font-weight:600;letter-spacing:-0.03em;color:#101B35">9</span><span style="font-size:14px;color:#3D4454">Enviadas</span><span style="font-size:12px;color:#5B6272;margin-left:auto">2 esta semana</span></div>
+      <div style="padding:18px 22px;display:flex;align-items:baseline;gap:12px;border-right:1px solid #ECEEF2"><span style="font-size:28px;font-weight:600;letter-spacing:-0.03em;color:#101B35">3</span><span style="font-size:14px;color:#3D4454">En preparación</span><span style="font-size:12px;color:#5B6272;margin-left:auto">1 lista</span></div>
+      <div style="padding:18px 22px;display:flex;align-items:baseline;gap:12px;border-right:1px solid #ECEEF2"><span style="font-size:28px;font-weight:600;letter-spacing:-0.03em;color:#101B35">2</span><span style="font-size:14px;color:#3D4454">Entrevistas</span><span style="font-size:12px;color:#5B6272;margin-left:auto">Próxima el martes</span></div>
+      <a href="#1a" style="display:flex;align-items:center;gap:6px;padding:0 22px;font-size:13px;font-weight:500;color:#101B35;text-decoration:none" style-hover="text-decoration:underline">Ver postulaciones<i class="icon-chevron-right" style="font-size:16px"></i></a>
+    </div>
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:28px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:28px">
+        <section style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:baseline;gap:10px"><h2 style="margin:0;font-size:17px;font-weight:600;color:#101B35">Necesitan tu atención</h2><sc-if value="{{ conPendientes }}" hint-placeholder-val="{{ true }}"><span style="font:500 12px 'Geist Mono',monospace;color:#5B6272">4</span></sc-if></div>
+          <sc-if value="{{ conPendientes }}" hint-placeholder-val="{{ true }}">
+          <div style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:14px;display:flex;flex-direction:column">
+            <div style="display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:16px;align-items:center;padding:18px 20px;border-bottom:1px solid #ECEEF2">
+              <div style="width:36px;height:36px;border-radius:10px;background:#E7F5EC;color:#17663F;display:flex;align-items:center;justify-content:center"><i class="icon-shield-check" style="font-size:18px"></i></div>
+              <div style="display:flex;flex-direction:column;gap:4px;min-width:0"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-size:12px;font-weight:600;color:#17663F">Lista para autorizar</span><span style="color:#B5BBC7">·</span><span style="font-size:14px;font-weight:600">Senior Product Designer — Cobalto Pay</span></div><span style="font-size:13px;color:#5B6272">15 de 15 campos completos. Falta tu autorización final; nada se ha enviado.</span></div>
+              <button style="height:38px;padding:0 16px;border:0;border-radius:9px;background:#101B35;color:#FFFFFF;font:500 13px 'Geist',sans-serif;cursor:pointer" style-hover="background:#1E2A48" style-focus="outline:2px solid #101B35;outline-offset:2px">Revisar y autorizar</button>
+            </div>
+            <div style="display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:16px;align-items:center;padding:18px 20px;border-bottom:1px solid #ECEEF2">
+              <div style="width:36px;height:36px;border-radius:10px;background:#FDECEA;color:#A4271B;display:flex;align-items:center;justify-content:center"><i class="icon-circle-help" style="font-size:18px"></i></div>
+              <div style="display:flex;flex-direction:column;gap:4px;min-width:0"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-size:12px;font-weight:600;color:#A4271B">Resultado incierto</span><span style="color:#B5BBC7">·</span><span style="font-size:14px;font-weight:600">Product Designer II — Atlas Logística</span></div><span style="font-size:13px;color:#5B6272">El formulario se completó, pero la plataforma no confirmó el envío. Comprueba antes de reintentar.</span></div>
+              <button style="height:38px;padding:0 16px;border:1px solid #C9CED8;border-radius:9px;background:#FFFFFF;color:#101B35;font:500 13px 'Geist',sans-serif;cursor:pointer" style-hover="background:#F5F6F8" style-focus="outline:2px solid #101B35;outline-offset:2px">Comprobar envío</button>
+            </div>
+            <div style="display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:16px;align-items:center;padding:18px 20px;border-bottom:1px solid #ECEEF2">
+              <div style="width:36px;height:36px;border-radius:10px;background:#FFF4D9;color:#7A4E00;display:flex;align-items:center;justify-content:center"><i class="icon-shield-alert" style="font-size:18px"></i></div>
+              <div style="display:flex;flex-direction:column;gap:4px;min-width:0"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-size:12px;font-weight:600;color:#7A4E00">Pregunta sensible</span><span style="color:#B5BBC7">·</span><span style="font-size:14px;font-weight:600">Product Designer — Nodo Health</span></div><span style="font-size:13px;color:#5B6272">Piden declarar autorización legal para trabajar en EE. UU. Luni no responde esto por ti.</span></div>
+              <button style="height:38px;padding:0 16px;border:1px solid #C9CED8;border-radius:9px;background:#FFFFFF;color:#101B35;font:500 13px 'Geist',sans-serif;cursor:pointer" style-hover="background:#F5F6F8" style-focus="outline:2px solid #101B35;outline-offset:2px">Responder</button>
+            </div>
+            <div style="display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:16px;align-items:center;padding:18px 20px">
+              <div style="width:36px;height:36px;border-radius:10px;background:#E9F0FD;color:#1E55B8;display:flex;align-items:center;justify-content:center"><i class="icon-list-todo" style="font-size:18px"></i></div>
+              <div style="display:flex;flex-direction:column;gap:4px;min-width:0"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-size:12px;font-weight:600;color:#1E55B8">Faltan datos · 12 de 15</span><span style="color:#B5BBC7">·</span><span style="font-size:14px;font-weight:600">UX/UI Designer — Ribera Studio</span></div><span style="font-size:13px;color:#5B6272">Pendientes: fecha de disponibilidad, expectativa salarial en USD mensual, una referencia.</span></div>
+              <button style="height:38px;padding:0 16px;border:1px solid #C9CED8;border-radius:9px;background:#FFFFFF;color:#101B35;font:500 13px 'Geist',sans-serif;cursor:pointer" style-hover="background:#F5F6F8" style-focus="outline:2px solid #101B35;outline-offset:2px">Completar</button>
+            </div>
+          </div>
+          </sc-if>
+          <sc-if value="{{ vacio }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:14px;padding:32px;display:flex;align-items:center;gap:16px">
+            <div style="width:40px;height:40px;border-radius:50%;background:#E7F5EC;color:#17663F;display:flex;align-items:center;justify-content:center"><i class="icon-check" style="font-size:20px"></i></div>
+            <div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:15px;font-weight:600">Nada pendiente por hoy</span><span style="font-size:13px;color:#5B6272">Tus solicitudes en preparación no necesitan datos ni autorizaciones.</span></div>
+          </div>
+          </sc-if>
+        </section>
+        <section style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between"><h2 style="margin:0;font-size:17px;font-weight:600;color:#101B35">Vacantes guardadas con mejor compatibilidad</h2><a href="#1b" style="font-size:13px;font-weight:500">Ver todas</a></div>
+          <div style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:14px">
+            <a href="#1b" style="display:grid;grid-template-columns:52px minmax(0,1fr) 170px 110px 20px;gap:16px;align-items:center;padding:16px 20px;border-bottom:1px solid #ECEEF2;color:inherit;text-decoration:none" style-hover="background:#FAFBFC">
+              <span style="font-size:20px;font-weight:600;letter-spacing:-0.02em;color:#101B35">78<span style="font-size:13px">%</span></span>
+              <div style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font-size:14px;font-weight:600">Senior Product Designer, Pagos</span><span style="font-size:13px;color:#5B6272">Brisa Fintech · Remoto LATAM</span></div>
+              <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:#7A4E00"><i class="icon-map-pin" style="font-size:14px"></i>Ubicación por confirmar</span>
+              <span style="font-size:12px;color:#5B6272">Guardada 9 oct</span>
+              <i class="icon-chevron-right" style="font-size:16px;color:#8A92A3"></i>
+            </a>
+            <a href="#1b" style="display:grid;grid-template-columns:52px minmax(0,1fr) 170px 110px 20px;gap:16px;align-items:center;padding:16px 20px;border-bottom:1px solid #ECEEF2;color:inherit;text-decoration:none" style-hover="background:#FAFBFC">
+              <span style="font-size:20px;font-weight:600;letter-spacing:-0.02em;color:#101B35">74<span style="font-size:13px">%</span></span>
+              <div style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font-size:14px;font-weight:600">Product Designer, Design Systems</span><span style="font-size:13px;color:#5B6272">Pliego · Híbrido, Ciudad de Panamá</span></div>
+              <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:#17663F"><i class="icon-circle-check" style="font-size:14px"></i>Panamá confirmado</span>
+              <span style="font-size:12px;color:#5B6272">Guardada 7 oct</span>
+              <i class="icon-chevron-right" style="font-size:16px;color:#8A92A3"></i>
+            </a>
+            <a href="#1b" style="display:grid;grid-template-columns:52px minmax(0,1fr) 170px 110px 20px;gap:16px;align-items:center;padding:16px 20px;color:inherit;text-decoration:none" style-hover="background:#FAFBFC">
+              <span style="font-size:20px;font-weight:600;letter-spacing:-0.02em;color:#5B6272">—</span>
+              <div style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font-size:14px;font-weight:600">Lead UX Designer</span><span style="font-size:13px;color:#5B6272">Tesela Cloud · Remoto · Descripción incompleta</span></div>
+              <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:#A4271B"><i class="icon-circle-x" style="font-size:14px"></i>Panamá excluido</span>
+              <span style="font-size:12px;color:#5B6272">Guardada 5 oct</span>
+              <i class="icon-chevron-right" style="font-size:16px;color:#8A92A3"></i>
+            </a>
+          </div>
+        </section>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:28px">
+        <section style="display:flex;flex-direction:column;gap:12px">
+          <h2 style="margin:0;font-size:17px;font-weight:600;color:#101B35">Próximos</h2>
+          <div style="background:#101B35;color:#FFFFFF;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;align-items:center;justify-content:space-between"><span style="font:500 12px 'Geist Mono',monospace;color:#C5FF45;letter-spacing:.04em">MAR 13 OCT · 10:00</span><span style="font-size:12px;color:#B7BED0">Hora de Panamá</span></div>
+            <div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:16px;font-weight:600">Entrevista de portafolio</span><span style="font-size:13px;color:#C9CFDC">Verde Labs · Product Designer · Videollamada</span></div>
+            <div style="display:flex;gap:8px"><button style="height:36px;padding:0 14px;border:0;border-radius:9px;background:#C5FF45;color:#101B35;font:600 13px 'Geist',sans-serif;cursor:pointer" style-focus="outline:2px solid #FFFFFF;outline-offset:2px">Preparar notas</button><button style="height:36px;padding:0 14px;border:1px solid #3A4666;border-radius:9px;background:transparent;color:#FFFFFF;font:500 13px 'Geist',sans-serif;cursor:pointer" style-hover="background:#1E2A48" style-focus="outline:2px solid #FFFFFF;outline-offset:2px">Ver postulación</button></div>
+          </div>
+          <div style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:14px">
+            <div style="display:flex;gap:14px;padding:14px 18px;border-bottom:1px solid #ECEEF2"><span style="width:44px;flex:none;font:500 12px/1.4 'Geist Mono',monospace;color:#5B6272">JUE<br>15 OCT</span><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;font-weight:500">Hacer seguimiento a Pliego</span><span style="font-size:12px;color:#5B6272">Aplicaste hace 8 días · sin respuesta</span></div></div>
+            <div style="display:flex;gap:14px;padding:14px 18px"><span style="width:44px;flex:none;font:500 12px/1.4 'Geist Mono',monospace;color:#5B6272">LUN<br>19 OCT</span><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;font-weight:500">Reverificar 6 vacantes guardadas</span><span style="font-size:12px;color:#5B6272">Comprobación semanal de cierre</span></div></div>
+          </div>
+        </section>
+        <section style="display:flex;flex-direction:column;gap:12px">
+          <h2 style="margin:0;font-size:17px;font-weight:600;color:#101B35">Actividad reciente</h2>
+          <ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column">
+            <li style="display:grid;grid-template-columns:14px minmax(0,1fr);gap:12px;padding-bottom:16px"><span style="width:8px;height:8px;margin-top:6px;border-radius:50%;background:#101B35"></span><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px"><strong style="font-weight:600">Enviada</strong> a Mareo Travel · confirmada por la plataforma</span><span style="font-size:12px;color:#5B6272">Ayer, 18:42</span></div></li>
+            <li style="display:grid;grid-template-columns:14px minmax(0,1fr);gap:12px;padding-bottom:16px"><span style="width:8px;height:8px;margin-top:6px;border-radius:50%;border:1.5px solid #101B35;box-sizing:border-box"></span><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px">Vacante de Cuadra marcada como <strong style="font-weight:600">cerrada</strong>; tu postulación sigue activa</span><span style="font-size:12px;color:#5B6272">Ayer, 09:10</span></div></li>
+            <li style="display:grid;grid-template-columns:14px minmax(0,1fr);gap:12px;padding-bottom:16px"><span style="width:8px;height:8px;margin-top:6px;border-radius:50%;border:1.5px solid #101B35;box-sizing:border-box"></span><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px">Analizaste Senior Product Designer en Brisa Fintech</span><span style="font-size:12px;color:#5B6272">9 oct, 16:05</span></div></li>
+            <li style="display:grid;grid-template-columns:14px minmax(0,1fr);gap:12px"><span style="width:8px;height:8px;margin-top:6px;border-radius:50%;border:1.5px solid #101B35;box-sizing:border-box"></span><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px">Confirmaste 3 respuestas en tu biblioteca</span><span style="font-size:12px;color:#5B6272">8 oct, 11:20</span></div></li>
+          </ol>
+        </section>
+      </div>
+    </div>
+  </main>
+</div></div>
+
+<!-- 1b DETALLE DESKTOP -->
+<div class="dv-opt" id="1b"><div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Detalle de vacante · desktop 1440</div>
+<div class="dv-card" data-screen-label="1b Detalle de vacante desktop" style="width:1440px;min-height:1240px;display:flex;background:#F5F6F8">
+  <aside style="width:252px;flex:none;background:#101B35;color:#FFFFFF;display:flex;flex-direction:column;padding:28px 18px 20px;gap:28px">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 10px">
+      <div style="position:relative;width:30px;height:20px;flex:none"><div style="position:absolute;left:0;top:2px;width:16px;height:16px;border-radius:50%;background:#C5FF45"></div><div style="position:absolute;left:11px;top:2px;width:16px;height:16px;border-radius:50%;border:2px solid #FFFFFF;box-sizing:border-box"></div></div>
+      <span style="font-size:24px;font-weight:600;letter-spacing:-0.04em">luni</span>
+    </div>
+    <button style="display:flex;align-items:center;justify-content:center;gap:8px;height:44px;border:0;border-radius:10px;background:#C5FF45;color:#101B35;font:600 14px 'Geist',sans-serif;cursor:pointer" style-hover="background:#D4FF73" style-focus="outline:2px solid #FFFFFF;outline-offset:2px"><i class="icon-plus" style="font-size:18px"></i>Añadir vacante</button>
+    <nav style="display:flex;flex-direction:column;gap:2px">
+      <a href="#1a" style="display:flex;align-items:center;gap:12px;height:42px;padding:0 12px;border-radius:9px;color:#C9CFDC;text-decoration:none;font-size:14px" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-house" style="font-size:18px"></i>Inicio</a>
+      <a href="#1b" style="display:flex;align-items:center;gap:12px;height:42px;padding:0 12px;border-radius:9px;background:#1E2A48;color:#FFFFFF;text-decoration:none;font-size:14px;font-weight:500"><i class="icon-briefcase-business" style="font-size:18px;color:#C5FF45"></i><span style="flex:1">Vacantes</span><span style="font:500 12px 'Geist Mono',monospace;color:#9AA3B8">24</span></a>
+      <a href="#1a" style="display:flex;align-items:center;gap:12px;height:42px;padding:0 12px;border-radius:9px;color:#C9CFDC;text-decoration:none;font-size:14px" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-send" style="font-size:18px"></i><span style="flex:1">Postulaciones</span><span style="font:500 12px 'Geist Mono',monospace;color:#9AA3B8">14</span></a>
+      <a href="#1a" style="display:flex;align-items:center;gap:12px;height:42px;padding:0 12px;border-radius:9px;color:#C9CFDC;text-decoration:none;font-size:14px" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-file-text" style="font-size:18px"></i>Mis CV</a>
+      <a href="#1a" style="display:flex;align-items:center;gap:12px;height:42px;padding:0 12px;border-radius:9px;color:#C9CFDC;text-decoration:none;font-size:14px" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-user-round" style="font-size:18px"></i>Perfil y respuestas</a>
+    </nav>
+    <div style="flex:1"></div>
+    <div style="display:flex;flex-direction:column;gap:2px">
+      <a href="#1a" style="display:flex;align-items:center;gap:12px;height:42px;padding:0 12px;border-radius:9px;color:#C9CFDC;text-decoration:none;font-size:14px" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-bell" style="font-size:18px"></i><span style="flex:1">Notificaciones</span><span style="min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:10px;background:#C5FF45;color:#101B35;font:600 11px/20px 'Geist Mono',monospace;text-align:center">4</span></a>
+      <a href="#1a" style="display:flex;align-items:center;gap:12px;height:42px;padding:0 12px;border-radius:9px;color:#C9CFDC;text-decoration:none;font-size:14px" style-hover="background:#18233F;color:#FFFFFF"><i class="icon-settings" style="font-size:18px"></i>Configuración</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;padding:14px 10px 0;border-top:1px solid #26314D">
+      <div style="width:34px;height:34px;border-radius:50%;background:#2A3656;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600">DE</div>
+      <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;font-weight:500">Denise</span><span style="font-size:12px;color:#9AA3B8">Product Designer · Panamá</span></div>
+    </div>
+  </aside>
+  <main style="flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden">
+    <div style="padding:28px 48px 28px;background:#FFFFFF;border-bottom:1px solid #DDE1E8;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <nav style="display:flex;align-items:center;gap:6px;font-size:13px;color:#5B6272"><a href="#1b" style="color:#5B6272;text-decoration:none" style-hover="text-decoration:underline">Vacantes</a><i class="icon-chevron-right" style="font-size:14px"></i><span style="color:#111">Brisa Fintech</span></nav>
+        <sc-if value="{{ demo }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:14px;border:1px dashed #8A92A3;color:#3D4454;font:500 12px 'Geist Mono',monospace"><i class="icon-flask-conical" style="font-size:14px"></i>Datos de demostración</span></sc-if>
+      </div>
+      <div style="display:flex;gap:20px;align-items:flex-start">
+        <div style="width:56px;height:56px;flex:none;border-radius:14px;background:#EEF0F4;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600;color:#101B35">B</div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:10px;min-width:0">
+          <div style="display:flex;flex-direction:column;gap:4px"><h1 style="margin:0;font-size:28px;font-weight:600;letter-spacing:-0.03em;color:#101B35">Senior Product Designer, Pagos</h1><span style="font-size:15px;color:#3D4454">Brisa Fintech</span></div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <span style="display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:7px;background:#EEF0F4;font-size:13px;color:#3D4454"><i class="icon-globe" style="font-size:14px"></i>Remoto · LATAM</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:7px;background:#EEF0F4;font-size:13px;color:#3D4454"><i class="icon-clock" style="font-size:14px"></i>Tiempo completo</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:7px;background:#EEF0F4;font-size:13px;color:#3D4454"><i class="icon-banknote" style="font-size:14px"></i>Salario: No publicado</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:7px;background:#FFF4D9;font-size:13px;font-weight:500;color:#7A4E00"><i class="icon-map-pin" style="font-size:14px"></i>Panamá: ubicación por confirmar</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px">
+          <div style="display:flex;gap:8px">
+            <button style="height:44px;padding:0 14px;border:1px solid #C9CED8;border-radius:10px;background:#FFFFFF;color:#3D4454;font:500 14px 'Geist',sans-serif;cursor:pointer;display:flex;align-items:center;gap:6px" style-hover="background:#F5F6F8" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-x" style="font-size:16px"></i>Descartar</button>
+            <button style="height:44px;padding:0 14px;border:1px solid #C9CED8;border-radius:10px;background:#FFFFFF;color:#101B35;font:500 14px 'Geist',sans-serif;cursor:pointer;display:flex;align-items:center;gap:6px" style-hover="background:#F5F6F8" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-bookmark" style="font-size:16px"></i>Guardar para después</button>
+            <button style="height:44px;padding:0 18px;border:0;border-radius:10px;background:#C5FF45;color:#101B35;font:600 14px 'Geist',sans-serif;cursor:pointer;display:flex;align-items:center;gap:8px" style-hover="background:#B5F02E" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-check" style="font-size:16px"></i>Aprobar y preparar solicitud</button>
+          </div>
+          <span style="font-size:12px;color:#5B6272">Aprobar solo prepara la solicitud. Nada se envía sin tu autorización final.</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:32px;font-size:13px;color:#3D4454;padding-top:16px;border-top:1px solid #ECEEF2">
+        <span style="display:flex;gap:6px"><span style="color:#5B6272">Publicada</span><strong style="font-weight:500">2 oct 2026</strong><span style="color:#5B6272">(según el anuncio)</span></span>
+        <span style="display:flex;gap:6px"><span style="color:#5B6272">Guardada</span><strong style="font-weight:500">9 oct 2026</strong></span>
+        <span style="display:flex;gap:6px;align-items:center"><span style="color:#5B6272">Última verificación</span><strong style="font-weight:500">Hoy, 08:14</strong><span style="display:inline-flex;align-items:center;gap:4px;color:#17663F;font-weight:500"><i class="icon-circle-check" style="font-size:14px"></i>Abierta</span></span>
+        <a href="#1b" style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-weight:500">Ver anuncio original<i class="icon-external-link" style="font-size:14px"></i></a>
+      </div>
+    </div>
+    <div style="padding:32px 48px;display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:32px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:20px">
+          <div style="display:flex;gap:28px;align-items:center">
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <span style="font:500 12px 'Geist Mono',monospace;color:#5B6272;letter-spacing:.04em;text-transform:uppercase">Compatibilidad orientativa</span>
+              <span style="font-size:56px;line-height:1;font-weight:600;letter-spacing:-0.04em;color:#101B35">78<span style="font-size:28px">%</span></span>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:10px">
+              <span style="align-self:flex-start;display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:13px;border:1px solid #E7C873;background:#FFF4D9;color:#7A4E00;font-size:12px;font-weight:600"><i class="icon-hourglass" style="font-size:13px"></i>Evaluación provisional</span>
+              <p style="margin:0;font-size:13px;line-height:1.5;color:#3D4454;text-wrap:pretty">Compara los requisitos del anuncio con tu perfil confirmado. No es una probabilidad de contratación. Es provisional porque faltan 2 datos: tu nivel de inglés y la elegibilidad desde Panamá.</p>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;height:8px;border-radius:4px;overflow:hidden;gap:2px"><div style="flex:5;background:#17663F"></div><div style="flex:2;background:#D9A21B"></div><div style="flex:1;background:#C2402F"></div><div style="flex:2;background:repeating-linear-gradient(45deg,#C9CED8 0 3px,#EEF0F4 3px 6px)"></div></div>
+            <div style="display:flex;gap:20px;font-size:12px;color:#3D4454">
+              <span style="display:flex;align-items:center;gap:6px"><i class="icon-circle-check" style="font-size:14px;color:#17663F"></i>Cumple 5</span>
+              <span style="display:flex;align-items:center;gap:6px"><i class="icon-circle-minus" style="font-size:14px;color:#8F6400"></i>Parcial 2</span>
+              <span style="display:flex;align-items:center;gap:6px"><i class="icon-circle-x" style="font-size:14px;color:#A4271B"></i>Falta 1</span>
+              <span style="display:flex;align-items:center;gap:6px"><i class="icon-circle-help" style="font-size:14px;color:#5B6272"></i>Sin confirmar 2</span>
+            </div>
+          </div>
+        </section>
+        <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:14px;display:flex;flex-direction:column">
+          <div style="padding:18px 24px;border-bottom:1px solid #ECEEF2;display:flex;align-items:baseline;justify-content:space-between"><h2 style="margin:0;font-size:16px;font-weight:600;color:#101B35">Requisitos obligatorios</h2><span style="font-size:12px;color:#5B6272">6 detectados</span></div>
+          <div style="display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;padding:16px 24px;border-bottom:1px solid #ECEEF2"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#17663F"><i class="icon-circle-check" style="font-size:15px"></i>Cumple</span><div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:14px;font-weight:500">5+ años en Product Design</span><span style="font-size:13px;color:#5B6272;text-wrap:pretty">5 años y 8 meses en diseño de producto (feb 2021 – actual). Tus 3 años en marketing digital no se suman a este requisito.</span></div></div>
+          <div style="display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;padding:16px 24px;border-bottom:1px solid #ECEEF2"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#17663F"><i class="icon-circle-check" style="font-size:15px"></i>Cumple</span><div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:14px;font-weight:500">Sistemas de diseño en Figma</span><span style="font-size:13px;color:#5B6272">Lideraste el sistema de diseño de Ribera Studio (CV · Product Designer).</span></div></div>
+          <div style="display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;padding:16px 24px;border-bottom:1px solid #ECEEF2"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#17663F"><i class="icon-circle-check" style="font-size:15px"></i>Cumple</span><div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:14px;font-weight:500">Diseño de flujos end-to-end en producto digital</span><span style="font-size:13px;color:#5B6272">Respaldado por 3 proyectos confirmados en tu perfil.</span></div></div>
+          <div style="display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;padding:16px 24px;border-bottom:1px solid #ECEEF2"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#8F6400"><i class="icon-circle-minus" style="font-size:15px"></i>Parcial</span><div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:14px;font-weight:500">Experiencia en productos financieros o de pagos</span><span style="font-size:13px;color:#5B6272">Rediseñaste un checkout de e-commerce. No hay experiencia directa en fintech en tu perfil.</span></div></div>
+          <div style="display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;padding:16px 24px;border-bottom:1px solid #ECEEF2;background:#FAFBFC"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#3D4454"><i class="icon-circle-help" style="font-size:15px"></i>Sin confirmar</span><div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:500">Inglés avanzado (C1)</span><span style="font-size:13px;color:#5B6272">Tu perfil incluye inglés, pero sin nivel. Luni no lo supone.</span><a href="#1b" style="font-size:13px;font-weight:500">Confirmar nivel en Perfil</a></div></div>
+          <div style="display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;padding:16px 24px;background:#FAFBFC;border-radius:0 0 14px 14px"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#3D4454"><i class="icon-circle-help" style="font-size:15px"></i>Sin confirmar</span><div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:14px;font-weight:500">Residir en un país de LATAM con contratación habilitada</span><span style="font-size:13px;color:#5B6272;text-wrap:pretty">El anuncio no lista los países. Panamá no aparece incluido ni excluido.</span></div></div>
+        </section>
+        <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:14px;display:flex;flex-direction:column">
+          <div style="padding:18px 24px;border-bottom:1px solid #ECEEF2;display:flex;align-items:baseline;justify-content:space-between"><h2 style="margin:0;font-size:16px;font-weight:600;color:#101B35">Deseables</h2><span style="font-size:12px;color:#5B6272">Pesan menos en el porcentaje</span></div>
+          <div style="display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;padding:14px 24px;border-bottom:1px solid #ECEEF2"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#17663F"><i class="icon-circle-check" style="font-size:15px"></i>Cumple</span><span style="font-size:14px">Prototipado con HTML/CSS</span></div>
+          <div style="display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;padding:14px 24px;border-bottom:1px solid #ECEEF2"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#8F6400"><i class="icon-circle-minus" style="font-size:15px"></i>Parcial</span><span style="font-size:14px">Investigación cuantitativa <span style="color:#5B6272">— solo pruebas A/B en tu perfil</span></span></div>
+          <div style="display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;padding:14px 24px"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#A4271B"><i class="icon-circle-x" style="font-size:15px"></i>Falta</span><span style="font-size:14px">Experiencia en B2B SaaS</span></div>
+        </section>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:16px">
+          <h2 style="margin:0;font-size:16px;font-weight:600;color:#101B35">Próximos pasos</h2>
+          <ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:14px">
+            <li style="display:flex;gap:12px"><span style="width:22px;height:22px;flex:none;border-radius:50%;border:1.5px solid #101B35;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font:600 11px 'Geist Mono',monospace">1</span><span style="font-size:14px;line-height:1.4">Confirma tu nivel de inglés en Perfil.</span></li>
+            <li style="display:flex;gap:12px"><span style="width:22px;height:22px;flex:none;border-radius:50%;border:1.5px solid #101B35;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font:600 11px 'Geist Mono',monospace">2</span><span style="font-size:14px;line-height:1.4">Verifica si Brisa contrata desde Panamá antes de invertir tiempo.</span></li>
+            <li style="display:flex;gap:12px"><span style="width:22px;height:22px;flex:none;border-radius:50%;border:1.5px solid #101B35;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font:600 11px 'Geist Mono',monospace">3</span><span style="font-size:14px;line-height:1.4">Al aprobar, elige CV. Sugerido: <strong style="font-weight:600">Senior UX/UI Designer · EN</strong>.</span></li>
+          </ol>
+        </section>
+        <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:14px">
+          <h2 style="margin:0;font-size:16px;font-weight:600;color:#101B35">Elegibilidad desde Panamá</h2>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;color:#5B6272;font-size:13px"><i class="icon-circle-check" style="font-size:16px"></i>Panamá confirmado</div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;border:1.5px solid #D9A21B;background:#FFF4D9;color:#7A4E00;font-size:13px;font-weight:600"><i class="icon-map-pin" style="font-size:16px"></i>Ubicación por confirmar<i class="icon-check" style="font-size:16px;margin-left:auto"></i></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;color:#5B6272;font-size:13px"><i class="icon-circle-x" style="font-size:16px"></i>Panamá excluido</div>
+          </div>
+          <p style="margin:0;font-size:13px;line-height:1.5;color:#3D4454;text-wrap:pretty">“Remoto · LATAM” no garantiza que acepten residentes en Panamá. Tu residencia (Panamá) y tu autorización laboral se evalúan por separado.</p>
+        </section>
+        <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:14px">
+          <h2 style="margin:0;font-size:16px;font-weight:600;color:#101B35">Sobre la oferta</h2>
+          <dl style="margin:0;display:grid;grid-template-columns:110px minmax(0,1fr);row-gap:10px;column-gap:12px;font-size:13px">
+            <dt style="color:#5B6272">Modalidad</dt><dd style="margin:0">Remoto</dd>
+            <dt style="color:#5B6272">Ubicación</dt><dd style="margin:0">LATAM (sin países listados)</dd>
+            <dt style="color:#5B6272">Contrato</dt><dd style="margin:0">Tiempo completo · tipo no indicado</dd>
+            <dt style="color:#5B6272">Salario</dt><dd style="margin:0">No publicado</dd>
+            <dt style="color:#5B6272">Fuente</dt><dd style="margin:0;font-family:'Geist Mono',monospace;font-size:12px">jobs.brisa.example</dd>
+          </dl>
+          <p style="margin:0;padding-top:12px;border-top:1px solid #ECEEF2;font-size:13px;line-height:1.55;color:#3D4454;text-wrap:pretty">Buscamos una persona que lidere el diseño de la experiencia de pagos y transferencias para usuarios en cinco mercados, colaborando con producto, ingeniería y cumplimiento…</p>
+          <a href="#1b" style="font-size:13px;font-weight:500">Ver descripción completa</a>
+        </section>
+      </div>
+    </div>
+  </main>
+</div></div>
+
+<!-- 1c INICIO MOVIL -->
+<div class="dv-opt" id="1c"><div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Inicio · móvil 390 (con scroll)</div>
+<div style="width:390px;height:844px;border-radius:48px;border:10px solid #111111;background:#F5F6F8;overflow:hidden;position:relative;box-shadow:0 1px 3px rgba(0,0,0,.08)" data-screen-label="1c Inicio móvil">
+  <div style="position:absolute;inset:0;overflow-y:auto;padding-bottom:110px">
+    <div style="height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font:600 15px 'Geist',sans-serif"><span>9:41</span><span style="display:flex;gap:6px;align-items:center"><i class="icon-signal" style="font-size:15px"></i><i class="icon-wifi" style="font-size:15px"></i><i class="icon-battery-full" style="font-size:18px"></i></span></div>
+    <div style="padding:8px 20px 0;display:flex;flex-direction:column;gap:22px">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:8px"><div style="position:relative;width:26px;height:16px"><div style="position:absolute;left:0;top:1px;width:14px;height:14px;border-radius:50%;background:#101B35"></div><div style="position:absolute;left:10px;top:1px;width:14px;height:14px;border-radius:50%;border:2px solid #101B35;box-sizing:border-box;background:#C5FF45"></div></div><span style="font-size:21px;font-weight:600;letter-spacing:-0.04em;color:#101B35">luni</span></div>
+        <button aria-label="Notificaciones, 4 nuevas" style="position:relative;width:44px;height:44px;border-radius:12px;border:1px solid #DDE1E8;background:#FFFFFF;display:flex;align-items:center;justify-content:center;color:#101B35;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-bell" style="font-size:19px"></i><span style="position:absolute;top:6px;right:6px;min-width:16px;height:16px;border-radius:8px;background:#101B35;color:#C5FF45;font:600 10px/16px 'Geist Mono',monospace;text-align:center">4</span></button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <span style="font:500 11px 'Geist Mono',monospace;letter-spacing:.04em;color:#5B6272">DOMINGO, 11 DE OCTUBRE</span>
+        <h1 style="margin:0;font-size:26px;font-weight:600;letter-spacing:-0.03em;color:#101B35">Buenos días, Denise.</h1>
+        <sc-if value="{{ demo }}" hint-placeholder-val="{{ true }}"><span style="align-self:flex-start;margin-top:6px;display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:12px;border:1px dashed #8A92A3;color:#3D4454;font:500 11px 'Geist Mono',monospace"><i class="icon-flask-conical" style="font-size:12px"></i>Datos de demostración</span></sc-if>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;padding:8px;background:#FFFFFF;border:1px solid #DDE1E8;border-radius:14px">
+        <label style="display:flex;align-items:center;gap:10px;padding:0 10px"><i class="icon-link" style="font-size:17px;color:#5B6272"></i><input placeholder="Pega el enlace de una vacante" style="flex:1;min-width:0;border:0;outline:0;height:44px;font:400 15px 'Geist',sans-serif;background:transparent"></label>
+        <button style="height:48px;border:0;border-radius:10px;background:#C5FF45;color:#101B35;font:600 15px 'Geist',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Analizar vacante<i class="icon-arrow-right" style="font-size:17px"></i></button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:#FFFFFF;border:1px solid #DDE1E8;border-radius:14px">
+        <div style="padding:14px 14px;display:flex;flex-direction:column;gap:2px;border-right:1px solid #ECEEF2"><span style="font-size:24px;font-weight:600;letter-spacing:-0.03em;color:#101B35">9</span><span style="font-size:12px;color:#3D4454">Enviadas</span></div>
+        <div style="padding:14px 14px;display:flex;flex-direction:column;gap:2px;border-right:1px solid #ECEEF2"><span style="font-size:24px;font-weight:600;letter-spacing:-0.03em;color:#101B35">3</span><span style="font-size:12px;color:#3D4454">En preparación</span></div>
+        <div style="padding:14px 14px;display:flex;flex-direction:column;gap:2px"><span style="font-size:24px;font-weight:600;letter-spacing:-0.03em;color:#101B35">2</span><span style="font-size:12px;color:#3D4454">Entrevistas</span></div>
+      </div>
+      <section style="display:flex;flex-direction:column;gap:10px">
+        <h2 style="margin:0;font-size:16px;font-weight:600;color:#101B35">Necesitan tu atención</h2>
+        <sc-if value="{{ conPendientes }}" hint-placeholder-val="{{ true }}">
+        <div style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:14px">
+          <a href="#1c" style="display:grid;grid-template-columns:34px minmax(0,1fr) 16px;gap:12px;align-items:center;padding:14px 16px;min-height:44px;border-bottom:1px solid #ECEEF2;color:inherit;text-decoration:none"><div style="width:34px;height:34px;border-radius:10px;background:#E7F5EC;color:#17663F;display:flex;align-items:center;justify-content:center"><i class="icon-shield-check" style="font-size:17px"></i></div><div style="display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font-size:12px;font-weight:600;color:#17663F">Lista para autorizar</span><span style="font-size:14px;font-weight:500">Cobalto Pay · Senior Product Designer</span></div><i class="icon-chevron-right" style="font-size:16px;color:#8A92A3"></i></a>
+          <a href="#1c" style="display:grid;grid-template-columns:34px minmax(0,1fr) 16px;gap:12px;align-items:center;padding:14px 16px;border-bottom:1px solid #ECEEF2;color:inherit;text-decoration:none"><div style="width:34px;height:34px;border-radius:10px;background:#FDECEA;color:#A4271B;display:flex;align-items:center;justify-content:center"><i class="icon-circle-help" style="font-size:17px"></i></div><div style="display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font-size:12px;font-weight:600;color:#A4271B">Resultado incierto</span><span style="font-size:14px;font-weight:500">Atlas Logística · Product Designer II</span></div><i class="icon-chevron-right" style="font-size:16px;color:#8A92A3"></i></a>
+          <a href="#1c" style="display:grid;grid-template-columns:34px minmax(0,1fr) 16px;gap:12px;align-items:center;padding:14px 16px;border-bottom:1px solid #ECEEF2;color:inherit;text-decoration:none"><div style="width:34px;height:34px;border-radius:10px;background:#FFF4D9;color:#7A4E00;display:flex;align-items:center;justify-content:center"><i class="icon-shield-alert" style="font-size:17px"></i></div><div style="display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font-size:12px;font-weight:600;color:#7A4E00">Pregunta sensible</span><span style="font-size:14px;font-weight:500">Nodo Health · Product Designer</span></div><i class="icon-chevron-right" style="font-size:16px;color:#8A92A3"></i></a>
+          <a href="#1c" style="display:grid;grid-template-columns:34px minmax(0,1fr) 16px;gap:12px;align-items:center;padding:14px 16px;color:inherit;text-decoration:none"><div style="width:34px;height:34px;border-radius:10px;background:#E9F0FD;color:#1E55B8;display:flex;align-items:center;justify-content:center"><i class="icon-list-todo" style="font-size:17px"></i></div><div style="display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font-size:12px;font-weight:600;color:#1E55B8">Faltan datos · 12 de 15</span><span style="font-size:14px;font-weight:500">Lumen Studio · UX/UI Designer</span></div><i class="icon-chevron-right" style="font-size:16px;color:#8A92A3"></i></a>
+        </div>
+        </sc-if>
+        <sc-if value="{{ vacio }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:14px;padding:20px;display:flex;gap:12px;align-items:center"><i class="icon-circle-check" style="font-size:20px;color:#17663F"></i><span style="font-size:14px">Nada pendiente por hoy.</span></div>
+        </sc-if>
+      </section>
+      <section style="display:flex;flex-direction:column;gap:10px">
+        <h2 style="margin:0;font-size:16px;font-weight:600;color:#101B35">Próximos</h2>
+        <div style="background:#101B35;color:#FFFFFF;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px">
+          <span style="font:500 11px 'Geist Mono',monospace;color:#C5FF45;letter-spacing:.04em">MAR 13 OCT · 10:00 · HORA DE PANAMÁ</span>
+          <div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:15px;font-weight:600">Entrevista de portafolio</span><span style="font-size:13px;color:#C9CFDC">Verde Labs · Videollamada</span></div>
+        </div>
+        <div style="display:flex;gap:12px;padding:14px 16px;background:#FFFFFF;border:1px solid #DDE1E8;border-radius:14px"><span style="width:44px;flex:none;font:500 11px/1.4 'Geist Mono',monospace;color:#5B6272">JUE<br>15 OCT</span><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;font-weight:500">Seguimiento a Pliego</span><span style="font-size:12px;color:#5B6272">Aplicaste hace 8 días</span></div></div>
+      </section>
+      <section style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><h2 style="margin:0;font-size:16px;font-weight:600;color:#101B35">Mejor compatibilidad</h2><a href="#1b" style="font-size:13px;font-weight:500">Ver todas</a></div>
+        <div style="display:flex;gap:10px;overflow-x:auto;margin:0 -20px;padding:0 20px 4px">
+          <a href="#1b" style="flex:none;width:240px;padding:16px;background:#FFFFFF;border:1px solid #DDE1E8;border-radius:14px;display:flex;flex-direction:column;gap:10px;color:inherit;text-decoration:none"><div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:22px;font-weight:600;color:#101B35;letter-spacing:-0.02em">78%</span><span style="font-size:11px;color:#7A4E00;font-weight:500">Provisional</span></div><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;font-weight:600">Senior Product Designer, Pagos</span><span style="font-size:12px;color:#5B6272">Brisa Fintech · Remoto LATAM</span></div><span style="display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#7A4E00;font-weight:500"><i class="icon-map-pin" style="font-size:13px"></i>Ubicación por confirmar</span></a>
+          <a href="#1b" style="flex:none;width:240px;padding:16px;background:#FFFFFF;border:1px solid #DDE1E8;border-radius:14px;display:flex;flex-direction:column;gap:10px;color:inherit;text-decoration:none"><div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:22px;font-weight:600;color:#101B35;letter-spacing:-0.02em">74%</span></div><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;font-weight:600">Product Designer, Design Systems</span><span style="font-size:12px;color:#5B6272">Pliego · Híbrido, Panamá</span></div><span style="display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#17663F;font-weight:500"><i class="icon-circle-check" style="font-size:13px"></i>Panamá confirmado</span></a>
+        </div>
+      </section>
+    </div>
+  </div>
+  <button aria-label="Añadir vacante" style="position:absolute;right:18px;bottom:104px;width:56px;height:56px;border-radius:18px;border:0;background:#C5FF45;color:#101B35;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(16,27,53,.18)" style-focus="outline:2px solid #101B35;outline-offset:3px"><i class="icon-plus" style="font-size:24px"></i></button>
+  <nav style="position:absolute;left:0;right:0;bottom:0;height:88px;background:#101B35;display:grid;grid-template-columns:repeat(4,1fr);padding:8px 8px 26px;box-sizing:border-box">
+    <a href="#1c" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#FFFFFF;text-decoration:none;font-size:11px;font-weight:600"><span style="width:44px;height:28px;border-radius:14px;background:#C5FF45;color:#101B35;display:flex;align-items:center;justify-content:center"><i class="icon-house" style="font-size:18px"></i></span>Inicio</a>
+    <a href="#1c" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#C9CFDC;text-decoration:none;font-size:11px"><span style="height:28px;display:flex;align-items:center"><i class="icon-briefcase-business" style="font-size:19px"></i></span>Vacantes</a>
+    <a href="#1c" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#C9CFDC;text-decoration:none;font-size:11px"><span style="height:28px;display:flex;align-items:center"><i class="icon-send" style="font-size:19px"></i></span>Postulaciones</a>
+    <a href="#1c" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#C9CFDC;text-decoration:none;font-size:11px"><span style="height:28px;display:flex;align-items:center"><i class="icon-user-round" style="font-size:19px"></i></span>Perfil</a>
+  </nav>
+</div></div>
+
+</div>
+<p class="dv-next">Siguiente: "aprobado, extiende al flujo completo" · "prueba un sidebar claro" · "más compacta la tabla de requisitos en <a class="dv-oid" href="#1b">1b</a>"</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;atencion&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Con pendientes&quot;,&quot;Vacío&quot;],&quot;default&quot;:&quot;Con pendientes&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Estados&quot;},&quot;demo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Estados&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const conPendientes = (this.props.atencion ?? "Con pendientes") === "Con pendientes";
+    const s = this.state || {};
+    const msg = t => { this.setState({ toast:t }); clearTimeout(this.tt); this.tt = setTimeout(() => this.setState({ toast:'' }), 3200); };
+    const estado = s.estado || "Panamá confirmado";
+    const corr = !!s.corrigiendo, man = !!s.manual;
+    const nota = s.nota || "";
+    const ok = nota.trim().length > 0;
+    const conf = estado === "Panamá confirmado";
+    return {
+      conPendientes, vacio: !conPendientes, demo: this.props.demo ?? true,
+      simulado: () => msg('Acción simulada: en el prototipo esta vacante es solo de demostración.'),
+      irNotif: () => { window.location.href = 'Luni%20Postulaciones.dc.html#notificaciones'; },
+      hayToast: !!s.toast, toastTxt: s.toast || '',
+      eligAuto: !man && !corr, corrigiendo: corr, noCorrigiendo: !corr, eligManual: man && !corr,
+      abrirCorreccion: () => this.setState({ corrigiendo: true }),
+      cancelar: () => this.setState({ corrigiendo: false }),
+      elegirConfirmado: () => this.setState({ estado: "Panamá confirmado" }),
+      elegirExcluido: () => this.setState({ estado: "Panamá excluido" }),
+      esConfirmado: conf, esExcluido: !conf,
+      bordeConfirmado: conf ? "2px solid #101B35" : "1px solid #C9CED8",
+      bordeExcluido: !conf ? "2px solid #101B35" : "1px solid #C9CED8",
+      nota, onNota: e => this.setState({ nota: e.target.value }),
+      guardarDisabled: !ok, guardarBg: ok ? "#101B35" : "#DDE1E8", guardarColor: ok ? "#FFFFFF" : "#5B6272",
+      guardar: () => ok && this.setState({ corrigiendo: false, manual: true }),
+      deshacer: () => this.setState({ manual: false, nota: "" }),
+      estadoManual: estado,
+      manualIcon: conf ? "icon-circle-check" : "icon-circle-x",
+      manualBg: conf ? "#E7F5EC" : "#FDECEA", manualColor: conf ? "#17663F" : "#A4271B"
+    };
+  }
+}
+</script>
+</body>
+</html>

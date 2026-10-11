@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/lucide-static@0.460.0/font/lucide.css">
+<style>
+body{margin:0;background:#E3E6EB;font-family:'Nunito',system-ui,sans-serif;color:#111111;-webkit-font-smoothing:antialiased}
+a{color:#101B35;text-underline-offset:3px}a:hover{color:#1E55B8}
+[class^="icon-"],[class*=" icon-"]{line-height:1;display:inline-flex}
+input,select,textarea,button{font-family:'Nunito',sans-serif}
+@keyframes luni-spin{to{transform:rotate(360deg)}}
+</style>
+</helmet>
+<div style="min-height:100vh;min-width:max-content;display:flex;flex-direction:column;align-items:flex-start;gap:18px;padding:20px 24px 48px;box-sizing:border-box">
+  <div style="width:100%;max-width:1440px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;font-size:14px;color:#2E3445">
+    <span style="font-weight:700;color:#101B35;font-size:15px">Prototipo · Configurar mi perfil</span>
+    <div role="group" aria-label="Dispositivo" style="display:flex;gap:4px;padding:4px;background:#FFFFFF;border:1px solid #CBD0D9;border-radius:11px">
+      <button onClick="{{ verDesktop }}" aria-pressed="{{ esDesktop }}" style="height:34px;padding:0 12px;border:0;border-radius:8px;background:{{ bgDesk }};color:{{ fgDesk }};font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:6px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-monitor" style="font-size:15px"></i>Desktop</button>
+      <button onClick="{{ verMovil }}" aria-pressed="{{ esMovil }}" style="height:34px;padding:0 12px;border:0;border-radius:8px;background:{{ bgMov }};color:{{ fgMov }};font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:6px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-smartphone" style="font-size:15px"></i>Móvil</button>
+    </div>
+    <label style="display:flex;align-items:center;gap:8px;font-weight:600">Ir a
+      <select value="{{ paso }}" onChange="{{ onPaso }}" style="height:38px;padding:0 10px;border:1px solid #CBD0D9;border-radius:10px;background:#FFFFFF;font-size:14px;color:#111">
+        <option value="bienvenida">1 · Primera visita</option>
+        <option value="subir">2 · Subir CV</option>
+        <option value="revisar">3 · Revisar extracción</option>
+        <option value="preferencias">4 · Preferencias</option>
+        <option value="resumen">5 · Perfil guardado</option>
+        <option value="miscv">6 · Mis CV</option>
+      </select>
+    </label>
+    <button onClick="{{ reiniciar }}" style="height:38px;padding:0 12px;border:1px solid #CBD0D9;border-radius:10px;background:#FFFFFF;color:#101B35;font-weight:600;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:6px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-rotate-ccw" style="font-size:15px"></i>Reiniciar</button>
+    <a href="Luni.dc.html" style="margin-left:auto;font-weight:600">Ver dirección visual</a>
+  </div>
+
+  <div data-screen-label="Configurar perfil" style="position:relative;flex:none;width:{{ frameW }};height:{{ frameH }};box-sizing:border-box;border:{{ frameBorder }};border-radius:{{ frameR }};overflow:hidden;background:#F5F6F8;display:flex;flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.08);font-size:16px;color:#111111">
+    <sc-if value="{{ esMovil }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:none;height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;font-size:15px;font-weight:700;background:#FFFFFF"><span style="font-variant-numeric:tabular-nums">9:41</span><span style="display:flex;gap:6px;align-items:center"><i class="icon-signal" style="font-size:15px"></i><i class="icon-wifi" style="font-size:15px"></i><i class="icon-battery-full" style="font-size:18px"></i></span></div>
+      <div style="flex:none;height:56px;display:flex;align-items:center;gap:4px;padding:0 8px;background:#FFFFFF;border-bottom:1px solid #DDE1E8">
+        <sc-if value="{{ puedeAtras }}" hint-placeholder-val="{{ false }}"><button onClick="{{ atras }}" aria-label="Atrás" style="width:44px;height:44px;border:0;border-radius:12px;background:transparent;color:#101B35;display:flex;align-items:center;justify-content:center;cursor:pointer" style-focus="outline:2px solid #101B35"><i class="icon-arrow-left" style="font-size:21px"></i></button></sc-if>
+        <sc-if value="{{ noPuedeAtras }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:center;gap:8px;padding:0 10px"><div style="position:relative;width:26px;height:16px"><div style="position:absolute;left:0;top:1px;width:14px;height:14px;border-radius:50%;background:#101B35"></div><div style="position:absolute;left:10px;top:1px;width:14px;height:14px;border-radius:50%;border:2px solid #101B35;box-sizing:border-box;background:#C5FF45"></div></div><span style="font-family:'Quicksand',sans-serif;font-size:22px;font-weight:700;color:#101B35">luni</span></div></sc-if>
+        <span style="flex:1;font-family:'Quicksand',sans-serif;font-size:18px;font-weight:700;color:#101B35;padding-left:4px">{{ tituloBarra }}</span>
+      </div>
+    </sc-if>
+    <div style="flex:1;min-height:0;display:flex">
+      <sc-if value="{{ esDesktop }}" hint-placeholder-val="{{ true }}">
+      <aside style="width:264px;flex:none;background:#101B35;color:#FFFFFF;display:flex;flex-direction:column;padding:28px 18px 22px;gap:28px;box-sizing:border-box">
+        <div style="display:flex;align-items:center;gap:10px;padding:0 10px">
+          <div style="position:relative;width:30px;height:20px;flex:none"><div style="position:absolute;left:0;top:2px;width:16px;height:16px;border-radius:50%;background:#C5FF45"></div><div style="position:absolute;left:11px;top:2px;width:16px;height:16px;border-radius:50%;border:2px solid #FFFFFF;box-sizing:border-box"></div></div>
+          <span style="font-family:'Quicksand',sans-serif;font-size:26px;font-weight:700;letter-spacing:-0.02em">luni</span>
+        </div>
+        <a href="Luni%20Preparar%20solicitud.dc.html#anadir" style="display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:12px;background:#C5FF45;color:#101B35;font-size:15px;font-weight:700;text-decoration:none" style-hover="background:#D4FF73" style-focus="outline:2px solid #FFFFFF;outline-offset:2px"><i class="icon-plus" style="font-size:18px"></i>Añadir vacante</a>
+        <nav style="display:flex;flex-direction:column;gap:2px">
+          <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
+            <button onClick="{{ n.onClick }}" aria-current="{{ n.current }}" style="display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border:0;border-radius:10px;background:{{ n.bg }};color:{{ n.color }};font-size:16px;font-weight:{{ n.weight }};cursor:pointer;text-align:left" style-hover="background:#18233F;color:#FFFFFF" style-focus="outline:2px solid #C5FF45;outline-offset:1px"><i class="{{ n.icon }}" style="font-size:19px;color:{{ n.iconColor }}"></i><span style="flex:1">{{ n.label }}</span></button>
+          </sc-for>
+        </nav>
+        <div style="flex:1"></div>
+        <div style="display:flex;align-items:center;gap:10px;padding:16px 10px 0;border-top:1px solid #26314D">
+          <div style="width:36px;height:36px;flex:none;border-radius:50%;background:#2A3656;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">AR</div>
+          <div style="display:flex;flex-direction:column;gap:1px;min-width:0"><span style="font-size:15px;font-weight:600">Alma Ruiz</span><span style="font-size:14px;color:#A9B1C4">Perfil ficticio · demo</span></div>
+        </div>
+      </aside>
+      </sc-if>
+      <main ref="{{ mainRef }}" style="flex:1;min-width:0;overflow-y:auto;overscroll-behavior:contain;container-type:inline-size;display:flex;flex-direction:column">
+
+        <sc-if value="{{ conStepper }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:none;background:#FFFFFF;border-bottom:1px solid #DDE1E8;padding:14px clamp(16px,4cqi,48px)">
+          <ol style="margin:0 auto;padding:0;list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;max-width:1040px">
+            <sc-for list="{{ steps }}" as="s" hint-placeholder-count="4">
+              <li aria-current="{{ s.current }}" style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:{{ s.weight }};color:{{ s.text }}"><span style="width:28px;height:28px;flex:none;box-sizing:border-box;border-radius:50%;border:{{ s.border }};background:{{ s.bg }};color:{{ s.color }};display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700"><sc-if value="{{ s.done }}"><i class="icon-check" style="font-size:15px"></i></sc-if><sc-if value="{{ s.notDone }}">{{ s.n }}</sc-if></span><sc-if value="{{ s.showLabel }}"><span>{{ s.label }}</span></sc-if></li>
+            </sc-for>
+          </ol>
+        </div>
+        </sc-if>
+
+        <!-- 1 BIENVENIDA -->
+        <sc-if value="{{ pBienvenida }}" hint-placeholder-val="{{ true }}">
+        <div style="width:100%;max-width:680px;margin:0 auto;padding:clamp(28px,7cqi,88px) clamp(20px,4cqi,48px) 40px;box-sizing:border-box;display:flex;flex-direction:column;gap:26px">
+          <sc-if value="{{ demo }}" hint-placeholder-val="{{ true }}"><span style="align-self:flex-start;display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 13px;border-radius:16px;border:1.5px dashed #6B7385;background:#FFFFFF;color:#2E3445;font-size:14px;font-weight:700"><i class="icon-flask-conical" style="font-size:15px"></i>Datos de demostración · perfil ficticio</span></sc-if>
+          <div style="position:relative;width:58px;height:36px"><div style="position:absolute;left:0;top:2px;width:32px;height:32px;border-radius:50%;background:#101B35"></div><div style="position:absolute;left:22px;top:2px;width:32px;height:32px;border-radius:50%;border:3px solid #101B35;box-sizing:border-box;background:#C5FF45"></div></div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <h1 style="margin:0;font-family:'Quicksand',sans-serif;font-size:clamp(28px,3.4cqi,38px);line-height:1.15;font-weight:700;color:#101B35;text-wrap:pretty">Hola, Alma. Configuremos tu perfil.</h1>
+            <p style="margin:0;font-size:17px;line-height:1.55;color:#2E3445;text-wrap:pretty">Luni compara cada vacante con tu perfil y prepara solicitudes usando solo datos que hayas confirmado. Empieza con tu CV: extraemos la información y tú decides qué es correcto.</p>
+          </div>
+          <ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px">
+            <li style="display:flex;gap:12px;align-items:center;font-size:16px"><span style="width:30px;height:30px;flex:none;border-radius:50%;border:1.5px solid #101B35;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">1</span>Sube tu CV y revisa lo extraído</li>
+            <li style="display:flex;gap:12px;align-items:center;font-size:16px"><span style="width:30px;height:30px;flex:none;border-radius:50%;border:1.5px solid #101B35;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">2</span>Define tus preferencias laborales</li>
+            <li style="display:flex;gap:12px;align-items:center;font-size:16px"><span style="width:30px;height:30px;flex:none;border-radius:50%;border:1.5px solid #101B35;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">3</span>Prepara versiones de tu CV cuando las necesites</li>
+          </ol>
+          <sc-if value="{{ hayBorrador }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;padding:16px 18px;background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px">
+              <i class="icon-file-pen-line" style="font-size:20px;color:#101B35"></i>
+              <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:700">Tienes un borrador sin terminar</span><span style="font-size:14px;color:#5B6272">{{ borradorTxt }}</span></div>
+              <button onClick="{{ continuarBorrador }}" style="height:46px;padding:0 18px;border:0;border-radius:12px;background:#101B35;color:#FFFFFF;font-size:15px;font-weight:700;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Continuar revisión</button>
+            </div>
+          </sc-if>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px">
+            <button onClick="{{ irSubir }}" style="height:52px;padding:0 26px;border:0;border-radius:12px;background:#C5FF45;color:#101B35;font-size:17px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:10px" style-hover="background:#B5F02E" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-upload" style="font-size:19px"></i>Subir mi CV</button>
+            <button onClick="{{ completarManual }}" style="height:52px;padding:0 6px;border:0;background:transparent;color:#101B35;font-size:16px;font-weight:700;text-decoration:underline;text-underline-offset:4px;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Completar manualmente</button>
+          </div>
+          <p style="margin:0;font-size:14px;line-height:1.5;color:#5B6272">Los campos opcionales pueden quedar vacíos. Si una vacante necesita algo que falta, te lo pediremos en ese momento.</p>
+        </div>
+        </sc-if>
+
+        <!-- 2 SUBIR -->
+        <sc-if value="{{ pSubir }}" hint-placeholder-val="{{ false }}">
+        <div style="width:100%;max-width:820px;margin:0 auto;padding:clamp(22px,4cqi,44px) clamp(16px,4cqi,48px) 40px;box-sizing:border-box;display:flex;flex-direction:column;gap:22px">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <h1 style="margin:0;font-family:'Quicksand',sans-serif;font-size:clamp(26px,3cqi,32px);font-weight:700;color:#101B35">Sube tu CV</h1>
+            <p style="margin:0;font-size:16px;line-height:1.5;color:#2E3445">Leeremos el documento y te mostraremos lo extraído para que lo revises. Nada se usa sin tu confirmación.</p>
+          </div>
+          <sc-if value="{{ upIdle }}" hint-placeholder-val="{{ true }}">
+            <div onDragOver="{{ onDragOver }}" onDragLeave="{{ onDragLeave }}" onDrop="{{ onDrop }}" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:clamp(28px,5cqi,56px) 20px;border:2px dashed {{ dropBorder }};border-radius:18px;background:{{ dropBg }}">
+              <div style="width:56px;height:56px;border-radius:16px;background:#F5F6F8;color:#101B35;display:flex;align-items:center;justify-content:center"><i class="icon-file-up" style="font-size:26px"></i></div>
+              <div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:18px;font-weight:700">Arrastra tu CV aquí</span><span style="font-size:15px;color:#5B6272">PDF o DOCX · hasta 10 MB</span></div>
+              <div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px 16px">
+                <label style="height:48px;padding:0 20px;border-radius:12px;background:#101B35;color:#FFFFFF;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px" style-hover="background:#1E2A48">Seleccionar archivo<input type="file" accept=".pdf,.docx" onChange="{{ onFile }}" style="position:absolute;width:1px;height:1px;opacity:0"></label>
+                <button onClick="{{ usarFicticio }}" style="height:48px;padding:0 6px;border:0;background:transparent;color:#101B35;font-size:15px;font-weight:700;text-decoration:underline;text-underline-offset:4px;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Usar el CV ficticio de Alma</button>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ upProceso }}" hint-placeholder-val="{{ false }}">
+            <div role="status" style="display:flex;flex-direction:column;gap:16px;padding:28px;background:#FFFFFF;border:1px solid #DDE1E8;border-radius:18px">
+              <div style="display:flex;align-items:center;gap:14px">{{ spinner }}<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:17px;font-weight:700">{{ procesoTitulo }}</span><span style="font-size:14px;color:#5B6272;overflow-wrap:anywhere">{{ archivo }}</span></div><span style="font-size:15px;font-weight:700;color:#101B35;font-variant-numeric:tabular-nums">{{ progresoTxt }}</span></div>
+              <div style="height:8px;border-radius:4px;background:#ECEEF2;overflow:hidden"><div style="height:100%;width:{{ progresoW }};background:#101B35;border-radius:4px;transition:width .15s"></div></div>
+              <span style="font-size:14px;color:#5B6272">{{ procesoTexto }}</span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ upError }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="display:flex;flex-direction:column;gap:16px;padding:24px;background:#FFFFFF;border:1px solid {{ errBorde }};border-radius:18px">
+              <div style="display:flex;gap:14px;align-items:flex-start">
+                <div style="width:44px;height:44px;flex:none;border-radius:12px;background:{{ errBg }};color:{{ errColor }};display:flex;align-items:center;justify-content:center"><i class="{{ errIcon }}" style="font-size:21px"></i></div>
+                <div style="display:flex;flex-direction:column;gap:4px;min-width:0"><span style="font-size:14px;font-weight:700;color:{{ errColor }}">{{ errEtiqueta }}</span><span style="font-size:18px;font-weight:700">{{ errTitulo }}</span><span style="font-size:15px;line-height:1.5;color:#2E3445;text-wrap:pretty">{{ errTexto }}</span><span style="font-size:14px;color:#5B6272;overflow-wrap:anywhere">Archivo: {{ archivo }}</span></div>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center">
+                <sc-if value="{{ esErrorCarga }}"><button onClick="{{ reintentar }}" style="height:46px;padding:0 18px;border:0;border-radius:12px;background:#101B35;color:#FFFFFF;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-refresh-cw" style="font-size:16px"></i>Reintentar</button></sc-if>
+                <label style="height:46px;padding:0 18px;border:1px solid #101B35;box-sizing:border-box;border-radius:12px;background:#FFFFFF;color:#101B35;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px" style-hover="background:#F5F6F8">Elegir otro archivo<input type="file" accept=".pdf,.docx" onChange="{{ onFile }}" style="position:absolute;width:1px;height:1px;opacity:0"></label>
+                <button onClick="{{ completarManual }}" style="height:46px;padding:0 6px;border:0;background:transparent;color:#101B35;font-size:15px;font-weight:700;text-decoration:underline;text-underline-offset:4px;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Completar manualmente</button>
+              </div>
+            </div>
+          </sc-if>
+          <div style="display:flex;flex-direction:column;gap:12px;padding:18px;border-radius:14px;border:1.5px dashed #8A92A3;background:#FAFBFC">
+            <div style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:#2E3445"><i class="icon-flask-conical" style="font-size:16px"></i>Simulación del prototipo</div>
+            <p style="margin:0;font-size:14px;line-height:1.5;color:#4A5163">La lectura del CV es simulada: con cualquier archivo válido se muestran los datos ficticios de Alma Ruiz. Elige qué resultado simular:</p>
+            <div role="radiogroup" aria-label="Resultado simulado" style="display:flex;flex-wrap:wrap;gap:8px">
+              <sc-for list="{{ simOpts }}" as="o" hint-placeholder-count="4">
+                <button role="radio" aria-checked="{{ o.on }}" onClick="{{ o.onClick }}" style="min-height:40px;padding:0 14px;border-radius:20px;border:{{ o.border }};background:{{ o.bg }};color:{{ o.color }};font-size:14px;font-weight:700;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">{{ o.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- 3 REVISAR -->
+        <sc-if value="{{ pRevisar }}" hint-placeholder-val="{{ false }}">
+        <div style="width:100%;max-width:1040px;margin:0 auto;padding:clamp(22px,4cqi,40px) clamp(16px,4cqi,48px) 32px;box-sizing:border-box;display:flex;flex-direction:column;gap:22px">
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:14px 24px">
+            <div style="display:flex;flex-direction:column;gap:8px;max-width:640px">
+              <h1 style="margin:0;font-family:'Quicksand',sans-serif;font-size:clamp(26px,3cqi,32px);font-weight:700;color:#101B35">{{ tituloRevisar }}</h1>
+              <p style="margin:0;font-size:16px;line-height:1.5;color:#2E3445;text-wrap:pretty">{{ introRevisar }}</p>
+            </div>
+            <sc-if value="{{ demo }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 13px;border-radius:16px;border:1.5px dashed #6B7385;background:#FFFFFF;color:#2E3445;font-size:14px;font-weight:700"><i class="icon-flask-conical" style="font-size:15px"></i>Lectura simulada · datos ficticios</span></sc-if>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px;padding:14px 18px;background:#FFFFFF;border:1px solid #DDE1E8;border-radius:14px">
+            <span style="font-size:16px;font-weight:700;font-variant-numeric:tabular-nums;color:#101B35">{{ conteoTxt }}</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:#1E55B8"><i class="icon-scan-text" style="font-size:15px"></i>Extraído: {{ nExtraido }}</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:#17663F"><i class="icon-circle-check" style="font-size:15px"></i>Confirmado: {{ nConfirmado }}</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:#3D4454"><i class="icon-circle-dashed" style="font-size:15px"></i>Pendiente: {{ nPendiente }}</span>
+          </div>
+
+          <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:clamp(18px,2.4cqi,28px);display:flex;flex-direction:column;gap:20px">
+            <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px"><h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:20px;font-weight:700;color:#101B35">Información personal y contacto</h2><button onClick="{{ confirmarPersonal }}" style="min-height:40px;padding:0;border:0;background:none;color:#101B35;font-size:15px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Confirmar lo extraído en esta sección</button></div>
+            <p style="margin:0;font-size:14px;line-height:1.5;color:#4A5163">Residencia, ciudadanía y autorización laboral se guardan por separado. Ninguna se deduce de las otras.</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:20px">
+              <sc-for list="{{ personal }}" as="f" hint-placeholder-count="6">
+                <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap"><label for="{{ f.id }}" style="font-size:15px;font-weight:700">{{ f.label }}</label><span style="display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 9px;box-sizing:border-box;border-radius:13px;background:{{ f.bg }};color:{{ f.color }};border:{{ f.bborder }};font-size:14px;font-weight:700;white-space:nowrap"><i class="{{ f.icon }}" style="font-size:14px"></i>{{ f.stLabel }}</span></div>
+                  <sc-if value="{{ f.isSelect }}"><select id="{{ f.id }}" value="{{ f.v }}" onChange="{{ f.onChange }}" style="width:100%;box-sizing:border-box;height:46px;padding:0 10px;border:{{ f.inputBorder }};border-radius:10px;font-size:16px;color:#111;background:#FFFFFF" style-focus="outline:2px solid #101B35;outline-offset:1px"><option value="">Selecciona una opción</option><option>Sí, para trabajar en Panamá</option><option>Sí, en Panamá y otros países</option><option>No, requiero patrocinio</option><option>Prefiero indicarlo en cada vacante</option></select></sc-if>
+                  <sc-if value="{{ f.isInput }}"><input id="{{ f.id }}" value="{{ f.v }}" onChange="{{ f.onChange }}" placeholder="Sin dato" style="width:100%;box-sizing:border-box;height:46px;padding:0 12px;border:{{ f.inputBorder }};border-radius:10px;font-size:16px;color:#111;background:#FFFFFF" style-focus="outline:2px solid #101B35;outline-offset:1px"></sc-if>
+                  <sc-if value="{{ f.hasHint }}"><span style="font-size:14px;line-height:1.45;color:#5B6272">{{ f.hint }}</span></sc-if>
+                  <sc-if value="{{ f.canConfirm }}"><button onClick="{{ f.onConfirm }}" style="align-self:flex-start;min-height:32px;padding:0;border:0;background:none;color:#101B35;font-size:14px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Confirmar dato</button></sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+
+          <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:clamp(18px,2.4cqi,28px);display:flex;flex-direction:column;gap:18px">
+            <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px"><h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:20px;font-weight:700;color:#101B35">Experiencia profesional</h2><button onClick="{{ confirmarExperiencia }}" style="min-height:40px;padding:0;border:0;background:none;color:#101B35;font-size:15px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Confirmar lo extraído en esta sección</button></div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px">
+              <div style="padding:16px 18px;border-radius:14px;background:#101B35;color:#FFFFFF;display:flex;flex-direction:column;gap:4px"><span style="font-size:14px;font-weight:600;color:#C9CFDC">Product Design / UX/UI</span><span style="font-size:24px;font-weight:700;font-variant-numeric:tabular-nums">{{ expDiseno }}</span><span style="font-size:14px;line-height:1.45;color:#D3D8E3">{{ expDisenoNota }}</span></div>
+              <div style="padding:16px 18px;border-radius:14px;background:#F5F6F8;border:1px solid #DDE1E8;display:flex;flex-direction:column;gap:4px"><span style="font-size:14px;font-weight:600;color:#4A5163">Marketing</span><span style="font-size:24px;font-weight:700;color:#101B35;font-variant-numeric:tabular-nums">{{ expMkt }}</span><span style="font-size:14px;line-height:1.45;color:#4A5163">Se muestra aparte. No se suma a la experiencia en diseño.</span></div>
+            </div>
+            <sc-for list="{{ jobs }}" as="j" hint-placeholder-count="3">
+              <div style="border:1px solid #DDE1E8;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:14px">
+                <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start"><div style="display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font-size:17px;font-weight:700">{{ j.titulo }}</span><span style="font-size:14px;color:#5B6272">{{ j.sub }}</span></div><span style="display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 9px;box-sizing:border-box;border-radius:13px;background:{{ j.bg }};color:{{ j.color }};border:{{ j.bborder }};font-size:14px;font-weight:700;white-space:nowrap"><i class="{{ j.icon }}" style="font-size:14px"></i>{{ j.stLabel }}</span></div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,210px),1fr));gap:14px">
+                  <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Cargo<input value="{{ j.cargo }}" onChange="{{ j.onCargo }}" placeholder="Sin dato" style="width:100%;box-sizing:border-box;height:46px;padding:0 12px;border:1px solid #B9BFCB;border-radius:10px;font-size:16px;font-weight:400;color:#111;background:#FFFFFF" style-focus="outline:2px solid #101B35;outline-offset:1px"></label>
+                  <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Empresa<input value="{{ j.empresa }}" onChange="{{ j.onEmpresa }}" placeholder="Sin dato" style="width:100%;box-sizing:border-box;height:46px;padding:0 12px;border:1px solid #B9BFCB;border-radius:10px;font-size:16px;font-weight:400;color:#111;background:#FFFFFF" style-focus="outline:2px solid #101B35;outline-offset:1px"></label>
+                  <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Inicio<input type="month" max="2026-10" value="{{ j.inicio }}" onChange="{{ j.onInicio }}" style="width:100%;box-sizing:border-box;height:46px;padding:0 12px;border:1px solid #B9BFCB;border-radius:10px;font-size:16px;font-weight:400;color:#111;background:#FFFFFF" style-focus="outline:2px solid #101B35;outline-offset:1px"></label>
+                  <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Fin<input type="month" max="2026-10" value="{{ j.finVal }}" disabled="{{ j.actual }}" onChange="{{ j.onFin }}" style="width:100%;box-sizing:border-box;height:46px;padding:0 12px;border:1px solid #B9BFCB;border-radius:10px;font-size:16px;font-weight:400;color:#111;background:{{ j.finBg }}" style-focus="outline:2px solid #101B35;outline-offset:1px"></label>
+                  <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Área<select value="{{ j.area }}" onChange="{{ j.onArea }}" style="width:100%;box-sizing:border-box;height:46px;padding:0 10px;border:1px solid #B9BFCB;border-radius:10px;font-size:16px;font-weight:400;color:#111;background:#FFFFFF" style-focus="outline:2px solid #101B35;outline-offset:1px"><option value="">Selecciona</option><option value="diseno">Product Design / UX/UI</option><option value="marketing">Marketing</option><option value="otro">Otra área</option></select></label>
+                  <label style="display:flex;align-items:center;gap:10px;min-height:46px;align-self:end;font-size:15px;font-weight:600;cursor:pointer"><input type="checkbox" checked="{{ j.actual }}" onChange="{{ j.onActual }}" style="width:20px;height:20px;accent-color:#101B35;margin:0">Trabajo aquí actualmente</label>
+                </div>
+                <sc-if value="{{ j.hasFalta }}"><span style="display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:#3D4454"><i class="icon-circle-dashed" style="font-size:15px"></i>{{ j.faltaTxt }}</span></sc-if>
+                <div style="display:flex;flex-wrap:wrap;gap:8px 20px">
+                  <sc-if value="{{ j.canConfirm }}"><button onClick="{{ j.onConfirm }}" style="min-height:36px;padding:0;border:0;background:none;color:#101B35;font-size:14px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Confirmar experiencia</button></sc-if>
+                  <sc-if value="{{ j.canDelete }}"><button onClick="{{ j.onDelete }}" style="min-height:36px;padding:0;border:0;background:none;color:#4A5163;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-trash-2" style="font-size:14px"></i>Quitar</button></sc-if>
+                </div>
+              </div>
+            </sc-for>
+            <button onClick="{{ addJob }}" style="align-self:flex-start;height:44px;padding:0 16px;border:1px dashed #8A92A3;border-radius:12px;background:#FFFFFF;color:#101B35;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-plus" style="font-size:16px"></i>Añadir experiencia</button>
+          </section>
+
+          <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:clamp(18px,2.4cqi,28px);display:flex;flex-direction:column;gap:18px">
+            <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px"><h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:20px;font-weight:700;color:#101B35">Educación</h2><button onClick="{{ confirmarEducacion }}" style="min-height:40px;padding:0;border:0;background:none;color:#101B35;font-size:15px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Confirmar lo extraído en esta sección</button></div>
+            <sc-for list="{{ edu }}" as="e" hint-placeholder-count="2">
+              <div style="border:1px solid #DDE1E8;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:14px">
+                <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start"><span style="font-size:17px;font-weight:700">{{ e.tituloTxt }}</span><span style="display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 9px;box-sizing:border-box;border-radius:13px;background:{{ e.bg }};color:{{ e.color }};border:{{ e.bborder }};font-size:14px;font-weight:700;white-space:nowrap"><i class="{{ e.icon }}" style="font-size:14px"></i>{{ e.stLabel }}</span></div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:14px">
+                  <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Título<input value="{{ e.titulo }}" onChange="{{ e.onTitulo }}" placeholder="Sin dato" style="width:100%;box-sizing:border-box;height:46px;padding:0 12px;border:1px solid #B9BFCB;border-radius:10px;font-size:16px;font-weight:400;color:#111;background:#FFFFFF" style-focus="outline:2px solid #101B35;outline-offset:1px"></label>
+                  <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Institución<input value="{{ e.inst }}" onChange="{{ e.onInst }}" placeholder="Sin dato" style="width:100%;box-sizing:border-box;height:46px;padding:0 12px;border:1px solid #B9BFCB;border-radius:10px;font-size:16px;font-weight:400;color:#111;background:#FFFFFF" style-focus="outline:2px solid #101B35;outline-offset:1px"></label>
+                  <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Periodo<input value="{{ e.periodo }}" onChange="{{ e.onPeriodo }}" placeholder="Pendiente" style="width:100%;box-sizing:border-box;height:46px;padding:0 12px;border:{{ e.periodoBorder }};border-radius:10px;font-size:16px;font-weight:400;color:#111;background:#FFFFFF" style-focus="outline:2px solid #101B35;outline-offset:1px"></label>
+                </div>
+                <sc-if value="{{ e.hasHint }}"><span style="font-size:14px;color:#5B6272">{{ e.hint }}</span></sc-if>
+                <sc-if value="{{ e.canConfirm }}"><button onClick="{{ e.onConfirm }}" style="align-self:flex-start;min-height:36px;padding:0;border:0;background:none;color:#101B35;font-size:14px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Confirmar estudio</button></sc-if>
+              </div>
+            </sc-for>
+            <button onClick="{{ addEdu }}" style="align-self:flex-start;height:44px;padding:0 16px;border:1px dashed #8A92A3;border-radius:12px;background:#FFFFFF;color:#101B35;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-plus" style="font-size:16px"></i>Añadir estudio</button>
+          </section>
+
+          <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:clamp(18px,2.4cqi,28px);display:flex;flex-direction:column;gap:18px">
+            <h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:20px;font-weight:700;color:#101B35">Habilidades e idiomas</h2>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap"><span style="font-size:15px;font-weight:700">Habilidades</span><span style="display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 9px;box-sizing:border-box;border-radius:13px;background:{{ sk.bg }};color:{{ sk.color }};border:{{ sk.bborder }};font-size:14px;font-weight:700;white-space:nowrap"><i class="{{ sk.icon }}" style="font-size:14px"></i>{{ sk.label }}</span></div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <sc-for list="{{ skills }}" as="s" hint-placeholder-count="5">
+                  <span style="display:inline-flex;align-items:center;gap:4px;height:38px;padding:0 4px 0 14px;border-radius:19px;background:#F5F6F8;border:1px solid #DDE1E8;font-size:15px;font-weight:600">{{ s.nombre }}<button onClick="{{ s.onRemove }}" aria-label="{{ s.aria }}" style="width:32px;height:32px;border:0;border-radius:16px;background:transparent;color:#4A5163;display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="background:#E3E6EB" style-focus="outline:2px solid #101B35"><i class="icon-x" style="font-size:15px"></i></button></span>
+                </sc-for>
+                <sc-if value="{{ sinSkills }}"><span style="font-size:15px;color:#5B6272">Sin habilidades todavía.</span></sc-if>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <input value="{{ nuevaSkill }}" onChange="{{ onNuevaSkill }}" onKeyDown="{{ skillKey }}" aria-label="Nueva habilidad" placeholder="Añadir habilidad" style="flex:1;min-width:180px;box-sizing:border-box;height:46px;padding:0 12px;border:1px solid #B9BFCB;border-radius:10px;font-size:16px;color:#111;background:#FFFFFF" style-focus="outline:2px solid #101B35;outline-offset:1px">
+                <button onClick="{{ addSkill }}" style="height:46px;padding:0 16px;border:1px solid #C9CED8;border-radius:10px;background:#FFFFFF;color:#101B35;font-size:15px;font-weight:700;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Añadir</button>
+              </div>
+              <sc-if value="{{ sk.canConfirm }}"><button onClick="{{ confirmSkills }}" style="align-self:flex-start;min-height:32px;padding:0;border:0;background:none;color:#101B35;font-size:14px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Confirmar habilidades</button></sc-if>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px;padding-top:18px;border-top:1px solid #ECEEF2">
+              <span style="font-size:15px;font-weight:700">Idiomas</span>
+              <sc-for list="{{ langs }}" as="l" hint-placeholder-count="2">
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:10px 14px;align-items:center">
+                  <input value="{{ l.idioma }}" onChange="{{ l.onIdioma }}" aria-label="Idioma" placeholder="Idioma" style="width:100%;box-sizing:border-box;height:46px;padding:0 12px;border:1px solid #B9BFCB;border-radius:10px;font-size:16px;color:#111;background:#FFFFFF" style-focus="outline:2px solid #101B35;outline-offset:1px">
+                  <select value="{{ l.nivel }}" onChange="{{ l.onNivel }}" aria-label="Nivel" style="width:100%;box-sizing:border-box;height:46px;padding:0 10px;border:{{ l.nivelBorder }};border-radius:10px;font-size:16px;color:#111;background:#FFFFFF" style-focus="outline:2px solid #101B35;outline-offset:1px"><option value="">Nivel pendiente</option><option>Nativo</option><option>C2</option><option>C1</option><option>B2</option><option>B1</option><option>A2</option><option>A1</option></select>
+                  <span style="justify-self:start;display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 9px;box-sizing:border-box;border-radius:13px;background:{{ l.bg }};color:{{ l.color }};border:{{ l.bborder }};font-size:14px;font-weight:700;white-space:nowrap"><i class="{{ l.icon }}" style="font-size:14px"></i>{{ l.stLabel }}</span>
+                  <sc-if value="{{ l.hasHint }}"><span style="grid-column:1/-1;font-size:14px;color:#5B6272">{{ l.hint }}</span></sc-if>
+                </div>
+              </sc-for>
+              <button onClick="{{ addLang }}" style="align-self:flex-start;height:44px;padding:0 16px;border:1px dashed #8A92A3;border-radius:12px;background:#FFFFFF;color:#101B35;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-plus" style="font-size:16px"></i>Añadir idioma</button>
+            </div>
+          </section>
+
+          <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:clamp(18px,2.4cqi,28px);display:flex;flex-direction:column;gap:18px">
+            <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px"><h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:20px;font-weight:700;color:#101B35">LinkedIn y portafolio</h2><button onClick="{{ confirmarEnlaces }}" style="min-height:40px;padding:0;border:0;background:none;color:#101B35;font-size:15px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Confirmar lo extraído en esta sección</button></div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:20px">
+              <sc-for list="{{ enlaces }}" as="f" hint-placeholder-count="2">
+                <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap"><label for="{{ f.id }}" style="font-size:15px;font-weight:700">{{ f.label }}</label><span style="display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 9px;box-sizing:border-box;border-radius:13px;background:{{ f.bg }};color:{{ f.color }};border:{{ f.bborder }};font-size:14px;font-weight:700;white-space:nowrap"><i class="{{ f.icon }}" style="font-size:14px"></i>{{ f.stLabel }}</span></div>
+                  <input id="{{ f.id }}" value="{{ f.v }}" onChange="{{ f.onChange }}" placeholder="Sin dato" style="width:100%;box-sizing:border-box;height:46px;padding:0 12px;border:{{ f.inputBorder }};border-radius:10px;font-size:16px;color:#111;background:#FFFFFF" style-focus="outline:2px solid #101B35;outline-offset:1px">
+                  <sc-if value="{{ f.hasHint }}"><span style="font-size:14px;color:#5B6272">{{ f.hint }}</span></sc-if>
+                  <sc-if value="{{ f.canConfirm }}"><button onClick="{{ f.onConfirm }}" style="align-self:flex-start;min-height:32px;padding:0;border:0;background:none;color:#101B35;font-size:14px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Confirmar dato</button></sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+        </div>
+        <div style="position:sticky;bottom:0;margin-top:auto;background:#FFFFFF;border-top:1px solid #DDE1E8;padding:14px clamp(16px,4cqi,48px)">
+          <div style="max-width:1040px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px">
+            <span style="flex:1;min-width:220px;font-size:14px;line-height:1.4;color:#4A5163">{{ avisoConfirmar }}</span>
+            <button onClick="{{ guardarBorrador }}" style="height:48px;padding:0 18px;border:1px solid #C9CED8;border-radius:12px;background:#FFFFFF;color:#101B35;font-size:15px;font-weight:700;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Guardar borrador</button>
+            <button onClick="{{ confirmarPerfil }}" style="height:48px;padding:0 22px;border:0;border-radius:12px;background:#C5FF45;color:#101B35;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px" style-hover="background:#B5F02E" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-check" style="font-size:17px"></i>Confirmar y guardar perfil</button>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- 4 PREFERENCIAS -->
+        <sc-if value="{{ pPreferencias }}" hint-placeholder-val="{{ false }}">
+        <div style="width:100%;max-width:1040px;margin:0 auto;padding:clamp(22px,4cqi,40px) clamp(16px,4cqi,48px) 32px;box-sizing:border-box;display:flex;flex-direction:column;gap:22px">
+          <div style="display:flex;flex-direction:column;gap:8px;max-width:660px">
+            <h1 style="margin:0;font-family:'Quicksand',sans-serif;font-size:clamp(26px,3cqi,32px);font-weight:700;color:#101B35">Preferencias laborales</h1>
+            <p style="margin:0;font-size:16px;line-height:1.5;color:#2E3445;text-wrap:pretty">Se usan para filtrar recomendaciones y completar formularios. Todo empieza vacío: no proponemos nada por suposición.</p>
+          </div>
+          <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:clamp(18px,2.4cqi,28px);display:flex;flex-direction:column;gap:14px">
+            <h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:19px;font-weight:700;color:#101B35">Cargos deseados</h2>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <sc-for list="{{ cargosSel }}" as="c" hint-placeholder-count="0">
+                <span style="display:inline-flex;align-items:center;gap:4px;height:40px;padding:0 4px 0 14px;border-radius:20px;background:#101B35;color:#FFFFFF;font-size:15px;font-weight:700">{{ c.label }}<button onClick="{{ c.onRemove }}" aria-label="{{ c.aria }}" style="width:32px;height:32px;border:0;border-radius:16px;background:transparent;color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="background:#1E2A48" style-focus="outline:2px solid #C5FF45"><i class="icon-x" style="font-size:15px"></i></button></span>
+              </sc-for>
+              <sc-if value="{{ sinCargos }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:600;color:#3D4454"><i class="icon-circle-dashed" style="font-size:15px"></i>Pendiente: añade al menos un cargo</span></sc-if>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px"><span style="font-size:14px;color:#5B6272">Sugerencias:</span>
+              <sc-for list="{{ cargosSug }}" as="c" hint-placeholder-count="3">
+                <button onClick="{{ c.onClick }}" style="height:38px;padding:0 14px;border-radius:19px;border:1px solid #C9CED8;background:#FFFFFF;color:#101B35;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px" style-hover="background:#F5F6F8" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-plus" style="font-size:14px"></i>{{ c.label }}</button>
+              </sc-for>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <input value="{{ nuevoCargo }}" onChange="{{ onNuevoCargo }}" onKeyDown="{{ cargoKey }}" aria-label="Otro cargo" placeholder="Escribe otro cargo" style="flex:1;min-width:180px;box-sizing:border-box;height:46px;padding:0 12px;border:1px solid #B9BFCB;border-radius:10px;font-size:16px;color:#111;background:#FFFFFF" style-focus="outline:2px solid #101B35;outline-offset:1px">
+              <button onClick="{{ addCargo }}" style="height:46px;padding:0 16px;border:1px solid #C9CED8;border-radius:10px;background:#FFFFFF;color:#101B35;font-size:15px;font-weight:700;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Añadir</button>
+            </div>
+          </section>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:22px">
+            <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:clamp(18px,2.4cqi,28px);display:flex;flex-direction:column;gap:14px">
+              <h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:19px;font-weight:700;color:#101B35">Modalidad</h2>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <sc-for list="{{ modalidades }}" as="c" hint-placeholder-count="3">
+                  <button aria-pressed="{{ c.on }}" onClick="{{ c.onClick }}" style="height:44px;padding:0 16px;border-radius:22px;border:{{ c.border }};background:{{ c.bg }};color:{{ c.color }};font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="{{ c.icon }}" style="font-size:15px"></i>{{ c.label }}</button>
+                </sc-for>
+              </div>
+              <span style="font-size:14px;line-height:1.45;color:#4A5163">{{ modalidadNota }}</span>
+            </section>
+            <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:clamp(18px,2.4cqi,28px);display:flex;flex-direction:column;gap:14px">
+              <h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:19px;font-weight:700;color:#101B35">Tipo de contratación</h2>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <sc-for list="{{ contratos }}" as="c" hint-placeholder-count="4">
+                  <button aria-pressed="{{ c.on }}" onClick="{{ c.onClick }}" style="height:44px;padding:0 16px;border-radius:22px;border:{{ c.border }};background:{{ c.bg }};color:{{ c.color }};font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="{{ c.icon }}" style="font-size:15px"></i>{{ c.label }}</button>
+                </sc-for>
+              </div>
+            </section>
+            <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:clamp(18px,2.4cqi,28px);display:flex;flex-direction:column;gap:14px">
+              <h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:19px;font-weight:700;color:#101B35">Mercados y países de interés</h2>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <sc-for list="{{ mercados }}" as="c" hint-placeholder-count="7">
+                  <button aria-pressed="{{ c.on }}" onClick="{{ c.onClick }}" style="height:44px;padding:0 16px;border-radius:22px;border:{{ c.border }};background:{{ c.bg }};color:{{ c.color }};font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="{{ c.icon }}" style="font-size:15px"></i>{{ c.label }}</button>
+                </sc-for>
+              </div>
+              <span style="font-size:14px;line-height:1.45;color:#4A5163">Elegir un mercado no confirma que una vacante acepte residentes en Panamá. Eso se verifica en cada vacante.</span>
+            </section>
+            <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:clamp(18px,2.4cqi,28px);display:flex;flex-direction:column;gap:14px">
+              <h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:19px;font-weight:700;color:#101B35">Disponibilidad</h2>
+              <div role="radiogroup" aria-label="Disponibilidad" style="display:flex;flex-wrap:wrap;gap:8px">
+                <sc-for list="{{ disps }}" as="c" hint-placeholder-count="4">
+                  <button role="radio" aria-checked="{{ c.on }}" onClick="{{ c.onClick }}" style="height:44px;padding:0 16px;border-radius:22px;border:{{ c.border }};background:{{ c.bg }};color:{{ c.color }};font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="{{ c.icon }}" style="font-size:15px"></i>{{ c.label }}</button>
+                </sc-for>
+              </div>
+              <sc-if value="{{ dispFecha }}"><label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700;max-width:260px">Fecha disponible<input type="date" min="2026-10-11" value="{{ fecha }}" onChange="{{ onFecha }}" style="width:100%;box-sizing:border-box;height:46px;padding:0 12px;border:1px solid #B9BFCB;border-radius:10px;font-size:16px;font-weight:400;color:#111;background:#FFFFFF" style-focus="outline:2px solid #101B35;outline-offset:1px"></label></sc-if>
+            </section>
+          </div>
+          <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:clamp(18px,2.4cqi,28px);display:flex;flex-direction:column;gap:18px">
+            <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px"><h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:19px;font-weight:700;color:#101B35">Salario aspiracional</h2><button onClick="{{ usarEjemplo }}" style="min-height:40px;padding:0;border:0;background:none;color:#101B35;font-size:15px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Rellenar con un ejemplo ficticio</button></div>
+            <sc-if value="{{ esEjemplo }}"><div style="display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:1.5px dashed #6B7385;font-size:14px;font-weight:700;color:#2E3445"><i class="icon-flask-conical" style="font-size:15px"></i>Ejemplo ficticio. Cámbialo por tu expectativa real antes de usarlo.</div></sc-if>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:18px 24px">
+              <div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:700">Formato</span><div role="radiogroup" aria-label="Formato" style="display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ salTipos }}" as="c" hint-placeholder-count="2"><button role="radio" aria-checked="{{ c.on }}" onClick="{{ c.onClick }}" style="height:44px;padding:0 16px;border-radius:22px;border:{{ c.border }};background:{{ c.bg }};color:{{ c.color }};font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="{{ c.icon }}" style="font-size:15px"></i>{{ c.label }}</button></sc-for></div></div>
+              <div style="display:flex;gap:10px">
+                <label style="flex:1;display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">{{ minLabel }}<input inputmode="numeric" value="{{ salMin }}" onChange="{{ onSalMin }}" placeholder="Monto" style="width:100%;box-sizing:border-box;height:46px;padding:0 12px;border:1px solid #B9BFCB;border-radius:10px;font-size:16px;font-weight:400;color:#111;background:#FFFFFF;font-variant-numeric:tabular-nums" style-focus="outline:2px solid #101B35;outline-offset:1px"></label>
+                <sc-if value="{{ esRango }}"><label style="flex:1;display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Hasta<input inputmode="numeric" value="{{ salMax }}" onChange="{{ onSalMax }}" placeholder="Monto" style="width:100%;box-sizing:border-box;height:46px;padding:0 12px;border:1px solid #B9BFCB;border-radius:10px;font-size:16px;font-weight:400;color:#111;background:#FFFFFF;font-variant-numeric:tabular-nums" style-focus="outline:2px solid #101B35;outline-offset:1px"></label></sc-if>
+              </div>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Moneda<select value="{{ moneda }}" onChange="{{ onMoneda }}" style="width:100%;box-sizing:border-box;height:46px;padding:0 10px;border:1px solid #B9BFCB;border-radius:10px;font-size:16px;font-weight:400;color:#111;background:#FFFFFF" style-focus="outline:2px solid #101B35;outline-offset:1px"><option value="">Selecciona</option><option value="USD">USD · dólar estadounidense</option><option value="PAB">PAB · balboa</option><option value="EUR">EUR · euro</option><option value="MXN">MXN · peso mexicano</option><option value="COP">COP · peso colombiano</option></select></label>
+              <div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:700">Periodicidad</span><div role="radiogroup" aria-label="Periodicidad" style="display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ periodos }}" as="c" hint-placeholder-count="3"><button role="radio" aria-checked="{{ c.on }}" onClick="{{ c.onClick }}" style="height:44px;padding:0 16px;border-radius:22px;border:{{ c.border }};background:{{ c.bg }};color:{{ c.color }};font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="{{ c.icon }}" style="font-size:15px"></i>{{ c.label }}</button></sc-for></div></div>
+              <div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:700">Corresponde a</span><div role="radiogroup" aria-label="Tipo de salario" style="display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ bases }}" as="c" hint-placeholder-count="2"><button role="radio" aria-checked="{{ c.on }}" onClick="{{ c.onClick }}" style="height:44px;padding:0 16px;border-radius:22px;border:{{ c.border }};background:{{ c.bg }};color:{{ c.color }};font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="{{ c.icon }}" style="font-size:15px"></i>{{ c.label }}</button></sc-for></div></div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:14px 16px;border-radius:12px;background:#F5F6F8">
+              <i class="{{ salIcon }}" style="font-size:18px;color:{{ salColor }}"></i>
+              <span style="font-size:15px;font-weight:700;color:{{ salColor }}">{{ salPreview }}</span>
+            </div>
+            <span style="font-size:14px;line-height:1.45;color:#4A5163">No usamos tu salario actual como expectativa ni convertimos monedas. Si un formulario pide otra moneda o periodicidad, te preguntaremos.</span>
+          </section>
+        </div>
+        <div style="position:sticky;bottom:0;margin-top:auto;background:#FFFFFF;border-top:1px solid #DDE1E8;padding:14px clamp(16px,4cqi,48px)">
+          <div style="max-width:1040px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px">
+            <button onClick="{{ omitirPreferencias }}" style="height:48px;padding:0 6px;border:0;background:transparent;color:#4A5163;font-size:15px;font-weight:700;cursor:pointer;margin-right:auto" style-focus="outline:2px solid #101B35;outline-offset:2px">Omitir por ahora</button>
+            <button onClick="{{ guardarBorrador }}" style="height:48px;padding:0 18px;border:1px solid #C9CED8;border-radius:12px;background:#FFFFFF;color:#101B35;font-size:15px;font-weight:700;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Guardar borrador</button>
+            <button onClick="{{ guardarPreferencias }}" style="height:48px;padding:0 22px;border:0;border-radius:12px;background:#C5FF45;color:#101B35;font-size:16px;font-weight:700;cursor:pointer" style-hover="background:#B5F02E" style-focus="outline:2px solid #101B35;outline-offset:2px">Guardar preferencias</button>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- 5 RESUMEN -->
+        <sc-if value="{{ pResumen }}" hint-placeholder-val="{{ false }}">
+        <div style="width:100%;max-width:1040px;margin:0 auto;padding:clamp(22px,4cqi,40px) clamp(16px,4cqi,48px) 40px;box-sizing:border-box;display:flex;flex-direction:column;gap:24px">
+          <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center">
+            <div style="width:52px;height:52px;flex:none;border-radius:50%;background:#C5FF45;color:#101B35;display:flex;align-items:center;justify-content:center"><i class="icon-check" style="font-size:26px"></i></div>
+            <div style="flex:1;min-width:240px;display:flex;flex-direction:column;gap:4px"><h1 style="margin:0;font-family:'Quicksand',sans-serif;font-size:clamp(26px,3cqi,32px);font-weight:700;color:#101B35">Perfil guardado</h1><p style="margin:0;font-size:16px;line-height:1.5;color:#2E3445">Ya puedes analizar vacantes. Si alguna necesita un dato que falta, te lo pediremos ahí.</p></div>
+            <sc-if value="{{ demo }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 13px;border-radius:16px;border:1.5px dashed #6B7385;background:#FFFFFF;color:#2E3445;font-size:14px;font-weight:700"><i class="icon-flask-conical" style="font-size:15px"></i>Perfil ficticio</span></sc-if>
+          </div>
+          <sc-if value="{{ hayPendientes }}" hint-placeholder-val="{{ true }}">
+          <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;display:flex;flex-direction:column">
+            <div style="padding:18px clamp(18px,2.4cqi,26px);border-bottom:1px solid #ECEEF2;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px"><h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:20px;font-weight:700;color:#101B35">Pendientes</h2><span style="font-size:14px;color:#5B6272">Ninguno bloquea la aplicación</span></div>
+            <sc-for list="{{ pendientes }}" as="p" hint-placeholder-count="4">
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:16px clamp(18px,2.4cqi,26px);border-bottom:1px solid #ECEEF2">
+                <div style="flex:1;min-width:220px;display:flex;flex-direction:column;gap:3px"><div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px"><span style="font-size:16px;font-weight:700">{{ p.t }}</span><span style="display:inline-flex;align-items:center;height:24px;padding:0 9px;border-radius:12px;background:{{ p.bg }};color:{{ p.color }};font-size:14px;font-weight:700">{{ p.nivel }}</span></div><span style="font-size:14px;line-height:1.45;color:#4A5163">{{ p.d }}</span></div>
+                <button onClick="{{ p.onClick }}" style="height:42px;padding:0 14px;border:1px solid #C9CED8;border-radius:11px;background:#FFFFFF;color:#101B35;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px" style-focus="outline:2px solid #101B35;outline-offset:2px">Completar<i class="icon-chevron-right" style="font-size:15px"></i></button>
+              </div>
+            </sc-for>
+          </section>
+          </sc-if>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:18px">
+            <sc-for list="{{ resumen }}" as="r" hint-placeholder-count="6">
+              <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:18px;font-weight:700;color:#101B35;display:flex;align-items:center;gap:8px"><i class="{{ r.icon }}" style="font-size:18px"></i>{{ r.titulo }}</h2><button onClick="{{ r.onEdit }}" aria-label="{{ r.aria }}" style="min-height:40px;padding:0 4px;border:0;background:none;color:#101B35;font-size:15px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Editar</button></div>
+                <dl style="margin:0;display:flex;flex-direction:column;gap:10px">
+                  <sc-for list="{{ r.filas }}" as="x" hint-placeholder-count="3">
+                    <div style="display:flex;flex-direction:column;gap:1px"><dt style="font-size:14px;color:#5B6272">{{ x.k }}</dt><dd style="margin:0;font-size:15px;font-weight:{{ x.w }};color:{{ x.c }};overflow-wrap:anywhere">{{ x.v }}</dd></div>
+                  </sc-for>
+                </dl>
+              </section>
+            </sc-for>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px">
+            <button onClick="{{ irMisCV }}" style="height:50px;padding:0 24px;border:0;border-radius:12px;background:#C5FF45;color:#101B35;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px" style-hover="background:#B5F02E" style-focus="outline:2px solid #101B35;outline-offset:2px">Ver Mis CV<i class="icon-arrow-right" style="font-size:18px"></i></button>
+            <a href="Luni.dc.html#2a" style="font-size:15px;font-weight:700">Ir al inicio</a>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- 6 MIS CV -->
+        <sc-if value="{{ pMiscv }}" hint-placeholder-val="{{ false }}">
+        <div style="width:100%;max-width:1040px;margin:0 auto;padding:clamp(22px,4cqi,40px) clamp(16px,4cqi,48px) 40px;box-sizing:border-box;display:flex;flex-direction:column;gap:22px">
+          <sc-if value="{{ cvLista }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 24px">
+              <div style="display:flex;flex-direction:column;gap:8px;max-width:600px"><h1 style="margin:0;font-family:'Quicksand',sans-serif;font-size:clamp(26px,3cqi,32px);font-weight:700;color:#101B35">Mis CV</h1><p style="margin:0;font-size:16px;line-height:1.5;color:#2E3445;text-wrap:pretty">Las versiones adaptadas reorganizan y destacan tu experiencia. Nunca añaden cargos, fechas, habilidades, métricas ni responsabilidades.</p></div>
+              <sc-if value="{{ cvSubido }}"><div style="display:flex;flex-wrap:wrap;gap:10px">
+                <button onClick="{{ subirExistente }}" style="height:46px;padding:0 16px;border:1px solid #C9CED8;border-radius:12px;background:#FFFFFF;color:#101B35;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-upload" style="font-size:16px"></i>Subir versión existente</button>
+                <button onClick="{{ abrirIA }}" style="height:46px;padding:0 18px;border:0;border-radius:12px;background:#C5FF45;color:#101B35;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px" style-hover="background:#B5F02E" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-wand-sparkles" style="font-size:16px"></i>Preparar versión con IA</button>
+              </div></sc-if>
+            </div>
+            <sc-if value="{{ cvVacio }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding:clamp(24px,4cqi,40px);background:#FFFFFF;border:1.5px dashed #8A92A3;border-radius:16px">
+                <i class="icon-file-x" style="font-size:28px;color:#101B35"></i>
+                <div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:18px;font-weight:700">Aún no has subido un CV</span><span style="font-size:15px;line-height:1.5;color:#4A5163">Completaste tu perfil manualmente. Sube tu CV para poder adjuntarlo y crear versiones.</span></div>
+                <button onClick="{{ irSubir }}" style="height:46px;padding:0 18px;border:0;border-radius:12px;background:#C5FF45;color:#101B35;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-upload" style="font-size:16px"></i>Subir mi CV</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ cvSubido }}">
+            <div style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;display:flex;flex-direction:column">
+              <sc-for list="{{ versiones }}" as="v" hint-placeholder-count="1">
+                <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;padding:18px clamp(16px,2.4cqi,24px);border-bottom:1px solid #ECEEF2">
+                  <div style="width:44px;height:52px;flex:none;border-radius:8px;border:1px solid #DDE1E8;background:#F5F6F8;display:flex;align-items:center;justify-content:center;color:#101B35"><i class="icon-file-text" style="font-size:21px"></i></div>
+                  <div style="flex:1;min-width:220px;display:flex;flex-direction:column;gap:4px">
+                    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px"><span style="font-size:17px;font-weight:700">{{ v.nombre }}</span><span style="display:inline-flex;align-items:center;height:24px;padding:0 9px;border-radius:12px;background:{{ v.bg }};color:{{ v.color }};font-size:14px;font-weight:700">{{ v.tipo }}</span></div>
+                    <span style="font-size:14px;color:#4A5163">{{ v.idioma }} · Actualizado: {{ v.fecha }} · {{ v.origen }}</span>
+                    <span style="font-size:14px;color:#4A5163">Usado en: {{ v.uso }}</span>
+                  </div>
+                  <div style="display:flex;gap:4px">
+                    <button onClick="{{ simulado }}" aria-label="Previsualizar" title="Previsualizar" style="width:44px;height:44px;border:1px solid #DDE1E8;border-radius:11px;background:#FFFFFF;color:#101B35;display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="background:#F5F6F8" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-eye" style="font-size:18px"></i></button>
+                    <button onClick="{{ simulado }}" aria-label="Descargar" title="Descargar" style="width:44px;height:44px;border:1px solid #DDE1E8;border-radius:11px;background:#FFFFFF;color:#101B35;display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="background:#F5F6F8" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-download" style="font-size:18px"></i></button>
+                    <button onClick="{{ simulado }}" aria-label="Duplicar" title="Duplicar" style="width:44px;height:44px;border:1px solid #DDE1E8;border-radius:11px;background:#FFFFFF;color:#101B35;display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="background:#F5F6F8" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-copy" style="font-size:18px"></i></button>
+                    <button onClick="{{ simulado }}" aria-label="Comparar con el original" title="Comparar con el original" style="width:44px;height:44px;border:1px solid #DDE1E8;border-radius:11px;background:#FFFFFF;color:#101B35;display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="background:#F5F6F8" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-git-compare" style="font-size:18px"></i></button>
+                  </div>
+                </div>
+              </sc-for>
+              <sc-if value="{{ sinAdaptadas }}">
+                <div style="display:flex;flex-direction:column;gap:14px;padding:22px clamp(16px,2.4cqi,24px)">
+                  <div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:16px;font-weight:700">Aún no tienes otras versiones</span><span style="font-size:14px;line-height:1.45;color:#4A5163">Empieza por alguna de estas. Revisarás cada cambio antes de guardarla.</span></div>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px">
+                    <sc-for list="{{ presets }}" as="p" hint-placeholder-count="3">
+                      <button onClick="{{ p.onClick }}" style="height:44px;padding:0 16px;border-radius:22px;border:1px solid #C9CED8;background:#FFFFFF;color:#101B35;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px" style-hover="background:#F5F6F8" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-plus" style="font-size:15px"></i>{{ p.label }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+            </sc-if>
+          </sc-if>
+
+          <sc-if value="{{ cvObjetivo }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:8px;max-width:640px"><h1 style="margin:0;font-family:'Quicksand',sans-serif;font-size:clamp(26px,3cqi,32px);font-weight:700;color:#101B35">Preparar versión con IA</h1><p style="margin:0;font-size:16px;line-height:1.5;color:#2E3445">Base: CV original. Elige el objetivo y revisarás cada cambio propuesto antes de guardar.</p></div>
+            <div role="radiogroup" aria-label="Objetivo de la versión" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px">
+              <sc-for list="{{ objetivos }}" as="o" hint-placeholder-count="3">
+                <button role="radio" aria-checked="{{ o.on }}" onClick="{{ o.onClick }}" style="text-align:left;padding:18px;border-radius:14px;border:{{ o.border }};background:#FFFFFF;cursor:pointer;display:flex;flex-direction:column;gap:6px;color:#111" style-focus="outline:2px solid #101B35;outline-offset:2px"><span style="display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%"><span style="font-size:17px;font-weight:700">{{ o.label }}</span><i class="{{ o.icon }}" style="font-size:19px;color:#101B35"></i></span><span style="font-size:14px;line-height:1.45;color:#4A5163">{{ o.desc }}</span></button>
+              </sc-for>
+            </div>
+            <p style="margin:0;font-size:14px;color:#5B6272">Las versiones para una vacante específica se crean al preparar esa solicitud.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center">
+              <button onClick="{{ prepararPropuesta }}" style="height:48px;padding:0 22px;border:0;border-radius:12px;background:#C5FF45;color:#101B35;font-size:16px;font-weight:700;cursor:pointer" style-hover="background:#B5F02E" style-focus="outline:2px solid #101B35;outline-offset:2px">Preparar propuesta</button>
+              <button onClick="{{ cancelarIA }}" style="height:48px;padding:0 6px;border:0;background:transparent;color:#4A5163;font-size:15px;font-weight:700;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Cancelar</button>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ cvGenerando }}" hint-placeholder-val="{{ false }}">
+            <div role="status" style="display:flex;align-items:center;gap:16px;padding:28px;background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px">{{ spinner }}<div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:17px;font-weight:700">Preparando propuesta: {{ objetivoLabel }}</span><span style="font-size:14px;color:#5B6272">Simulado en el prototipo. Solo se reorganiza y redacta a partir de datos confirmados.</span></div></div>
+          </sc-if>
+
+          <sc-if value="{{ cvComparar }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:8px"><h1 style="margin:0;font-family:'Quicksand',sans-serif;font-size:clamp(26px,3cqi,32px);font-weight:700;color:#101B35">Revisa los cambios propuestos</h1><p style="margin:0;font-size:16px;line-height:1.5;color:#2E3445">{{ objetivoLabel }} · basada en el CV original. Edita o excluye cualquier cambio.</p></div>
+            <div style="display:flex;flex-wrap:wrap;gap:10px 22px;padding:14px 18px;border-radius:14px;background:#101B35;color:#FFFFFF;font-size:15px;font-weight:600">
+              <span style="display:inline-flex;align-items:center;gap:8px"><i class="icon-lock" style="font-size:16px;color:#C5FF45"></i>Cargos, empresas y fechas sin cambios</span>
+              <span style="display:inline-flex;align-items:center;gap:8px"><i class="icon-lock" style="font-size:16px;color:#C5FF45"></i>Sin habilidades, métricas ni responsabilidades nuevas</span>
+            </div>
+            <sc-for list="{{ cambios }}" as="c" hint-placeholder-count="3">
+              <div style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:clamp(16px,2.4cqi,22px);display:flex;flex-direction:column;gap:14px">
+                <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px"><div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px"><span style="display:inline-flex;align-items:center;height:26px;padding:0 10px;border-radius:13px;background:{{ c.tipoBg }};color:{{ c.tipoColor }};font-size:14px;font-weight:700">{{ c.tipo }}</span><span style="font-size:16px;font-weight:700">{{ c.seccion }}</span></div>
+                  <sc-if value="{{ c.noAviso }}"><label style="display:flex;align-items:center;gap:8px;min-height:40px;font-size:15px;font-weight:600;cursor:pointer"><input type="checkbox" checked="{{ c.incluir }}" onChange="{{ c.onIncluir }}" style="width:20px;height:20px;accent-color:#101B35;margin:0">Incluir cambio</label></sc-if>
+                </div>
+                <sc-if value="{{ c.noAviso }}">
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px">
+                  <div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:700;color:#5B6272">Original</span><div style="padding:12px 14px;border-radius:10px;background:#F5F6F8;font-size:15px;line-height:1.5;color:#2E3445;min-height:48px">{{ c.antes }}</div></div>
+                  <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700;color:#17663F">Propuesta (editable)<textarea value="{{ c.texto }}" onChange="{{ c.onTexto }}" rows="3" style="padding:12px 14px;border-radius:10px;border:1.5px solid #17663F;background:#FFFFFF;font-size:15px;font-weight:400;line-height:1.5;color:#111;resize:vertical;opacity:{{ c.opacidad }}" style-focus="outline:2px solid #101B35;outline-offset:1px"></textarea></label>
+                </div>
+                </sc-if>
+                <sc-if value="{{ c.hasAviso }}"><div style="display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:10px;background:#FFF4D9;color:#5C3B00;font-size:15px;line-height:1.5"><i class="icon-triangle-alert" style="font-size:17px;margin-top:2px"></i><span>{{ c.aviso }}</span></div></sc-if>
+              </div>
+            </sc-for>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px;padding:18px;background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px">
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Nombre de la versión<input value="{{ cvNombre }}" onChange="{{ onCvNombre }}" style="width:100%;box-sizing:border-box;height:46px;padding:0 12px;border:1px solid #B9BFCB;border-radius:10px;font-size:16px;font-weight:400;color:#111;background:#FFFFFF" style-focus="outline:2px solid #101B35;outline-offset:1px"></label>
+              <div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:700">Idioma</span><span style="height:46px;display:flex;align-items:center;font-size:16px">{{ cvIdioma }}</span></div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px">
+              <span style="flex:1;min-width:200px;font-size:15px;font-weight:700;color:#101B35;font-variant-numeric:tabular-nums">{{ incluidosTxt }}</span>
+              <button onClick="{{ cancelarIA }}" style="height:48px;padding:0 6px;border:0;background:transparent;color:#4A5163;font-size:15px;font-weight:700;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Descartar propuesta</button>
+              <button onClick="{{ guardarVersion }}" style="height:48px;padding:0 22px;border:0;border-radius:12px;background:#C5FF45;color:#101B35;font-size:16px;font-weight:700;cursor:pointer" style-hover="background:#B5F02E" style-focus="outline:2px solid #101B35;outline-offset:2px">Guardar versión</button>
+            </div>
+          </sc-if>
+        </div>
+        </sc-if>
+      </main>
+    </div>
+    <sc-if value="{{ esMovil }}" hint-placeholder-val="{{ false }}">
+      <nav style="position:relative;flex:none;background:#101B35;display:grid;grid-template-columns:repeat(4,1fr);padding:8px 4px 34px;box-sizing:border-box">
+        <a href="Luni.dc.html#2c" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:60px;color:#D3D8E3;text-decoration:none;font-size:13px;font-weight:600"><span style="height:30px;display:flex;align-items:center"><i class="icon-house" style="font-size:20px"></i></span>Inicio</a>
+        <a href="Luni.dc.html#2c" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:60px;color:#D3D8E3;text-decoration:none;font-size:13px;font-weight:600"><span style="height:30px;display:flex;align-items:center"><i class="icon-briefcase-business" style="font-size:20px"></i></span>Vacantes</a>
+        <a href="Luni.dc.html#2c" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:60px;color:#D3D8E3;text-decoration:none;font-size:13px;font-weight:600"><span style="height:30px;display:flex;align-items:center"><i class="icon-send" style="font-size:20px"></i></span>Postulaciones</a>
+        <button onClick="{{ irPerfil }}" aria-current="page" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:60px;border:0;background:transparent;color:#FFFFFF;font-size:13px;font-weight:700;cursor:pointer"><span style="width:52px;height:30px;border-radius:15px;background:#C5FF45;color:#101B35;display:flex;align-items:center;justify-content:center"><i class="icon-user-round" style="font-size:19px"></i></span>Perfil</button>
+        <span style="position:absolute;left:50%;bottom:9px;width:134px;height:5px;margin-left:-67px;border-radius:3px;background:#FFFFFF"></span>
+      </nav>
+    </sc-if>
+    <sc-if value="{{ hayToast }}" hint-placeholder-val="{{ false }}">
+      <div role="status" style="position:absolute;left:50%;transform:translateX(-50%);bottom:{{ toastBottom }};max-width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:12px;background:#111111;color:#FFFFFF;font-size:15px;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,.18)"><i class="icon-circle-check" style="font-size:17px;color:#C5FF45"></i>{{ toast }}</div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;dispositivo&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Desktop&quot;,&quot;Móvil&quot;],&quot;default&quot;:&quot;Desktop&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Prototipo&quot;},&quot;resultadoLectura&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Lectura correcta&quot;,&quot;Formato no compatible&quot;,&quot;Error de carga&quot;,&quot;Sin texto extraíble&quot;],&quot;default&quot;:&quot;Lectura correcta&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Prototipo&quot;},&quot;demo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Prototipo&quot;}}">
+const HOY = '2026-10';
+const MES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const ST = {
+  extraido: { label: 'Extraído del CV', icon: 'icon-scan-text', bg: '#E9F0FD', color: '#1E55B8', border: '1px solid #E9F0FD' },
+  confirmado: { label: 'Confirmado', icon: 'icon-circle-check', bg: '#E7F5EC', color: '#17663F', border: '1px solid #E7F5EC' },
+  pendiente: { label: 'Pendiente', icon: 'icon-circle-dashed', bg: '#FFFFFF', color: '#3D4454', border: '1.5px dashed #8A92A3' }
+};
+const PERSONAL = [
+  { id: 'nombre', label: 'Nombre completo', ext: 'Alma Ruiz' },
+  { id: 'correo', label: 'Correo', ext: 'alma.ruiz@ejemplo.com' },
+  { id: 'telefono', label: 'Teléfono', ext: '+507 6000-0000' },
+  { id: 'residencia', label: 'Residencia', ext: 'Ciudad de Panamá, Panamá', hint: 'Dónde vives actualmente.' },
+  { id: 'ciudadania', label: 'Ciudadanía', ext: '', hint: 'No aparece en el CV. Solo se pedirá si una vacante la requiere.' },
+  { id: 'autorizacion', label: 'Autorización laboral', ext: '', select: true, hint: 'Solo tú puedes indicarla. No se deduce de tu residencia ni de tu ciudadanía.' }
+];
+const ENLACES = [
+  { id: 'linkedin', label: 'LinkedIn', ext: 'linkedin.com/in/alma-ruiz-demo' },
+  { id: 'portafolio', label: 'Portafolio', ext: '', hint: 'No encontramos un enlace de portafolio en el CV.' }
+];
+const JOBS = [
+  { cargo: 'Product Designer', empresa: 'Ribera Studio', inicio: '2022-03', fin: '', actual: true, area: 'diseno' },
+  { cargo: 'UX/UI Designer (freelance)', empresa: 'Independiente', inicio: '2021-01', fin: '2022-06', actual: false, area: 'diseno' },
+  { cargo: 'Especialista de Marketing Digital', empresa: 'Grupo Cardumen', inicio: '2018-02', fin: '2020-12', actual: false, area: 'marketing' }
+];
+const EDU = [
+  { titulo: 'Licenciatura en Diseño Gráfico', inst: 'Universidad del Istmo', periodo: '2013 – 2017' },
+  { titulo: 'Certificado en UX Research', inst: 'Escuela Pixel', periodo: '' }
+];
+const SKILLS = ['Figma', 'Sistemas de diseño', 'Prototipado', 'Investigación con usuarios', 'HTML/CSS'];
+const AREA = { diseno: 'Product Design / UX/UI', marketing: 'Marketing', otro: 'Otra área' };
+const RESUMEN_ORIG = 'Diseñadora con experiencia en e-commerce, sistemas de diseño y marketing digital.';
+const ADAPT = {
+  pd: { nombre: 'Product Designer', idioma: 'Español', desc: 'Prioriza diseño de producto y sistemas de diseño.', cambios: [
+    { tipo: 'Reescrito', seccion: 'Resumen profesional', antes: RESUMEN_ORIG, despues: 'Product Designer con 5 años y 10 meses en diseño de producto, enfocada en sistemas de diseño y flujos de e-commerce.' },
+    { tipo: 'Reordenado', seccion: 'Habilidades', antes: 'HTML/CSS, Prototipado, Figma, Investigación con usuarios, Sistemas de diseño', despues: 'Figma, Sistemas de diseño, Prototipado, Investigación con usuarios, HTML/CSS' },
+    { tipo: 'Condensado', seccion: 'Grupo Cardumen · feb 2018 – dic 2020', antes: '4 viñetas sobre campañas, contenido, redes y reportes.', despues: 'Coordinación de campañas digitales y contenido para redes.', aviso: 'Se condensa el texto; el cargo y las fechas no cambian.' }
+  ] },
+  senior: { nombre: 'Senior UX/UI Designer', idioma: 'Español', desc: 'Destaca responsabilidades de mayor alcance ya presentes en tu CV.', cambios: [
+    { tipo: 'Reescrito', seccion: 'Resumen profesional', antes: RESUMEN_ORIG, despues: 'Diseñadora UX/UI con 5 años y 10 meses en diseño de producto. Responsable del sistema de diseño en Ribera Studio.' },
+    { tipo: 'Reordenado', seccion: 'Orden de secciones', antes: 'Educación → Experiencia → Habilidades', despues: 'Experiencia → Habilidades → Educación' },
+    { tipo: 'Destacado', seccion: 'Ribera Studio · mar 2022 – actual', antes: '“Responsable del sistema de diseño” aparece como tercera viñeta.', despues: '“Responsable del sistema de diseño” pasa a ser la primera viñeta.' },
+    { tipo: 'Aviso', seccion: 'Título del cargo', aviso: 'Ninguno de tus cargos se llama “Senior UX/UI Designer”. Se conservan tus cargos reales; “Senior” describe solo el tipo de vacante objetivo y no aparece en el CV.' }
+  ] },
+  en: { nombre: 'Versión en inglés', idioma: 'Inglés', desc: 'Traduce el contenido sin cambiar hechos.', cambios: [
+    { tipo: 'Traducido', seccion: 'Resumen profesional', antes: RESUMEN_ORIG, despues: 'Designer with experience in e-commerce, design systems and digital marketing.' },
+    { tipo: 'Traducido', seccion: 'Experiencia', antes: 'Product Designer · Ribera Studio · mar 2022 – actual', despues: 'Product Designer · Ribera Studio · Mar 2022 – Present' },
+    { tipo: 'Aviso', seccion: 'Idiomas', aviso: 'Tu nivel de inglés está pendiente. No se añadirá un nivel al CV hasta que lo confirmes en tu perfil.' }
+  ] }
+};
+const TIPO_COL = { Reescrito: ['#E9F0FD', '#1E55B8'], Reordenado: ['#EEF0F4', '#2E3445'], Destacado: ['#E7F5EC', '#17663F'], Condensado: ['#EEF0F4', '#2E3445'], Traducido: ['#E9F0FD', '#1E55B8'], Aviso: ['#FFF4D9', '#7A4E00'] };
+const PASOS = ['bienvenida', 'subir', 'revisar', 'preferencias', 'resumen', 'miscv'];
+const ATRAS = { subir: 'bienvenida', revisar: 'subir', preferencias: 'revisar', resumen: 'preferencias', miscv: 'resumen' };
+const TITULOS = { bienvenida: '', subir: 'Subir CV', revisar: 'Revisar datos', preferencias: 'Preferencias', resumen: 'Mi perfil', miscv: 'Mis CV' };
+
+const mi = s => { if (!s) return null; const [y, m] = s.split('-').map(Number); return y * 12 + (m - 1); };
+const fmtK = k => MES[k % 12] + ' ' + Math.floor(k / 12);
+const fmtYM = s => s ? fmtK(mi(s)) : '';
+const dur = n => { const a = Math.floor(n / 12), m = n % 12; if (!n) return 'Sin datos'; return [a ? a + (a === 1 ? ' año' : ' años') : '', m ? m + (m === 1 ? ' mes' : ' meses') : ''].filter(Boolean).join(' y '); };
+const hora = () => { const d = new Date(); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
+const jobOk = j => j.cargo && j.empresa && j.inicio && (j.actual || j.fin) && j.area;
+const eduOk = e => e.titulo && e.inst && e.periodo;
+const fmtN = n => Number(n).toLocaleString('en-US');
+
+class Component extends DCLogic {
+  mainRef = React.createRef();
+  timers = [];
+  state = this.inicial();
+
+  inicial() {
+    const simMap = { 'Lectura correcta': 'ok', 'Formato no compatible': 'nocompatible', 'Error de carga': 'error', 'Sin texto extraíble': 'sintexto' };
+    return {
+      dispositivo: (this.props.dispositivo ?? 'Desktop') === 'Móvil' ? 'movil' : 'desktop',
+      paso: 'bienvenida', up: { estado: 'idle', archivo: '', progreso: 0, drag: false },
+      simular: simMap[this.props.resultadoLectura] || 'ok',
+      perfil: null, manual: false, borrador: null, guardado: false, nuevaSkill: '',
+      pref: { cargos: [], nuevoCargo: '', modalidad: [], mercados: [], contratos: [], disp: '', fecha: '', sal: { tipo: 'rango', min: '', max: '', moneda: '', periodo: '', base: '', ejemplo: false } },
+      cv: { subido: false, versiones: [], modo: 'lista', objetivo: 'senior', cambios: [], nombre: '' },
+      toast: ''
+    };
+  }
+  componentDidUpdate(pp, ps) {
+    if (ps.paso !== this.state.paso || ps.cv.modo !== this.state.cv.modo) { const m = this.mainRef.current; if (m) m.scrollTop = 0; }
+  }
+  componentWillUnmount() { this.clear(); clearTimeout(this.tt); }
+  clear() { this.timers.forEach(id => { clearTimeout(id); clearInterval(id); }); this.timers = []; }
+  later(fn, ms) { this.timers.push(setTimeout(fn, ms)); }
+  aviso(msg) { this.setState({ toast: msg }); clearTimeout(this.tt); this.tt = setTimeout(() => this.setState({ toast: '' }), 3400); }
+  setUp(o) { this.setState(s => ({ up: { ...s.up, ...o } })); }
+  orig(name) { return { key: 'orig', nombre: 'CV original', archivo: name, tipo: 'Original', idioma: 'Español', fecha: 'hoy, ' + hora(), origen: name, uso: 'ninguna postulación todavía' }; }
+
+  initPerfil(ext) {
+    const f = {};
+    [...PERSONAL, ...ENLACES].forEach(d => { const v = ext ? d.ext : ''; f[d.id] = { v, st: v ? 'extraido' : 'pendiente' }; });
+    return {
+      f,
+      jobs: ext ? JOBS.map(j => ({ ...j, st: 'extraido' })) : [{ cargo: '', empresa: '', inicio: '', fin: '', actual: false, area: '', st: 'pendiente' }],
+      edu: ext ? EDU.map(e => ({ ...e, st: e.periodo ? 'extraido' : 'pendiente' })) : [{ titulo: '', inst: '', periodo: '', st: 'pendiente' }],
+      skills: ext ? [...SKILLS] : [], skillsSt: ext ? 'extraido' : 'pendiente',
+      langs: ext ? [{ idioma: 'Español', nivel: 'Nativo', st: 'extraido' }, { idioma: 'Inglés', nivel: '', st: 'pendiente', hint: 'El CV dice “Inglés” sin indicar nivel. No lo suponemos.' }] : [{ idioma: '', nivel: '', st: 'pendiente' }]
+    };
+  }
+  conPerfil(extra = {}) {
+    const s = this.state;
+    if (s.perfil) return extra;
+    return { ...extra, perfil: this.initPerfil(true), cv: { ...s.cv, subido: true, versiones: s.cv.versiones.length ? s.cv.versiones : [this.orig('Alma_Ruiz_CV_2026.pdf')] } };
+  }
+  goto(paso) {
+    this.clear();
+    let extra = {};
+    if (['revisar', 'preferencias', 'resumen', 'miscv'].includes(paso)) extra = this.conPerfil();
+    if (paso === 'resumen' || paso === 'miscv') extra.guardado = true;
+    if (paso === 'subir') extra.up = { estado: 'idle', archivo: '', progreso: 0, drag: false };
+    if (paso === 'miscv') extra.cv = { ...(extra.cv || this.state.cv), modo: 'lista' };
+    this.setState({ paso, ...extra });
+  }
+
+  startUpload(name) {
+    this.clear();
+    const ext = (name.split('.').pop() || '').toLowerCase();
+    const sim = this.state.simular;
+    const valido = ext === 'pdf' || ext === 'docx';
+    if (!valido || sim === 'nocompatible') { this.setUp({ estado: 'nocompatible', archivo: valido ? name.replace(/\.\w+$/, '.pages') : name, progreso: 0 }); return; }
+    this.setUp({ estado: 'cargando', archivo: name, progreso: 0 });
+    let p = 0;
+    const iv = setInterval(() => {
+      p += 12;
+      if (sim === 'error' && p >= 60) { clearInterval(iv); this.setUp({ estado: 'error', progreso: p }); return; }
+      if (p >= 100) {
+        clearInterval(iv); this.setUp({ estado: 'leyendo', progreso: 100 });
+        this.later(() => {
+          if (sim === 'sintexto') { this.setUp({ estado: 'sintexto' }); return; }
+          this.setState(s => ({ perfil: this.initPerfil(true), manual: false, paso: 'revisar', up: { ...s.up, estado: 'idle' }, cv: { ...s.cv, subido: true, versiones: [this.orig(name), ...s.cv.versiones.filter(v => v.key !== 'orig')] } }));
+          this.aviso('CV leído (simulado). Revisa los datos.');
+        }, 1600);
+        return;
+      }
+      this.setUp({ progreso: p });
+    }, 140);
+    this.timers.push(iv);
+  }
+
+  upd(fn) { this.setState(s => { const p = JSON.parse(JSON.stringify(s.perfil)); fn(p); return { perfil: p }; }); }
+  setField(id, v) { this.upd(p => { p.f[id] = { v, st: v.trim() ? 'confirmado' : 'pendiente' }; }); }
+  confirmField(id) { this.upd(p => { if (p.f[id].v) p.f[id].st = 'confirmado'; }); }
+  setJob(i, k, v) { this.upd(p => { const j = p.jobs[i]; j[k] = v; if (k === 'actual' && v) j.fin = ''; j.st = jobOk(j) ? 'confirmado' : 'pendiente'; }); }
+  setEdu(i, k, v) { this.upd(p => { const e = p.edu[i]; e[k] = v; e.st = eduOk(e) ? 'confirmado' : 'pendiente'; }); }
+  setLang(i, k, v) { this.upd(p => { const l = p.langs[i]; l[k] = v; l.st = l.idioma && l.nivel ? 'confirmado' : 'pendiente'; if (l.nivel) l.hint = ''; }); }
+  confirmarSeccion(sec) {
+    this.upd(p => {
+      const ok = x => { if (x.st === 'extraido') x.st = 'confirmado'; };
+      if (sec === 'personal') PERSONAL.forEach(d => ok(p.f[d.id]));
+      if (sec === 'enlaces') ENLACES.forEach(d => ok(p.f[d.id]));
+      if (sec === 'exp') p.jobs.forEach(j => { if (jobOk(j)) ok(j); });
+      if (sec === 'edu') p.edu.forEach(e => { if (eduOk(e)) ok(e); });
+      if (sec === 'todo') { [...PERSONAL, ...ENLACES].forEach(d => ok(p.f[d.id])); p.jobs.forEach(ok); p.edu.forEach(ok); p.langs.forEach(ok); if (p.skillsSt === 'extraido') p.skillsSt = 'confirmado'; }
+    });
+  }
+  togglePref(k, v) { this.setState(s => { const a = s.pref[k]; return { pref: { ...s.pref, [k]: a.includes(v) ? a.filter(x => x !== v) : [...a, v] } }; }); }
+  setPref(o) { this.setState(s => ({ pref: { ...s.pref, ...o } })); }
+  setSal(o) { this.setState(s => ({ pref: { ...s.pref, sal: { ...s.pref.sal, ejemplo: false, ...o } } })); }
+  guardarBorrador() { this.setState({ borrador: { hora: hora(), paso: this.state.paso } }); this.aviso('Borrador guardado. Puedes continuar después.'); }
+
+  salario() {
+    const s = this.state.pref.sal; const falta = [];
+    if (!s.min || (s.tipo === 'rango' && !s.max)) falta.push('monto');
+    if (!s.moneda) falta.push('moneda'); if (!s.periodo) falta.push('periodicidad'); if (!s.base) falta.push('tipo');
+    if (!s.min && !s.max && !s.moneda && !s.periodo && !s.base) return { ok: false, vacio: true, txt: 'Sin configurar · pendiente' };
+    if (falta.length) return { ok: false, txt: 'Incompleto · falta ' + falta.join(', ') };
+    if (s.tipo === 'rango' && Number(s.max) < Number(s.min)) return { ok: false, txt: 'Revisa el rango: “Hasta” es menor que “Desde”' };
+    const per = { mensual: 'mensual', anual: 'anual', hora: 'por hora' }[s.periodo];
+    const base = s.base === 'bruto' ? 'salario bruto' : 'tarifa de contractor';
+    return { ok: true, txt: `${s.moneda} ${fmtN(s.min)}${s.tipo === 'rango' ? ' – ' + fmtN(s.max) : ''} ${per} · ${base}${s.ejemplo ? ' (ejemplo ficticio)' : ''}` };
+  }
+  calc(jobs, area) {
+    const cnt = {};
+    jobs.filter(j => j.area === area).forEach(j => { const a = mi(j.inicio), b = j.actual ? mi(HOY) : mi(j.fin); if (a == null || b == null || b < a) return; for (let k = a; k <= b; k++) cnt[k] = (cnt[k] || 0) + 1; });
+    const keys = Object.keys(cnt).map(Number).sort((x, y) => x - y);
+    const dup = keys.filter(k => cnt[k] > 1);
+    return { total: keys.length, dup: dup.length, rango: dup.length ? fmtK(dup[0]) + ' – ' + fmtK(dup[dup.length - 1]) : '' };
+  }
+
+  renderVals() {
+    const s = this.state, p = s.perfil, m = s.dispositivo === 'movil';
+    const chip = (on, label, onClick, radio) => ({ label, on, onClick, bg: on ? '#101B35' : '#FFFFFF', color: on ? '#FFFFFF' : '#101B35', border: on ? '1px solid #101B35' : '1px solid #C9CED8', icon: on ? 'icon-check' : (radio ? 'icon-circle' : 'icon-plus') });
+    const badge = st => { const S = ST[st]; return { stLabel: S.label, icon: S.icon, bg: S.bg, color: S.color, bborder: S.border }; };
+    const v = {
+      esDesktop: !m, esMovil: m,
+      verDesktop: () => this.setState({ dispositivo: 'desktop' }), verMovil: () => this.setState({ dispositivo: 'movil' }),
+      bgDesk: m ? 'transparent' : '#101B35', fgDesk: m ? '#101B35' : '#FFFFFF', bgMov: m ? '#101B35' : 'transparent', fgMov: m ? '#FFFFFF' : '#101B35',
+      frameW: m ? '390px' : '1440px', frameH: m ? '844px' : '920px', frameBorder: m ? '10px solid #111111' : '1px solid #CBD0D9', frameR: m ? '48px' : '12px',
+      paso: s.paso, onPaso: e => this.goto(e.target.value),
+      reiniciar: () => { this.clear(); this.setState({ ...this.inicial(), dispositivo: s.dispositivo }); },
+      mainRef: this.mainRef, demo: this.props.demo ?? true,
+      tituloBarra: TITULOS[s.paso] || '', puedeAtras: !!ATRAS[s.paso], noPuedeAtras: !ATRAS[s.paso],
+      atras: () => { if (s.paso === 'miscv' && s.cv.modo !== 'lista') this.setState({ cv: { ...s.cv, modo: 'lista' } }); else this.goto(ATRAS[s.paso]); },
+      irPerfil: () => this.goto(s.guardado ? 'resumen' : 'bienvenida'),
+      hayToast: !!s.toast, toast: s.toast, toastBottom: m ? '118px' : '28px',
+      spinner: React.createElement('i', { className: 'icon-loader-circle', 'aria-hidden': true, style: { fontSize: 28, color: '#101B35', animation: 'luni-spin 1s linear infinite', flex: 'none' } }),
+      simulado: () => this.aviso('Acción simulada en el prototipo.')
+    };
+    PASOS.forEach(k => { v['p' + k.charAt(0).toUpperCase() + k.slice(1)] = s.paso === k; });
+    const navDef = [['Inicio', 'icon-house', () => { window.location.href = 'Luni.dc.html#2a'; }], ['Vacantes', 'icon-briefcase-business', () => { window.location.href = 'Luni.dc.html#2b'; }], ['Postulaciones', 'icon-send', () => this.aviso('Postulaciones llegará en la siguiente fase.')], ['Mis CV', 'icon-file-text', () => this.goto('miscv')], ['Perfil y respuestas', 'icon-user-round', () => this.goto(s.guardado ? 'resumen' : 'bienvenida')], ['Notificaciones', 'icon-bell', () => this.aviso('Notificaciones llegará en una fase posterior.')]];
+    const activo = s.paso === 'miscv' ? 'Mis CV' : 'Perfil y respuestas';
+    v.navItems = navDef.map(([label, icon, onClick]) => { const on = label === activo; return { label, icon, onClick, current: on ? 'page' : undefined, bg: on ? '#1E2A48' : 'transparent', color: on ? '#FFFFFF' : '#D3D8E3', weight: on ? 700 : 500, iconColor: on ? '#C5FF45' : 'inherit' }; });
+
+    const idx = { subir: 0, revisar: 1, preferencias: 2, resumen: 3 }[s.paso];
+    v.conStepper = idx !== undefined;
+    v.steps = ['CV', 'Revisar datos', 'Preferencias', 'Listo'].map((label, i) => { const done = idx > i || (idx === 3 && i === 3), cur = idx === i; return { n: i + 1, label, done, notDone: !done, current: cur ? 'step' : undefined, showLabel: !m || cur, weight: cur ? 700 : 600, text: cur || done ? '#101B35' : '#5B6272', bg: done ? '#101B35' : (cur ? '#C5FF45' : '#FFFFFF'), color: done ? '#FFFFFF' : '#101B35', border: done || cur ? '1.5px solid #101B35' : '1.5px solid #B9BFCB' }; });
+
+    v.hayBorrador = !!s.borrador && !s.guardado;
+    v.borradorTxt = s.borrador ? `Guardado hoy a las ${s.borrador.hora}. Tus cambios siguen ahí.` : '';
+    v.continuarBorrador = () => this.goto(s.borrador ? (s.borrador.paso === 'preferencias' ? 'preferencias' : 'revisar') : 'revisar');
+    v.irSubir = () => this.goto('subir');
+    v.completarManual = () => { this.clear(); this.setState({ perfil: this.initPerfil(false), manual: true, paso: 'revisar' }); };
+
+    const u = s.up;
+    v.upIdle = u.estado === 'idle'; v.upProceso = u.estado === 'cargando' || u.estado === 'leyendo';
+    v.upError = ['nocompatible', 'error', 'sintexto'].includes(u.estado); v.esErrorCarga = u.estado === 'error';
+    v.archivo = u.archivo; v.progresoW = u.progreso + '%'; v.progresoTxt = u.estado === 'cargando' ? u.progreso + '%' : '';
+    v.procesoTitulo = u.estado === 'cargando' ? 'Subiendo archivo…' : 'Leyendo tu CV (simulado)…';
+    v.procesoTexto = u.estado === 'cargando' ? 'No cierres esta ventana.' : 'Buscando contacto, experiencia, educación, habilidades, idiomas y enlaces.';
+    const ERR = {
+      nocompatible: ['Archivo no compatible', 'Formato no compatible', 'Solo aceptamos PDF o DOCX. Exporta tu CV en uno de esos formatos y vuelve a subirlo.', 'icon-file-x', '#FFF4D9', '#7A4E00', '#E7C873'],
+      error: ['Error', 'No pudimos subir el archivo', 'La carga se interrumpió y el archivo no se guardó. Puedes reintentarlo o elegir otro.', 'icon-circle-x', '#FDECEA', '#A4271B', '#EBB4AD'],
+      sintexto: ['Sin texto extraíble', 'No encontramos texto en el documento', 'Parece una imagen escaneada. Sube una versión con texto seleccionable o completa tus datos manualmente.', 'icon-scan-search', '#FFF4D9', '#7A4E00', '#E7C873']
+    }[u.estado] || ['', '', '', '', '', '', ''];
+    [v.errEtiqueta, v.errTitulo, v.errTexto, v.errIcon, v.errBg, v.errColor, v.errBorde] = ERR;
+    v.reintentar = () => this.startUpload(u.archivo);
+    v.onFile = e => { const f = e.target.files && e.target.files[0]; if (f) this.startUpload(f.name); e.target.value = ''; };
+    v.onDragOver = e => { e.preventDefault(); if (!u.drag) this.setUp({ drag: true }); };
+    v.onDragLeave = () => this.setUp({ drag: false });
+    v.onDrop = e => { e.preventDefault(); this.setUp({ drag: false }); const f = e.dataTransfer.files && e.dataTransfer.files[0]; if (f) this.startUpload(f.name); };
+    v.dropBorder = u.drag ? '#101B35' : '#9AA1B0'; v.dropBg = u.drag ? '#F2FFD9' : '#FFFFFF';
+    v.usarFicticio = () => this.startUpload('Alma_Ruiz_CV_2026.pdf');
+    v.simOpts = [['ok', 'Lectura correcta'], ['nocompatible', 'Formato no compatible'], ['error', 'Error de carga'], ['sintexto', 'Sin texto extraíble']].map(([k, l]) => chip(s.simular === k, l, () => this.setState({ simular: k }), true));
+
+    if (p) {
+      const fv = d => { const x = p.f[d.id]; return { id: 'f-' + d.id, label: d.label, v: x.v, isSelect: !!d.select, isInput: !d.select, hint: d.hint || '', hasHint: !!d.hint, ...badge(x.st), inputBorder: x.st === 'pendiente' ? '1.5px dashed #8A92A3' : '1px solid #B9BFCB', canConfirm: x.st === 'extraido', onChange: e => this.setField(d.id, e.target.value), onConfirm: () => this.confirmField(d.id) }; };
+      v.personal = PERSONAL.map(fv); v.enlaces = ENLACES.map(fv);
+      v.jobs = p.jobs.map((j, i) => {
+        const falta = []; if (!j.cargo) falta.push('cargo'); if (!j.empresa) falta.push('empresa'); if (!j.inicio) falta.push('fecha de inicio'); if (!j.actual && !j.fin) falta.push('fecha de fin'); if (!j.area) falta.push('área');
+        const per = j.inicio ? fmtYM(j.inicio) + ' – ' + (j.actual ? 'actual' : (fmtYM(j.fin) || '¿?')) : '';
+        return { ...j, ...badge(j.st), titulo: j.cargo || 'Nueva experiencia', sub: [j.empresa, per, AREA[j.area]].filter(Boolean).join(' · ') || 'Completa los datos', finVal: j.actual ? '' : j.fin, finBg: j.actual ? '#F5F6F8' : '#FFFFFF', hasFalta: falta.length > 0, faltaTxt: 'Falta: ' + falta.join(', '), canConfirm: j.st === 'extraido' && !falta.length, canDelete: p.jobs.length > 1,
+          onCargo: e => this.setJob(i, 'cargo', e.target.value), onEmpresa: e => this.setJob(i, 'empresa', e.target.value), onInicio: e => this.setJob(i, 'inicio', e.target.value), onFin: e => this.setJob(i, 'fin', e.target.value), onArea: e => this.setJob(i, 'area', e.target.value), onActual: e => this.setJob(i, 'actual', e.target.checked),
+          onConfirm: () => this.upd(q => { q.jobs[i].st = 'confirmado'; }), onDelete: () => this.upd(q => { q.jobs.splice(i, 1); }) };
+      });
+      v.addJob = () => this.upd(q => { q.jobs.push({ cargo: '', empresa: '', inicio: '', fin: '', actual: false, area: '', st: 'pendiente' }); });
+      const d = this.calc(p.jobs, 'diseno'), mk = this.calc(p.jobs, 'marketing');
+      v.expDiseno = dur(d.total); v.expMkt = dur(mk.total);
+      v.expDisenoNota = d.dup ? `Se descontaron ${d.dup} meses superpuestos (${d.rango}) para no contarlos dos veces.` : 'Sin periodos superpuestos.';
+      v.edu = p.edu.map((e, i) => ({ ...e, ...badge(e.st), tituloTxt: e.titulo || 'Nuevo estudio', periodoBorder: e.periodo ? '1px solid #B9BFCB' : '1.5px dashed #8A92A3', hasHint: !e.periodo && !!e.titulo, hint: 'El CV no indica la fecha. Puedes dejarla vacía.', canConfirm: e.st === 'extraido' && eduOk(e),
+        onTitulo: x => this.setEdu(i, 'titulo', x.target.value), onInst: x => this.setEdu(i, 'inst', x.target.value), onPeriodo: x => this.setEdu(i, 'periodo', x.target.value), onConfirm: () => this.upd(q => { q.edu[i].st = 'confirmado'; }) }));
+      v.addEdu = () => this.upd(q => { q.edu.push({ titulo: '', inst: '', periodo: '', st: 'pendiente' }); });
+      const S = ST[p.skillsSt];
+      v.sk = { label: S.label, icon: S.icon, bg: S.bg, color: S.color, bborder: S.border, canConfirm: p.skillsSt === 'extraido' };
+      v.skills = p.skills.map((n, i) => ({ nombre: n, aria: 'Quitar ' + n, onRemove: () => this.upd(q => { q.skills.splice(i, 1); q.skillsSt = q.skills.length ? 'confirmado' : 'pendiente'; }) }));
+      v.sinSkills = !p.skills.length;
+      v.nuevaSkill = s.nuevaSkill; v.onNuevaSkill = e => this.setState({ nuevaSkill: e.target.value });
+      const addSkill = () => { const t = s.nuevaSkill.trim(); if (!t) return; this.upd(q => { q.skills.push(t); q.skillsSt = 'confirmado'; }); this.setState({ nuevaSkill: '' }); };
+      v.addSkill = addSkill; v.skillKey = e => { if (e.key === 'Enter') addSkill(); };
+      v.confirmSkills = () => this.upd(q => { q.skillsSt = 'confirmado'; });
+      v.langs = p.langs.map((l, i) => ({ ...l, ...badge(l.st), hasHint: !!l.hint, nivelBorder: l.nivel ? '1px solid #B9BFCB' : '1.5px dashed #8A92A3', onIdioma: e => this.setLang(i, 'idioma', e.target.value), onNivel: e => this.setLang(i, 'nivel', e.target.value) }));
+      v.addLang = () => this.upd(q => { q.langs.push({ idioma: '', nivel: '', st: 'pendiente' }); });
+      v.confirmarPersonal = () => this.confirmarSeccion('personal'); v.confirmarExperiencia = () => this.confirmarSeccion('exp');
+      v.confirmarEducacion = () => this.confirmarSeccion('edu'); v.confirmarEnlaces = () => this.confirmarSeccion('enlaces');
+
+      const sts = [...PERSONAL, ...ENLACES].map(x => p.f[x.id].st).concat(p.jobs.map(j => j.st), p.edu.map(e => e.st), p.langs.map(l => l.st), [p.skillsSt]);
+      const c = k => sts.filter(x => x === k).length;
+      v.nExtraido = c('extraido'); v.nConfirmado = c('confirmado'); v.nPendiente = c('pendiente');
+      v.conteoTxt = `${v.nConfirmado} de ${sts.length} datos confirmados`;
+      v.avisoConfirmar = v.nExtraido ? `Al confirmar, los ${v.nExtraido} datos extraídos que revisaste quedarán como confirmados. ${v.nPendiente} pendientes seguirán vacíos.` : `${v.nPendiente} pendientes seguirán vacíos. Puedes completarlos después.`;
+      v.tituloRevisar = s.manual ? 'Completa tu perfil' : 'Revisa la información extraída';
+      v.introRevisar = s.manual ? 'Escribe solo lo que sepas con certeza. Lo que dejes vacío queda como pendiente.' : `Datos leídos de “${(s.cv.versiones[0] || {}).archivo || 'tu CV'}”. Corrige lo necesario: lo vacío queda pendiente y no se completa por suposición.`;
+      v.guardarBorrador = () => this.guardarBorrador();
+      v.confirmarPerfil = () => { this.confirmarSeccion('todo'); try { window.localStorage.setItem('luni.demo.perfilConfirmado', '1'); } catch (e) {} this.setState({ guardado: true, borrador: null, paso: 'preferencias' }); this.aviso('Perfil confirmado y guardado.'); };
+    }
+
+    const pr = s.pref;
+    v.cargosSel = pr.cargos.map(c => ({ label: c, aria: 'Quitar ' + c, onRemove: () => this.togglePref('cargos', c) }));
+    v.sinCargos = !pr.cargos.length;
+    v.cargosSug = ['Product Designer', 'UX/UI Designer', 'Senior Product Designer'].filter(c => !pr.cargos.includes(c)).map(c => ({ label: c, onClick: () => this.togglePref('cargos', c) }));
+    v.nuevoCargo = pr.nuevoCargo; v.onNuevoCargo = e => this.setPref({ nuevoCargo: e.target.value });
+    const addCargo = () => { const t = pr.nuevoCargo.trim(); if (!t || pr.cargos.includes(t)) return; this.setPref({ cargos: [...pr.cargos, t], nuevoCargo: '' }); };
+    v.addCargo = addCargo; v.cargoKey = e => { if (e.key === 'Enter') addCargo(); };
+    v.modalidades = ['Remoto', 'Híbrido', 'Presencial'].map(x => chip(pr.modalidad.includes(x), x, () => this.togglePref('modalidad', x)));
+    const solo = pr.modalidad.length === 1 && pr.modalidad[0] === 'Remoto';
+    v.modalidadNota = solo ? 'Solo remoto: Inicio no recomendará vacantes híbridas ni presenciales.' : (pr.modalidad.length ? 'Las recomendaciones respetarán estas modalidades.' : 'Pendiente. Sin modalidad, Inicio muestra todas.');
+    v.contratos = ['Tiempo completo', 'Medio tiempo', 'Contractor / freelance', 'Por proyecto'].map(x => chip(pr.contratos.includes(x), x, () => this.togglePref('contratos', x)));
+    v.mercados = ['Panamá', 'Centroamérica', 'LATAM', 'EE. UU.', 'Canadá', 'España', 'Resto de Europa'].map(x => chip(pr.mercados.includes(x), x, () => this.togglePref('mercados', x)));
+    v.disps = ['Inmediata', 'En 2 semanas', 'En 1 mes', 'Fecha específica'].map(x => chip(pr.disp === x, x, () => this.setPref({ disp: pr.disp === x ? '' : x }), true));
+    v.dispFecha = pr.disp === 'Fecha específica'; v.fecha = pr.fecha; v.onFecha = e => this.setPref({ fecha: e.target.value });
+    const sa = pr.sal;
+    v.salTipos = [['monto', 'Monto'], ['rango', 'Rango']].map(([k, l]) => chip(sa.tipo === k, l, () => this.setSal({ tipo: k }), true));
+    v.esRango = sa.tipo === 'rango'; v.minLabel = sa.tipo === 'rango' ? 'Desde' : 'Monto';
+    v.salMin = sa.min; v.salMax = sa.max;
+    v.onSalMin = e => this.setSal({ min: e.target.value.replace(/[^\d]/g, '') }); v.onSalMax = e => this.setSal({ max: e.target.value.replace(/[^\d]/g, '') });
+    v.moneda = sa.moneda; v.onMoneda = e => this.setSal({ moneda: e.target.value });
+    v.periodos = [['mensual', 'Mensual'], ['anual', 'Anual'], ['hora', 'Por hora']].map(([k, l]) => chip(sa.periodo === k, l, () => this.setSal({ periodo: k }), true));
+    v.bases = [['bruto', 'Salario bruto'], ['contractor', 'Tarifa de contractor']].map(([k, l]) => chip(sa.base === k, l, () => this.setSal({ base: k }), true));
+    const sal = this.salario();
+    v.salPreview = sal.ok ? 'Se usará como: ' + sal.txt : sal.txt;
+    v.salIcon = sal.ok ? 'icon-circle-check' : 'icon-circle-dashed'; v.salColor = sal.ok ? '#17663F' : '#3D4454';
+    v.esEjemplo = sa.ejemplo;
+    v.usarEjemplo = () => this.setState(st => ({ pref: { ...st.pref, sal: { tipo: 'rango', min: '3500', max: '4200', moneda: 'USD', periodo: 'mensual', base: 'bruto', ejemplo: true } } }));
+    v.guardarPreferencias = () => { this.goto('resumen'); this.aviso('Preferencias guardadas.'); };
+    v.omitirPreferencias = () => this.goto('resumen');
+    if (!p) v.guardarBorrador = () => this.guardarBorrador();
+
+    if (p) {
+      const f = k => p.f[k].v;
+      const pend = { v: 'Pendiente', w: 600, c: '#7A4E00' };
+      const row = (k, val) => val ? { k, v: val, w: 600, c: '#111111' } : { k, ...pend };
+      const d = this.calc(p.jobs, 'diseno'), mk = this.calc(p.jobs, 'marketing');
+      const ed = () => this.goto('revisar'), ep = () => this.goto('preferencias');
+      v.resumen = [
+        { titulo: 'Datos personales', icon: 'icon-user-round', onEdit: ed, filas: [row('Nombre', f('nombre')), row('Residencia', f('residencia')), row('Ciudadanía', f('ciudadania')), row('Autorización laboral', f('autorizacion'))] },
+        { titulo: 'Experiencia', icon: 'icon-briefcase-business', onEdit: ed, filas: [row('Product Design / UX/UI', d.total ? dur(d.total) : ''), row('Marketing (aparte)', mk.total ? dur(mk.total) : ''), row('Puestos', p.jobs.filter(j => j.cargo).map(j => j.cargo).join(', '))] },
+        { titulo: 'Educación', icon: 'icon-graduation-cap', onEdit: ed, filas: p.edu.map(e => row(e.titulo || 'Estudio', e.titulo ? [e.inst, e.periodo || 'fecha pendiente'].filter(Boolean).join(' · ') : '')) },
+        { titulo: 'Habilidades e idiomas', icon: 'icon-languages', onEdit: ed, filas: [row('Habilidades', p.skills.join(', '))].concat(p.langs.map(l => row(l.idioma || 'Idioma', l.nivel))) },
+        { titulo: 'Enlaces', icon: 'icon-link', onEdit: ed, filas: [row('LinkedIn', f('linkedin')), row('Portafolio', f('portafolio'))] },
+        { titulo: 'Preferencias', icon: 'icon-sliders-horizontal', onEdit: ep, filas: [row('Cargos', pr.cargos.join(', ')), row('Modalidad', pr.modalidad.join(', ')), row('Mercados', pr.mercados.join(', ')), row('Contratación', pr.contratos.join(', ')), row('Disponibilidad', pr.disp === 'Fecha específica' ? pr.fecha : pr.disp), row('Salario aspiracional', sal.ok ? sal.txt : '')] }
+      ].map(r => ({ ...r, aria: 'Editar ' + r.titulo }));
+      const N = { 'Necesario para postular': ['#FFF4D9', '#7A4E00'], 'Afecta la compatibilidad': ['#E9F0FD', '#1E55B8'], 'Recomendado': ['#E9F0FD', '#1E55B8'], 'Opcional': ['#EEF0F4', '#2E3445'] };
+      const P = [];
+      if (!f('autorizacion')) P.push(['Autorización laboral', 'La mayoría de formularios la pide. Solo tú puedes confirmarla.', 'Necesario para postular', ed]);
+      p.langs.filter(l => l.idioma && !l.nivel).forEach(l => P.push(['Nivel de ' + l.idioma.toLowerCase(), 'Se usa al evaluar vacantes que piden un nivel concreto.', 'Afecta la compatibilidad', ed]));
+      if (!sal.ok) P.push(['Salario aspiracional', 'Se pedirá cuando un formulario pregunte tu expectativa.', 'Necesario para postular', ep]);
+      if (!pr.disp) P.push(['Disponibilidad', 'Se pedirá al preparar una solicitud.', 'Recomendado', ep]);
+      if (!pr.cargos.length) P.push(['Cargos deseados', 'Mejoran las recomendaciones de Inicio.', 'Recomendado', ep]);
+      if (!f('portafolio')) P.push(['Portafolio', 'Muchas vacantes de diseño lo solicitan.', 'Recomendado', ed]);
+      if (!f('ciudadania')) P.push(['Ciudadanía', 'Solo se pedirá si una vacante la requiere.', 'Opcional', ed]);
+      p.edu.filter(e => e.titulo && !e.periodo).forEach(e => P.push(['Fecha de ' + e.titulo, 'El CV no la indica.', 'Opcional', ed]));
+      v.pendientes = P.map(([t, d2, nivel, onClick]) => ({ t, d: d2, nivel, onClick, bg: N[nivel][0], color: N[nivel][1] }));
+      v.hayPendientes = P.length > 0;
+    }
+    v.irMisCV = () => this.goto('miscv');
+
+    const cv = s.cv;
+    v.cvLista = cv.modo === 'lista'; v.cvObjetivo = cv.modo === 'objetivo'; v.cvGenerando = cv.modo === 'generando'; v.cvComparar = cv.modo === 'comparar';
+    v.cvSubido = cv.subido; v.cvVacio = !cv.subido;
+    const TC = { Original: ['#101B35', '#FFFFFF'], Adaptada: ['#E7F5EC', '#17663F'], Subida: ['#EEF0F4', '#2E3445'] };
+    v.versiones = cv.versiones.map(x => ({ ...x, bg: TC[x.tipo][0], color: TC[x.tipo][1] }));
+    v.sinAdaptadas = cv.versiones.length <= 1;
+    const abrir = k => this.setState({ cv: { ...cv, modo: 'objetivo', objetivo: k } });
+    v.presets = [['pd', 'Product Designer'], ['senior', 'Senior UX/UI Designer'], ['en', 'Versión en inglés']].map(([k, l]) => ({ label: l, onClick: () => abrir(k) }));
+    v.abrirIA = () => abrir(cv.objetivo || 'senior');
+    v.subirExistente = () => { this.setState({ cv: { ...cv, versiones: [...cv.versiones, { key: 'up' + Date.now(), nombre: 'CV en inglés', archivo: 'Alma_Ruiz_CV_EN.pdf', tipo: 'Subida', idioma: 'Inglés', fecha: 'hoy, ' + hora(), origen: 'Alma_Ruiz_CV_EN.pdf (ficticio)', uso: 'ninguna postulación todavía' }] } }); this.aviso('Versión ficticia añadida (simulado).'); };
+    v.objetivos = Object.keys(ADAPT).map(k => { const on = cv.objetivo === k; return { label: ADAPT[k].nombre, desc: ADAPT[k].desc + ' Idioma: ' + ADAPT[k].idioma.toLowerCase() + '.', on, onClick: () => this.setState({ cv: { ...cv, objetivo: k } }), border: on ? '2px solid #101B35' : '1px solid #DDE1E8', icon: on ? 'icon-circle-check' : 'icon-circle' }; });
+    v.objetivoLabel = (ADAPT[cv.objetivo] || {}).nombre || '';
+    v.prepararPropuesta = () => {
+      const a = ADAPT[cv.objetivo];
+      this.setState({ cv: { ...cv, modo: 'generando' } });
+      this.later(() => this.setState(st => ({ cv: { ...st.cv, modo: 'comparar', nombre: a.nombre, cambios: a.cambios.map(c => ({ ...c, incluir: c.tipo !== 'Aviso', texto: c.despues || '' })) } })), 1500);
+    };
+    v.cancelarIA = () => { this.clear(); this.setState({ cv: { ...cv, modo: 'lista' } }); };
+    const setC = (i, o) => this.setState(st => { const cs = st.cv.cambios.slice(); cs[i] = { ...cs[i], ...o }; return { cv: { ...st.cv, cambios: cs } }; });
+    v.cambios = cv.cambios.map((c, i) => { const esA = c.tipo === 'Aviso'; return { ...c, esAviso: esA, noAviso: !esA, hasAviso: !!c.aviso, tipoBg: TIPO_COL[c.tipo][0], tipoColor: TIPO_COL[c.tipo][1], opacidad: c.incluir ? 1 : 0.5, onTexto: e => setC(i, { texto: e.target.value }), onIncluir: e => setC(i, { incluir: e.target.checked }) }; });
+    const editables = cv.cambios.filter(c => c.tipo !== 'Aviso');
+    v.incluidosTxt = `${editables.filter(c => c.incluir).length} de ${editables.length} cambios incluidos`;
+    v.cvNombre = cv.nombre; v.onCvNombre = e => this.setState({ cv: { ...cv, nombre: e.target.value } });
+    v.cvIdioma = (ADAPT[cv.objetivo] || {}).idioma || '';
+    v.guardarVersion = () => {
+      const a = ADAPT[cv.objetivo];
+      this.setState({ cv: { ...cv, modo: 'lista', cambios: [], versiones: [...cv.versiones, { key: cv.objetivo + Date.now(), nombre: cv.nombre.trim() || a.nombre, tipo: 'Adaptada', idioma: a.idioma, fecha: 'hoy, ' + hora(), origen: 'Adaptada del CV original · revisada por ti', uso: 'ninguna postulación todavía' }] } });
+      this.aviso('Versión guardada.');
+    };
+    return v;
+  }
+}
+</script>
+</body>
+</html>

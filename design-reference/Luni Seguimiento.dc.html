@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/lucide-static@0.460.0/font/lucide.css">
+<style>
+body{margin:0;background:#E3E6EB;font-family:'Nunito',system-ui,sans-serif;color:#111111;-webkit-font-smoothing:antialiased}
+a{color:#101B35;text-underline-offset:3px}a:hover{color:#1E55B8}
+[class^="icon-"],[class*=" icon-"]{line-height:1;display:inline-flex}
+input,select,textarea,button{font-family:'Nunito',sans-serif}
+</style>
+</helmet>
+<div style="min-height:100vh;min-width:max-content;display:flex;flex-direction:column;align-items:flex-start;gap:18px;padding:20px 24px 48px;box-sizing:border-box">
+  <div style="width:100%;max-width:1440px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;font-size:14px;color:#2E3445">
+    <span style="font-weight:700;color:#101B35;font-size:15px">Prototipo · Vacantes, Postulaciones, Notificaciones y Respuestas</span>
+    <div role="group" aria-label="Dispositivo" style="display:flex;gap:4px;padding:4px;background:#FFFFFF;border:1px solid #CBD0D9;border-radius:11px">
+      <button onClick="{{ verDesktop }}" aria-pressed="{{ esDesktop }}" style="height:34px;padding:0 12px;border:0;border-radius:8px;background:{{ bgDesk }};color:{{ fgDesk }};font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:6px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-monitor" style="font-size:15px"></i>Desktop</button>
+      <button onClick="{{ verMovil }}" aria-pressed="{{ esMovil }}" style="height:34px;padding:0 12px;border:0;border-radius:8px;background:{{ bgMov }};color:{{ fgMov }};font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:6px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-smartphone" style="font-size:15px"></i>Móvil</button>
+    </div>
+    <label style="display:flex;align-items:center;gap:8px;font-weight:600">Ir a
+      <select value="{{ pantalla }}" onChange="{{ onPantalla }}" style="height:38px;padding:0 10px;border:1px solid #CBD0D9;border-radius:10px;background:#FFFFFF;font-size:14px;color:#111">
+        <option value="vacantes">Vacantes</option><option value="postulaciones">Postulaciones</option><option value="notificaciones">Notificaciones</option><option value="respuestas">Biblioteca de respuestas</option>
+      </select>
+    </label>
+    <a href="Luni.dc.html#2a" style="margin-left:auto;font-weight:600">Volver al inicio</a>
+  </div>
+
+  <div data-screen-label="Seguimiento" style="position:relative;flex:none;width:{{ frameW }};height:{{ frameH }};box-sizing:border-box;border:{{ frameBorder }};border-radius:{{ frameR }};overflow:hidden;background:#F5F6F8;display:flex;flex-direction:column;box-shadow:0 1px 3px rgba(0,0,0,.08);font-size:16px;color:#111111">
+    <sc-if value="{{ esMovil }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:none;height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;font-size:15px;font-weight:700;background:#FFFFFF"><span style="font-variant-numeric:tabular-nums">9:41</span><span style="display:flex;gap:6px;align-items:center"><i class="icon-signal" style="font-size:15px"></i><i class="icon-wifi" style="font-size:15px"></i><i class="icon-battery-full" style="font-size:18px"></i></span></div>
+      <div style="flex:none;height:56px;display:flex;align-items:center;gap:4px;padding:0 8px 0 16px;background:#FFFFFF;border-bottom:1px solid #DDE1E8">
+        <span style="flex:1;font-family:'Quicksand',sans-serif;font-size:20px;font-weight:700;color:#101B35">{{ tituloBarra }}</span>
+        <button onClick="{{ irNotif }}" aria-label="Notificaciones, {{ nNoLeidas }} sin leer" style="position:relative;width:44px;height:44px;border:0;border-radius:12px;background:transparent;color:#101B35;display:flex;align-items:center;justify-content:center;cursor:pointer" style-focus="outline:2px solid #101B35"><i class="icon-bell" style="font-size:21px"></i><span style="position:absolute;top:5px;right:5px;min-width:18px;height:18px;border-radius:9px;background:#101B35;color:#C5FF45;font-size:12px;line-height:18px;font-weight:700;text-align:center">{{ nNoLeidas }}</span></button>
+      </div>
+    </sc-if>
+    <div style="flex:1;min-height:0;display:flex">
+      <sc-if value="{{ esDesktop }}" hint-placeholder-val="{{ true }}">
+      <aside style="width:264px;flex:none;background:#101B35;color:#FFFFFF;display:flex;flex-direction:column;padding:28px 18px 22px;gap:28px;box-sizing:border-box">
+        <div style="display:flex;align-items:center;gap:10px;padding:0 10px"><div style="position:relative;width:30px;height:20px;flex:none"><div style="position:absolute;left:0;top:2px;width:16px;height:16px;border-radius:50%;background:#C5FF45"></div><div style="position:absolute;left:11px;top:2px;width:16px;height:16px;border-radius:50%;border:2px solid #FFFFFF;box-sizing:border-box"></div></div><span style="font-family:'Quicksand',sans-serif;font-size:26px;font-weight:700;letter-spacing:-0.02em">luni</span></div>
+        <a href="Luni%20Preparar%20solicitud.dc.html#anadir" style="display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:12px;background:#C5FF45;color:#101B35;font-size:15px;font-weight:700;text-decoration:none" style-hover="background:#D4FF73" style-focus="outline:2px solid #FFFFFF;outline-offset:2px"><i class="icon-plus" style="font-size:18px"></i>Añadir vacante</a>
+        <nav style="display:flex;flex-direction:column;gap:2px">
+          <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="6">
+            <button onClick="{{ n.onClick }}" aria-current="{{ n.current }}" style="display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border:0;border-radius:10px;background:{{ n.bg }};color:{{ n.color }};font-size:16px;font-weight:{{ n.weight }};cursor:pointer;text-align:left" style-hover="background:#18233F;color:#FFFFFF" style-focus="outline:2px solid #C5FF45;outline-offset:1px"><i class="{{ n.icon }}" style="font-size:19px;color:{{ n.iconColor }}"></i><span style="flex:1">{{ n.label }}</span><sc-if value="{{ n.hasBadge }}"><span style="min-width:22px;height:22px;padding:0 7px;box-sizing:border-box;border-radius:11px;background:#C5FF45;color:#101B35;font-size:14px;line-height:22px;font-weight:700;text-align:center;font-variant-numeric:tabular-nums">{{ n.badge }}</span></sc-if></button>
+          </sc-for>
+        </nav>
+        <div style="flex:1"></div>
+        <div style="display:flex;align-items:center;gap:10px;padding:16px 10px 0;border-top:1px solid #26314D"><div style="width:36px;height:36px;flex:none;border-radius:50%;background:#2A3656;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">AR</div><div style="display:flex;flex-direction:column;gap:1px;min-width:0"><span style="font-size:15px;font-weight:600">Alma Ruiz</span><span style="font-size:14px;color:#A9B1C4">Perfil ficticio · demo</span></div></div>
+      </aside>
+      </sc-if>
+      <main ref="{{ mainRef }}" style="flex:1;min-width:0;overflow-y:auto;overscroll-behavior:contain;container-type:inline-size;display:flex;flex-direction:column">
+
+        <!-- VACANTES -->
+        <sc-if value="{{ s_vacantes }}" hint-placeholder-val="{{ true }}">
+        <div style="width:100%;max-width:1160px;margin:0 auto;padding:clamp(20px,3.5cqi,36px) clamp(16px,4cqi,48px) 40px;box-sizing:border-box;display:flex;flex-direction:column;gap:18px">
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px 16px"><h1 style="margin:0;font-family:'Quicksand',sans-serif;font-size:clamp(26px,3cqi,32px);font-weight:700;color:#101B35">Vacantes</h1><sc-if value="{{ demo }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 13px;border-radius:16px;border:1.5px dashed #6B7385;background:#FFFFFF;color:#2E3445;font-size:14px;font-weight:700"><i class="icon-flask-conical" style="font-size:15px"></i>Datos de demostración</span></sc-if></div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px">
+            <label style="flex:1 1 260px;display:flex;align-items:center;gap:10px;padding:0 12px;background:#FFFFFF;border:1px solid #B9BFCB;border-radius:12px"><i class="icon-search" style="font-size:18px;color:#5B6272"></i><input value="{{ vq }}" onChange="{{ onVq }}" aria-label="Buscar por empresa o cargo" placeholder="Buscar empresa o cargo" style="flex:1;min-width:0;height:46px;border:0;outline:0;font-size:16px;background:transparent;color:#111"></label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:#4A5163">Ordenar<select value="{{ vSort }}" onChange="{{ onVSort }}" style="height:46px;padding:0 10px;border:1px solid #B9BFCB;border-radius:12px;background:#FFFFFF;font-size:15px;color:#111"><option value="compat">Compatibilidad</option><option value="fecha">Más recientes</option><option value="empresa">Empresa A–Z</option></select></label>
+            <sc-if value="{{ esMovil }}"><button onClick="{{ toggleFiltros }}" aria-expanded="{{ filtrosAbiertos }}" style="height:46px;padding:0 14px;border:1px solid #B9BFCB;border-radius:12px;background:#FFFFFF;color:#101B35;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px"><i class="icon-sliders-horizontal" style="font-size:17px"></i>Filtros{{ nFiltrosTxt }}</button></sc-if>
+          </div>
+          <sc-if value="{{ mostrarFiltros }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;padding:14px 16px;background:#FFFFFF;border:1px solid #DDE1E8;border-radius:14px">
+            <label style="display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:700;flex:1 1 150px">Modalidad<select value="{{ fMod }}" onChange="{{ onFMod }}" style="height:44px;padding:0 10px;border:1px solid #B9BFCB;border-radius:10px;background:#FFFFFF;font-size:15px;font-weight:400;color:#111"><option value="">Todas</option><option>Remoto</option><option>Híbrido</option><option>Presencial</option></select></label>
+            <label style="display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:700;flex:1 1 170px">Elegibilidad desde Panamá<select value="{{ fElig }}" onChange="{{ onFElig }}" style="height:44px;padding:0 10px;border:1px solid #B9BFCB;border-radius:10px;background:#FFFFFF;font-size:15px;font-weight:400;color:#111"><option value="">Todas</option><option value="confirmado">Panamá confirmado</option><option value="porConfirmar">Ubicación por confirmar</option><option value="excluido">Panamá excluido</option></select></label>
+            <label style="display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:700;flex:1 1 150px">Apertura<select value="{{ fAp }}" onChange="{{ onFAp }}" style="height:44px;padding:0 10px;border:1px solid #B9BFCB;border-radius:10px;background:#FFFFFF;font-size:15px;font-weight:400;color:#111"><option value="">Todas</option><option>Abierta</option><option>Cerrada</option><option>No se pudo verificar</option></select></label>
+            <label style="display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:700;flex:1 1 150px">Guardada<select value="{{ fFecha }}" onChange="{{ onFFecha }}" style="height:44px;padding:0 10px;border:1px solid #B9BFCB;border-radius:10px;background:#FFFFFF;font-size:15px;font-weight:400;color:#111"><option value="">Cualquier fecha</option><option value="7">Últimos 7 días</option><option value="30">Últimos 30 días</option></select></label>
+            <label style="display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:700;flex:1 1 150px">Compatibilidad<select value="{{ fCompat }}" onChange="{{ onFCompat }}" style="height:44px;padding:0 10px;border:1px solid #B9BFCB;border-radius:10px;background:#FFFFFF;font-size:15px;font-weight:400;color:#111"><option value="">Cualquiera</option><option value="70">70% o más</option><option value="60">60% o más</option></select></label>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end;align-self:flex-end">
+              <sc-for list="{{ vChips }}" as="c" hint-placeholder-count="2"><button aria-pressed="{{ c.on }}" onClick="{{ c.onClick }}" style="height:44px;padding:0 14px;border-radius:22px;border:{{ c.border }};background:{{ c.bg }};color:{{ c.color }};font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="{{ c.icon }}" style="font-size:15px"></i>{{ c.label }}</button></sc-for>
+            </div>
+          </div>
+          </sc-if>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 16px;font-size:14px;color:#4A5163"><span style="font-variant-numeric:tabular-nums">{{ vConteo }}</span><sc-if value="{{ hayFiltros }}"><button onClick="{{ limpiarV }}" style="min-height:36px;padding:0;border:0;background:none;color:#101B35;font-size:14px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer">Limpiar filtros</button></sc-if></div>
+          <sc-if value="{{ vVacio }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:32px;background:#FFFFFF;border:1.5px dashed #8A92A3;border-radius:16px"><i class="icon-search-x" style="font-size:28px;color:#101B35"></i><span style="font-size:18px;font-weight:700">Ninguna vacante coincide</span><span style="font-size:15px;color:#4A5163">Prueba con menos filtros o añade una vacante nueva.</span><button onClick="{{ limpiarV }}" style="height:46px;padding:0 18px;border:0;border-radius:12px;background:#101B35;color:#FFFFFF;font-size:15px;font-weight:700;cursor:pointer">Limpiar filtros</button></div></sc-if>
+          <sc-if value="{{ esDesktop }}">
+          <sc-if value="{{ vHay }}">
+          <div style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;overflow:hidden">
+            <div role="row" style="display:grid;grid-template-columns:minmax(0,2.3fr) 100px minmax(0,1.4fr) 160px 130px 90px 150px 24px;gap:14px;padding:12px 20px;background:#F5F6F8;border-bottom:1px solid #DDE1E8;font-size:14px;font-weight:700;color:#4A5163"><span>Empresa y puesto</span><span>Compat.</span><span>Modalidad y ubicación</span><span>Desde Panamá</span><span>Salario</span><span>Guardada</span><span>Estado</span><span></span></div>
+            <sc-for list="{{ vacs }}" as="v" hint-placeholder-count="6">
+              <div style="display:grid;grid-template-columns:minmax(0,2.3fr) 100px minmax(0,1.4fr) 160px 130px 90px 150px 24px;gap:14px;align-items:center;padding:14px 20px;border-bottom:1px solid #ECEEF2" style-hover="background:#FAFBFC">
+                <div style="display:flex;align-items:flex-start;gap:6px;min-width:0"><button onClick="{{ v.onFav }}" aria-pressed="{{ v.fav }}" aria-label="{{ v.favLabel }}" style="width:36px;height:36px;flex:none;margin:-6px 0 0 -8px;border:0;border-radius:10px;background:transparent;color:{{ v.favColor }};display:flex;align-items:center;justify-content:center;cursor:pointer" style-focus="outline:2px solid #101B35"><i class="{{ v.favIcon }}" style="font-size:18px"></i></button><a href="Luni.dc.html#2b" style="display:flex;flex-direction:column;gap:2px;min-width:0;text-decoration:none;color:inherit"><span style="font-size:16px;font-weight:700;overflow-wrap:anywhere">{{ v.cargo }}</span><span style="font-size:14px;color:#5B6272">{{ v.empresa }}</span></a></div>
+                <div style="display:flex;flex-direction:column;gap:1px"><span style="font-size:18px;font-weight:700;color:#101B35;font-variant-numeric:tabular-nums">{{ v.compat }}</span><span style="font-size:13px;font-weight:700;color:{{ v.compatColor }}">{{ v.compatNota }}</span></div>
+                <span style="font-size:15px;line-height:1.35">{{ v.mod }} · {{ v.ubic }}</span>
+                <span style="justify-self:start;display:inline-flex;align-items:center;gap:5px;min-height:28px;padding:3px 9px;box-sizing:border-box;border-radius:8px;background:{{ v.eBg }};color:{{ v.eColor }};font-size:14px;font-weight:700;line-height:1.2"><i class="{{ v.eIcon }}" style="font-size:14px;flex:none"></i>{{ v.eLabel }}</span>
+                <span style="font-size:15px;color:{{ v.salColor }}">{{ v.salario }}</span>
+                <span style="font-size:15px;color:#2E3445">{{ v.fecha }}</span>
+                <div style="display:flex;flex-direction:column;gap:5px;align-items:flex-start"><span style="font-size:14px;font-weight:700;color:{{ v.estColor }};background:{{ v.estBg }};padding:2px 9px;border-radius:12px">{{ v.estado }}</span><span style="display:inline-flex;align-items:center;gap:4px;font-size:14px;font-weight:600;color:{{ v.apColor }}"><i class="{{ v.apIcon }}" style="font-size:14px"></i>{{ v.apertura }}</span></div>
+                <a href="Luni.dc.html#2b" aria-label="Abrir detalle de {{ v.cargo }}" style="color:#8A92A3;display:flex"><i class="icon-chevron-right" style="font-size:18px"></i></a>
+              </div>
+            </sc-for>
+          </div>
+          </sc-if>
+          </sc-if>
+          <sc-if value="{{ esMovil }}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ vacs }}" as="v" hint-placeholder-count="4">
+              <article style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px">
+                <div style="display:flex;align-items:flex-start;gap:8px"><a href="Luni.dc.html#2b" style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;text-decoration:none;color:inherit"><span style="font-size:16px;font-weight:700;overflow-wrap:anywhere">{{ v.cargo }}</span><span style="font-size:15px;color:#4A5163">{{ v.empresa }}</span></a><div style="display:flex;flex-direction:column;align-items:flex-end"><span style="font-size:20px;font-weight:700;color:#101B35;font-variant-numeric:tabular-nums">{{ v.compat }}</span><span style="font-size:13px;font-weight:700;color:{{ v.compatColor }}">{{ v.compatNota }}</span></div></div>
+                <span style="font-size:15px;color:#2E3445">{{ v.mod }} · {{ v.ubic }}</span>
+                <div style="display:flex;flex-wrap:wrap;gap:6px"><span style="display:inline-flex;align-items:center;gap:5px;min-height:28px;padding:3px 9px;box-sizing:border-box;border-radius:8px;background:{{ v.eBg }};color:{{ v.eColor }};font-size:14px;font-weight:700"><i class="{{ v.eIcon }}" style="font-size:14px"></i>{{ v.eLabel }}</span><span style="font-size:14px;font-weight:700;color:{{ v.estColor }};background:{{ v.estBg }};padding:3px 9px;border-radius:8px">{{ v.estado }}</span><span style="display:inline-flex;align-items:center;gap:4px;font-size:14px;font-weight:600;color:{{ v.apColor }};padding:3px 0"><i class="{{ v.apIcon }}" style="font-size:14px"></i>{{ v.apertura }}</span></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:14px;color:#4A5163"><span>{{ v.salario }} · Guardada {{ v.fecha }}</span><button onClick="{{ v.onFav }}" aria-pressed="{{ v.fav }}" aria-label="{{ v.favLabel }}" style="width:44px;height:44px;margin:-8px -8px -8px 0;border:0;border-radius:12px;background:transparent;color:{{ v.favColor }};display:flex;align-items:center;justify-content:center;cursor:pointer" style-focus="outline:2px solid #101B35"><i class="{{ v.favIcon }}" style="font-size:20px"></i></button></div>
+                <a href="Luni.dc.html#2b" style="height:44px;border:1px solid #101B35;border-radius:12px;color:#101B35;font-size:15px;font-weight:700;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px">Abrir detalle<i class="icon-chevron-right" style="font-size:16px"></i></a>
+              </article>
+            </sc-for>
+          </div>
+          </sc-if>
+        </div>
+        </sc-if>
+
+        <!-- POSTULACIONES -->
+        <sc-if value="{{ s_postulaciones }}" hint-placeholder-val="{{ false }}">
+        <div style="width:100%;max-width:1160px;margin:0 auto;padding:clamp(20px,3.5cqi,36px) clamp(16px,4cqi,48px) 40px;box-sizing:border-box;display:flex;flex-direction:column;gap:18px">
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px 16px"><h1 style="margin:0;font-family:'Quicksand',sans-serif;font-size:clamp(26px,3cqi,32px);font-weight:700;color:#101B35">Postulaciones</h1><sc-if value="{{ demo }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 13px;border-radius:16px;border:1.5px dashed #6B7385;background:#FFFFFF;color:#2E3445;font-size:14px;font-weight:700"><i class="icon-flask-conical" style="font-size:15px"></i>Datos de demostración</span></sc-if></div>
+          <label style="display:flex;align-items:center;gap:10px;padding:0 12px;background:#FFFFFF;border:1px solid #B9BFCB;border-radius:12px"><i class="icon-search" style="font-size:18px;color:#5B6272"></i><input value="{{ pq }}" onChange="{{ onPq }}" aria-label="Buscar postulación" placeholder="Buscar empresa o cargo" style="flex:1;min-width:0;height:46px;border:0;outline:0;font-size:16px;background:transparent;color:#111"></label>
+          <div style="display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ pChips }}" as="c" hint-placeholder-count="9"><button aria-pressed="{{ c.on }}" onClick="{{ c.onClick }}" style="min-height:40px;padding:0 14px;border-radius:20px;border:{{ c.border }};background:{{ c.bg }};color:{{ c.color }};font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px" style-focus="outline:2px solid #101B35;outline-offset:2px">{{ c.label }}<span style="font-variant-numeric:tabular-nums;opacity:.85">{{ c.n }}</span></button></sc-for></div>
+          <sc-if value="{{ pVacio }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:32px;background:#FFFFFF;border:1.5px dashed #8A92A3;border-radius:16px"><i class="icon-inbox" style="font-size:28px;color:#101B35"></i><span style="font-size:18px;font-weight:700">Sin postulaciones en este estado</span><button onClick="{{ limpiarP }}" style="height:46px;padding:0 18px;border:0;border-radius:12px;background:#101B35;color:#FFFFFF;font-size:15px;font-weight:700;cursor:pointer">Ver todas</button></div></sc-if>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ posts }}" as="p" hint-placeholder-count="5">
+              <article style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;overflow:hidden">
+                <div style="padding:16px clamp(16px,2.4cqi,22px);display:flex;flex-direction:column;gap:12px">
+                  <div style="display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:8px 14px"><div style="display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font-size:17px;font-weight:700;overflow-wrap:anywhere">{{ p.cargo }}</span><span style="font-size:15px;color:#4A5163">{{ p.empresa }}</span></div>
+                    <div style="display:flex;flex-wrap:wrap;gap:6px"><span style="display:inline-flex;align-items:center;gap:5px;min-height:28px;padding:3px 10px;box-sizing:border-box;border-radius:14px;background:{{ p.bg }};color:{{ p.color }};font-size:14px;font-weight:700"><i class="{{ p.icon }}" style="font-size:14px"></i>{{ p.estado }}</span><span style="display:inline-flex;align-items:center;gap:5px;min-height:28px;padding:3px 10px;box-sizing:border-box;border-radius:14px;border:1px solid #DDE1E8;color:{{ p.vColor }};font-size:14px;font-weight:600"><i class="{{ p.vIcon }}" style="font-size:14px"></i>Vacante: {{ p.vacante }}</span></div></div>
+                  <dl style="margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px 20px">
+                    <div><dt style="font-size:14px;color:#5B6272">Envío</dt><dd style="margin:0;font-size:15px;font-weight:600">{{ p.envio }}</dd><dd style="margin:0;font-size:14px;color:#4A5163">{{ p.hace }}</dd></div>
+                    <div><dt style="font-size:14px;color:#5B6272">Última actividad</dt><dd style="margin:0;font-size:15px;font-weight:600">{{ p.actividad }}</dd></div>
+                    <div><dt style="font-size:14px;color:#5B6272">Próximo paso</dt><dd style="margin:0;font-size:15px;font-weight:600">{{ p.proximo }}</dd></div>
+                    <div><dt style="font-size:14px;color:#5B6272">CV · Confirmación</dt><dd style="margin:0;font-size:15px;font-weight:600">{{ p.cv }}</dd><dd style="margin:0;display:flex;align-items:center;gap:5px;font-size:14px;font-weight:600;color:{{ p.cColor }}"><i class="{{ p.cIcon }}" style="font-size:14px"></i>{{ p.confirm }}</dd></div>
+                  </dl>
+                  <div><button onClick="{{ p.onToggle }}" aria-expanded="{{ p.open }}" style="min-height:44px;padding:0 4px;border:0;background:none;color:#101B35;font-size:15px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer;display:inline-flex;align-items:center;gap:6px">{{ p.toggleLabel }}<i class="{{ p.toggleIcon }}" style="font-size:16px"></i></button></div>
+                </div>
+                <sc-if value="{{ p.open }}">
+                  <div style="padding:16px clamp(16px,2.4cqi,22px) 20px;border-top:1px solid #ECEEF2;background:#FAFBFC;display:flex;flex-direction:column;gap:12px">
+                    <span style="font-size:16px;font-weight:700;color:#101B35">Línea de tiempo</span>
+                    <ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column">
+                      <sc-for list="{{ p.timeline }}" as="e" hint-placeholder-count="3"><li style="display:grid;grid-template-columns:32px minmax(0,1fr);gap:12px;padding-bottom:14px"><span style="width:32px;height:32px;border-radius:50%;background:#FFFFFF;border:{{ e.border }};display:flex;align-items:center;justify-content:center;color:#101B35"><i class="{{ e.icon }}" style="font-size:15px"></i></span><div style="display:flex;flex-direction:column;gap:1px"><span style="font-size:15px;font-weight:700">{{ e.t }}</span><span style="font-size:14px;line-height:1.45;color:#4A5163">{{ e.d }}</span><span style="font-size:14px;color:#5B6272">{{ e.h }}</span></div></li></sc-for>
+                    </ol>
+                    <sc-if value="{{ p.accion }}"><button onClick="{{ p.onAccion }}" style="align-self:flex-start;height:46px;padding:0 18px;border:0;border-radius:12px;background:#101B35;color:#FFFFFF;font-size:15px;font-weight:700;cursor:pointer">{{ p.accionLabel }}</button></sc-if>
+                  </div>
+                </sc-if>
+              </article>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- NOTIFICACIONES -->
+        <sc-if value="{{ s_notificaciones }}" hint-placeholder-val="{{ false }}">
+        <div style="width:100%;max-width:1100px;margin:0 auto;padding:clamp(20px,3.5cqi,36px) clamp(16px,4cqi,48px) 40px;box-sizing:border-box;display:flex;flex-direction:column;gap:20px">
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px 16px"><h1 style="margin:0;font-family:'Quicksand',sans-serif;font-size:clamp(26px,3cqi,32px);font-weight:700;color:#101B35">Notificaciones</h1><button onClick="{{ marcarTodas }}" style="min-height:44px;padding:0 4px;border:0;background:none;color:#101B35;font-size:15px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer">Marcar todas como leídas</button></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:22px;align-items:start">
+            <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;display:flex;flex-direction:column">
+              <sc-if value="{{ nVacio }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:12px;align-items:center;padding:28px 22px"><i class="icon-bell-off" style="font-size:24px;color:#101B35"></i><span style="font-size:16px;font-weight:600">No tienes notificaciones pendientes.</span></div></sc-if>
+              <sc-for list="{{ notifs }}" as="n" hint-placeholder-count="7">
+                <div style="display:grid;grid-template-columns:40px minmax(0,1fr);gap:14px;padding:16px 20px;border-bottom:1px solid #ECEEF2;background:{{ n.bgRow }}">
+                  <div style="width:40px;height:40px;border-radius:12px;background:{{ n.bg }};color:{{ n.color }};display:flex;align-items:center;justify-content:center"><i class="{{ n.icon }}" style="font-size:19px"></i></div>
+                  <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px"><span style="font-size:14px;font-weight:700;color:{{ n.color }}">{{ n.tipo }}</span><sc-if value="{{ n.noLeida }}"><span style="height:20px;padding:0 8px;border-radius:10px;background:#101B35;color:#C5FF45;font-size:13px;font-weight:700;display:inline-flex;align-items:center">Nueva</span></sc-if></div>
+                    <span style="font-size:16px;font-weight:700;overflow-wrap:anywhere">{{ n.titulo }}</span>
+                    <span style="font-size:15px;line-height:1.45;color:#2E3445;text-wrap:pretty">{{ n.texto }}</span>
+                    <span style="font-size:14px;color:#5B6272">{{ n.meta }}</span>
+                    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:4px 16px;margin-top:2px"><button onClick="{{ n.onAccion }}" style="height:44px;padding:0 16px;border:1px solid #101B35;border-radius:11px;background:#FFFFFF;color:#101B35;font-size:15px;font-weight:700;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">{{ n.accion }}</button><sc-if value="{{ n.noLeida }}"><button onClick="{{ n.onLeer }}" style="min-height:44px;padding:0;border:0;background:none;color:#4A5163;font-size:14px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer">Marcar como leída</button></sc-if></div>
+                  </div>
+                </div>
+              </sc-for>
+            </section>
+            <section style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:clamp(18px,2.4cqi,24px);display:flex;flex-direction:column;gap:14px">
+              <h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:19px;font-weight:700;color:#101B35">Preferencias</h2>
+              <div style="display:flex;flex-direction:column">
+                <sc-for list="{{ prefs }}" as="p" hint-placeholder-count="6"><label style="display:flex;align-items:center;gap:12px;min-height:52px;padding:6px 0;border-bottom:1px solid #ECEEF2;cursor:pointer"><span style="flex:1;font-size:15px;line-height:1.35">{{ p.label }}</span><input type="checkbox" role="switch" checked="{{ p.on }}" onChange="{{ p.onChange }}" style="width:22px;height:22px;accent-color:#101B35;margin:0;flex:none"></label></sc-for>
+              </div>
+              <span style="font-size:15px;font-weight:700">Horarios</span>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:12px">
+                <label style="display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:700">No molestar desde<select value="{{ hDesde }}" onChange="{{ onHDesde }}" style="height:44px;padding:0 10px;border:1px solid #B9BFCB;border-radius:10px;background:#FFFFFF;font-size:15px;font-weight:400;color:#111"><option>20:00</option><option>21:00</option><option>22:00</option></select></label>
+                <label style="display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:700">Hasta<select value="{{ hHasta }}" onChange="{{ onHHasta }}" style="height:44px;padding:0 10px;border:1px solid #B9BFCB;border-radius:10px;background:#FFFFFF;font-size:15px;font-weight:400;color:#111"><option>06:00</option><option>07:00</option><option>08:00</option></select></label>
+                <label style="display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:700">Resumen diario<select value="{{ hResumen }}" onChange="{{ onHResumen }}" style="height:44px;padding:0 10px;border:1px solid #B9BFCB;border-radius:10px;background:#FFFFFF;font-size:15px;font-weight:400;color:#111"><option>08:00</option><option>12:00</option><option>18:00</option><option>Desactivado</option></select></label>
+              </div>
+              <span style="font-size:14px;line-height:1.45;color:#4A5163">Hora de Panamá. Las entrevistas y los fallos de envío ignoran “No molestar”. Los avisos son una simulación; el prototipo no envía notificaciones reales.</span>
+            </section>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- RESPUESTAS -->
+        <sc-if value="{{ s_respuestas }}" hint-placeholder-val="{{ false }}">
+        <div style="width:100%;max-width:1000px;margin:0 auto;padding:clamp(20px,3.5cqi,36px) clamp(16px,4cqi,48px) 40px;box-sizing:border-box;display:flex;flex-direction:column;gap:18px">
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px 16px"><div style="display:flex;flex-direction:column;gap:6px;max-width:620px"><h1 style="margin:0;font-family:'Quicksand',sans-serif;font-size:clamp(26px,3cqi,32px);font-weight:700;color:#101B35">Biblioteca de respuestas</h1><p style="margin:0;font-size:16px;line-height:1.5;color:#2E3445">Al reutilizar una respuesta, Luni la adapta a la vacante y te la muestra para revisar. Nunca se aplica sin tu aprobación.</p></div><sc-if value="{{ demo }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 13px;border-radius:16px;border:1.5px dashed #6B7385;background:#FFFFFF;color:#2E3445;font-size:14px;font-weight:700"><i class="icon-flask-conical" style="font-size:15px"></i>Respuestas ficticias</span></sc-if></div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ aChips }}" as="c" hint-placeholder-count="8"><button aria-pressed="{{ c.on }}" onClick="{{ c.onClick }}" style="min-height:40px;padding:0 14px;border-radius:20px;border:{{ c.border }};background:{{ c.bg }};color:{{ c.color }};font-size:14px;font-weight:700;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">{{ c.label }}</button></sc-for></div>
+          <sc-for list="{{ answers }}" as="a" hint-placeholder-count="4">
+            <article style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;padding:clamp(16px,2.4cqi,22px);display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px"><div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px"><span style="font-size:14px;font-weight:700;color:#4A5163">{{ a.cat }}</span><span style="display:inline-flex;align-items:center;gap:5px;min-height:26px;padding:2px 10px;box-sizing:border-box;border-radius:13px;background:{{ a.bg }};color:{{ a.color }};font-size:14px;font-weight:700"><i class="{{ a.icon }}" style="font-size:14px"></i>{{ a.estado }}</span><span style="font-size:14px;color:#5B6272">{{ a.idioma }}</span></div><span style="font-size:14px;color:#5B6272">{{ a.meta }}</span></div>
+              <span style="font-size:17px;font-weight:700">{{ a.titulo }}</span>
+              <sc-if value="{{ a.editando }}"><textarea value="{{ a.texto }}" onChange="{{ a.onTexto }}" rows="4" aria-label="Editar respuesta" style="padding:12px 14px;border:1px solid #B9BFCB;border-radius:10px;font-size:16px;line-height:1.5;color:#111;resize:vertical" style-focus="outline:2px solid #101B35;outline-offset:1px"></textarea></sc-if>
+              <sc-if value="{{ a.noEditando }}"><p style="margin:0;font-size:16px;line-height:1.55;color:#2E3445;text-wrap:pretty">{{ a.texto }}</p></sc-if>
+              <sc-if value="{{ a.vencida }}"><div style="display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:10px;background:#FFF4D9;color:#5C3B00;font-size:15px;line-height:1.5"><i class="icon-clock-alert" style="font-size:17px;margin-top:2px"></i><span>{{ a.vencidaTxt }}</span></div></sc-if>
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:4px 18px">
+                <button onClick="{{ a.onEditar }}" style="min-height:44px;padding:0;border:0;background:none;color:#101B35;font-size:15px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer">{{ a.editarLabel }}</button>
+                <sc-if value="{{ a.puedeConfirmar }}"><button onClick="{{ a.onConfirmar }}" style="height:44px;padding:0 14px;border:1px solid #101B35;border-radius:11px;background:#FFFFFF;color:#101B35;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px"><i class="icon-check" style="font-size:15px"></i>Confirmar respuesta</button></sc-if>
+                <button onClick="{{ a.onAdaptar }}" aria-expanded="{{ a.adaptando }}" style="height:44px;padding:0 14px;border:0;border-radius:11px;background:#101B35;color:#FFFFFF;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px" style-focus="outline:2px solid #101B35;outline-offset:2px"><i class="icon-wand-sparkles" style="font-size:15px"></i>Adaptar a vacante</button>
+              </div>
+              <sc-if value="{{ a.adaptando }}">
+                <div style="display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:12px;background:#F5F6F8;border:1px solid #DDE1E8">
+                  <span style="font-size:15px;font-weight:700">Adaptación para Faro Salud · Product Designer, Plataforma <span style="font-weight:600;color:#5B6272">(simulada)</span></span>
+                  <sc-if value="{{ a.adaptable }}"><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px"><div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:14px;font-weight:700;color:#5B6272">Original confirmada</span><span style="font-size:15px;line-height:1.5;color:#2E3445">{{ a.texto }}</span></div><div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:14px;font-weight:700;color:#17663F">Propuesta (revísala)</span><span style="font-size:15px;line-height:1.5">{{ a.adaptada }}</span></div></div><span style="font-size:14px;color:#4A5163">Solo se reordena y se menciona la vacante. No se añaden hechos nuevos.</span></sc-if>
+                  <sc-if value="{{ a.noAdaptable }}"><span style="font-size:15px;line-height:1.5;color:#2E3445">Esta respuesta depende de cada formulario (moneda, periodicidad y tipo de pago). Se propone al preparar la solicitud y siempre pide tu confirmación.</span></sc-if>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px 14px"><button onClick="{{ a.onUsar }}" style="height:44px;padding:0 16px;border:0;border-radius:11px;background:#C5FF45;color:#101B35;font-size:15px;font-weight:700;cursor:pointer">Usar en la solicitud</button><button onClick="{{ a.onAdaptar }}" style="height:44px;padding:0 6px;border:0;background:none;color:#4A5163;font-size:15px;font-weight:700;cursor:pointer">Cerrar</button></div>
+                </div>
+              </sc-if>
+            </article>
+          </sc-for>
+        </div>
+        </sc-if>
+
+        <!-- PERFIL HUB (móvil) -->
+        <sc-if value="{{ s_perfilhub }}" hint-placeholder-val="{{ false }}">
+        <div style="width:100%;padding:20px 16px 32px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:center;gap:14px;padding:16px;background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px"><div style="width:52px;height:52px;border-radius:50%;background:#101B35;color:#C5FF45;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700">AR</div><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:17px;font-weight:700">Alma Ruiz</span><span style="font-size:14px;color:#5B6272">Perfil ficticio · demo</span></div></div>
+          <div style="background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px;overflow:hidden">
+            <a href="Luni%20Configurar%20perfil.dc.html" style="display:flex;align-items:center;gap:14px;min-height:60px;padding:0 16px;border-bottom:1px solid #ECEEF2;color:#111;text-decoration:none;font-size:16px;font-weight:600"><i class="icon-user-round" style="font-size:20px"></i><span style="flex:1">Perfil profesional</span><i class="icon-chevron-right" style="font-size:18px;color:#8A92A3"></i></a>
+            <a href="Luni%20Configurar%20perfil.dc.html" style="display:flex;align-items:center;gap:14px;min-height:60px;padding:0 16px;border-bottom:1px solid #ECEEF2;color:#111;text-decoration:none;font-size:16px;font-weight:600"><i class="icon-file-text" style="font-size:20px"></i><span style="flex:1">Mis CV</span><i class="icon-chevron-right" style="font-size:18px;color:#8A92A3"></i></a>
+            <button onClick="{{ irRespuestas }}" style="width:100%;display:flex;align-items:center;gap:14px;min-height:60px;padding:0 16px;border:0;border-bottom:1px solid #ECEEF2;background:#FFFFFF;color:#111;font-size:16px;font-weight:600;cursor:pointer;text-align:left"><i class="icon-message-square-text" style="font-size:20px"></i><span style="flex:1">Biblioteca de respuestas</span><i class="icon-chevron-right" style="font-size:18px;color:#8A92A3"></i></button>
+            <button onClick="{{ irNotif }}" style="width:100%;display:flex;align-items:center;gap:14px;min-height:60px;padding:0 16px;border:0;background:#FFFFFF;color:#111;font-size:16px;font-weight:600;cursor:pointer;text-align:left"><i class="icon-bell" style="font-size:20px"></i><span style="flex:1">Notificaciones y preferencias</span><i class="icon-chevron-right" style="font-size:18px;color:#8A92A3"></i></button>
+          </div>
+        </div>
+        </sc-if>
+      </main>
+    </div>
+    <sc-if value="{{ esMovil }}" hint-placeholder-val="{{ false }}">
+      <nav style="position:relative;flex:none;background:#101B35;display:grid;grid-template-columns:repeat(4,1fr);padding:8px 4px 34px;box-sizing:border-box">
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4"><button onClick="{{ t.onClick }}" aria-current="{{ t.current }}" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:60px;border:0;background:transparent;color:{{ t.color }};font-size:13px;font-weight:{{ t.weight }};cursor:pointer"><span style="width:52px;height:30px;border-radius:15px;background:{{ t.pill }};color:{{ t.ic }};display:flex;align-items:center;justify-content:center"><i class="{{ t.icon }}" style="font-size:20px"></i></span>{{ t.label }}</button></sc-for>
+        <span style="position:absolute;left:50%;bottom:9px;width:134px;height:5px;margin-left:-67px;border-radius:3px;background:#FFFFFF"></span>
+      </nav>
+      <a href="Luni%20Preparar%20solicitud.dc.html#anadir" aria-label="Añadir vacante" style="position:absolute;right:16px;bottom:104px;height:48px;padding:0 16px;border-radius:24px;background:#C5FF45;color:#101B35;font-size:15px;font-weight:700;text-decoration:none;display:{{ fabDisplay }};align-items:center;gap:6px;box-shadow:0 2px 8px rgba(16,27,53,.18)"><i class="icon-plus" style="font-size:18px"></i>Añadir vacante</a>
+    </sc-if>
+    <sc-if value="{{ hayToast }}" hint-placeholder-val="{{ false }}">
+      <div role="status" style="position:absolute;left:50%;transform:translateX(-50%);bottom:{{ toastBottom }};max-width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:12px;background:#111111;color:#FFFFFF;font-size:15px;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,.18)"><i class="icon-circle-check" style="font-size:17px;color:#C5FF45;flex:none"></i>{{ toast }}</div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;dispositivo&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Desktop&quot;,&quot;Móvil&quot;],&quot;default&quot;:&quot;Desktop&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Prototipo&quot;},&quot;demo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Prototipo&quot;}}">
+const MES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const HOY = new Date(2026, 9, 11);
+const dt = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+const fmt = s => { const d = dt(s); return d.getDate() + ' ' + MES[d.getMonth()]; };
+const diasDesde = s => Math.round((HOY - dt(s)) / 86400000);
+const ELIG = { confirmado:['Panamá confirmado','icon-circle-check','#E7F5EC','#17663F'], porConfirmar:['Ubicación por confirmar','icon-map-pin','#FFF4D9','#7A4E00'], excluido:['Panamá excluido','icon-circle-x','#FDECEA','#A4271B'] };
+const AP = { 'Abierta':['icon-circle-check','#17663F'], 'Cerrada':['icon-lock','#A4271B'], 'No se pudo verificar':['icon-circle-help','#7A4E00'] };
+const EST = { 'Nueva':['#EEF0F4','#2E3445'], 'Aprobada':['#E9F0FD','#1E55B8'], 'En preparación':['#E9F0FD','#1E55B8'], 'Postulada':['#E7F5EC','#17663F'], 'Descartada':['#EEF0F4','#5B6272'] };
+const VACS = [
+  { id:1, empresa:'Cobalto Pay', cargo:'Senior Product Designer', compat:81, prov:true, mod:'Remoto', ubic:'LATAM', elig:'confirmado', sal:'', f:'2026-10-01', ap:'Abierta', fav:true, est:'En preparación' },
+  { id:2, empresa:'Brisa Fintech', cargo:'Senior Product Designer, Pagos', compat:78, prov:true, mod:'Remoto', ubic:'LATAM', elig:'porConfirmar', sal:'', f:'2026-10-09', ap:'Abierta', fav:true, est:'Aprobada' },
+  { id:3, empresa:'Quinta Digital', cargo:'Product Designer, Growth', compat:74, prov:false, mod:'Remoto', ubic:'Américas', elig:'confirmado', sal:'USD 3,200 mensual', f:'2026-10-07', ap:'Abierta', fav:false, est:'Nueva' },
+  { id:4, empresa:'Cuadra', cargo:'Product Designer', compat:71, prov:false, mod:'Remoto', ubic:'Centroamérica', elig:'confirmado', sal:'', f:'2026-10-06', ap:'Abierta', fav:false, est:'Nueva' },
+  { id:5, empresa:'Pliego', cargo:'Product Designer, Design Systems', compat:69, prov:false, mod:'Híbrido', ubic:'Ciudad de Panamá', elig:'confirmado', sal:'USD 3,000 – 3,600 mensual', f:'2026-10-03', ap:'Abierta', fav:false, est:'Postulada' },
+  { id:6, empresa:'Nodo Health', cargo:'Product Designer', compat:66, prov:true, mod:'Presencial', ubic:'Bogotá', elig:'porConfirmar', sal:'', f:'2026-10-03', ap:'No se pudo verificar', fav:false, est:'Aprobada' },
+  { id:7, empresa:'Faro Salud', cargo:'Product Designer, Plataforma', compat:62, prov:true, mod:'Remoto', ubic:'Américas', elig:'porConfirmar', sal:'', f:'2026-10-11', ap:'Abierta', fav:false, est:'Nueva' },
+  { id:8, empresa:'Atlas Logística', cargo:'Product Designer II', compat:58, prov:false, mod:'Remoto', ubic:'LATAM', elig:'confirmado', sal:'USD 2,800 mensual', f:'2026-09-28', ap:'Abierta', fav:false, est:'En preparación' },
+  { id:9, empresa:'Tesela Cloud', cargo:'Lead UX Designer', compat:null, prov:false, mod:'Remoto', ubic:'EE. UU. y Canadá', elig:'excluido', sal:'', f:'2026-10-05', ap:'Cerrada', fav:false, est:'Descartada' }
+];
+const PEST = ['En preparación','Pendiente de información','Lista para revisar','Enviada','Entrevista','Oferta','Rechazada','Retirada'];
+const PC = { 'En preparación':['#E9F0FD','#1E55B8','icon-file-pen-line'], 'Pendiente de información':['#FFF4D9','#7A4E00','icon-circle-alert'], 'Lista para revisar':['#E7F5EC','#17663F','icon-shield-check'], 'Enviada':['#E7F5EC','#17663F','icon-send'], 'Entrevista':['#101B35','#C5FF45','icon-calendar-check'], 'Oferta':['#C5FF45','#101B35','icon-party-popper'], 'Rechazada':['#EEF0F4','#2E3445','icon-circle-minus'], 'Retirada':['#EEF0F4','#2E3445','icon-undo-2'] };
+const CF = { plataforma:['Confirmada por la plataforma','icon-badge-check','#17663F'], manual:['Confirmación manual de Alma','icon-user-round-check','#2E3445'], incierto:['Sin confirmar: resultado incierto','icon-circle-help','#A4271B'], ninguna:['Aún no enviada','icon-circle-dashed','#5B6272'] };
+const POSTS = [
+  { id:'cobalto', empresa:'Cobalto Pay', cargo:'Senior Product Designer', est:'Lista para revisar', envio:'', act:'Hoy, 09:30 · 15 de 15 campos', prox:'Revisar y autorizar el envío', cv:'Senior UX/UI Designer · ES', cf:'ninguna', vac:'Abierta', accion:'Revisar y autorizar', href:'Luni%20Preparar%20solicitud.dc.html#revision', tl:[['Solicitud lista para revisión','15 de 15 campos completos. Nada se ha enviado.','Hoy, 09:30','icon-shield-check'],['CV elegido','Senior UX/UI Designer · ES, versión del 11 oct','Ayer, 17:05','icon-file-text'],['Vacante aprobada','Aprobar solo prepara la solicitud','Ayer, 16:50','icon-check']] },
+  { id:'atlas', empresa:'Atlas Logística', cargo:'Product Designer II', est:'Pendiente de información', envio:'', act:'Ayer, 18:10 · plataforma sin confirmar', prox:'Comprobar envío antes de reintentar', cv:'Product Designer · ES', cf:'incierto', vac:'Abierta', accion:'Comprobar envío', tl:[['Resultado incierto','La plataforma no confirmó. No se reintentó para evitar duplicados.','Ayer, 18:10','icon-circle-help'],['Autorizaste el envío','Versión 3 de los datos · solo esta solicitud','Ayer, 18:08','icon-shield-check']] },
+  { id:'nodo', empresa:'Nodo Health', cargo:'Product Designer', est:'Pendiente de información', envio:'', act:'Hoy, 08:14 · vacante no verificable', prox:'Responder declaración de autorización laboral', cv:'Product Designer · ES', cf:'ninguna', vac:'No se pudo verificar', accion:'Responder', href:'Luni%20Preparar%20solicitud.dc.html#respuestas', tl:[['Pregunta sensible detectada','Luni no la responde por ti.','Hoy, 08:20','icon-shield-alert'],['No se pudo verificar la vacante','La página fue inaccesible. Esto no demuestra que esté cerrada. Última comprobación correcta: 8 oct.','Hoy, 08:14','icon-circle-help']] },
+  { id:'lumen', empresa:'Lumen Studio', cargo:'UX/UI Designer', est:'En preparación', envio:'', act:'Hoy, 07:55 · 12 de 15 campos', prox:'Completar disponibilidad, salario y una referencia', cv:'Senior UX/UI Designer · ES', cf:'ninguna', vac:'Abierta', accion:'Completar', href:'Luni%20Preparar%20solicitud.dc.html#respuestas', tl:[['Borrador guardado','12 de 15 campos completos.','Hoy, 07:55','icon-save']] },
+  { id:'verde', empresa:'Verde Labs', cargo:'Product Designer', est:'Entrevista', envio:'2026-09-29', act:'Hace 3 días · entrevista agendada', prox:'Entrevista de portafolio, mar 13 oct 10:00', cv:'Senior UX/UI Designer · ES', cf:'plataforma', vac:'Abierta', tl:[['Entrevista agendada','Mar 13 oct, 10:00 (hora de Panamá), videollamada.','8 oct, 11:00','icon-calendar-check'],['Postulación enviada','Confirmada por la plataforma.','29 sep, 14:20','icon-send']] },
+  { id:'pliego', empresa:'Pliego', cargo:'Product Designer, Design Systems', est:'Enviada', envio:'2026-10-03', act:'Sin respuesta', prox:'Seguimiento el jue 15 oct', cv:'Product Designer · ES', cf:'plataforma', vac:'Abierta', tl:[['Recordatorio de seguimiento','Programado para el jue 15 oct.','Pendiente','icon-bell'],['Postulación enviada','Confirmada por la plataforma.','3 oct, 10:12','icon-send']] },
+  { id:'mareo', empresa:'Mareo Travel', cargo:'Product Designer', est:'Enviada', envio:'2026-10-10', act:'Ayer, 18:42', prox:'Esperar respuesta', cv:'Versión en inglés · EN', cf:'plataforma', vac:'Abierta', tl:[['Postulación enviada','Confirmada por la plataforma.','Ayer, 18:42','icon-send']] },
+  { id:'cuadra', empresa:'Cuadra', cargo:'Product Designer', est:'Enviada', envio:'2026-09-30', act:'Ayer · la vacante se cerró', prox:'Esperar respuesta. Tu postulación sigue activa', cv:'Product Designer · ES', cf:'manual', vac:'Cerrada', tl:[['Vacante cerrada','Verificada ayer. Esto no cambia el estado de tu postulación.','Ayer, 09:10','icon-lock'],['Marcada como enviada por ti','No hay comprobante de la plataforma.','30 sep, 12:30','icon-user-round-check']] },
+  { id:'zona', empresa:'Zona Norte', cargo:'UX Designer', est:'Rechazada', envio:'2026-09-22', act:'Hace 6 días · respuesta recibida', prox:'Ninguno', cv:'Product Designer · ES', cf:'plataforma', vac:'Cerrada', tl:[['Rechazo recibido','Registrado por ti desde el correo de la empresa.','5 oct, 09:00','icon-circle-minus'],['Postulación enviada','Confirmada por la plataforma.','22 sep, 16:00','icon-send']] }
+];
+const NOTIFS = [
+  { id:1, tipo:'Resultado incierto', icono:'icon-circle-help', bg:'#FDECEA', color:'#A4271B', titulo:'Atlas Logística · Product Designer II', texto:'El formulario se envió, pero la plataforma no confirmó. No se reintentará automáticamente.', meta:'Ayer, 18:10', accion:'Comprobar envío', msg:'Comprobando en la plataforma (simulado)…' },
+  { id:2, tipo:'Solicitud lista para revisión', icono:'icon-shield-check', bg:'#E7F5EC', color:'#17663F', titulo:'Cobalto Pay · Senior Product Designer', texto:'15 de 15 campos completos. Falta tu autorización; nada se ha enviado.', meta:'Hoy, 09:30', accion:'Revisar', href:'Luni%20Preparar%20solicitud.dc.html#revision' },
+  { id:3, tipo:'Necesita información', icono:'icon-list-todo', bg:'#E9F0FD', color:'#1E55B8', titulo:'Lumen Studio · UX/UI Designer', texto:'Faltan disponibilidad, salario y una referencia (12 de 15 campos).', meta:'Hoy, 07:55', accion:'Completar', href:'Luni%20Preparar%20solicitud.dc.html#respuestas' },
+  { id:4, tipo:'No se pudo verificar', icono:'icon-circle-help', bg:'#FFF4D9', color:'#7A4E00', titulo:'Nodo Health · Product Designer', texto:'La página fue inaccesible. Esto no demuestra que la vacante esté cerrada. Última comprobación correcta: 8 oct, 08:14.', meta:'Última comprobación: hoy, 08:14', accion:'Verificar de nuevo', msg:'Verificación simulada: sigue sin poder leerse.' },
+  { id:5, tipo:'Vacante cerrada', icono:'icon-lock', bg:'#EEF0F4', color:'#2E3445', titulo:'Cuadra · Product Designer', texto:'La página indica que el proceso cerró. Tu postulación sigue activa: cerrar la vacante no la rechaza.', meta:'Última comprobación: ayer, 09:10', accion:'Ver postulación', post:'cuadra' },
+  { id:6, tipo:'Entrevista próxima', icono:'icon-calendar-check', bg:'#101B35', color:'#C5FF45', titulo:'Verde Labs · martes 13 oct, 10:00', texto:'Entrevista de portafolio por videollamada. Hora de Panamá.', meta:'Faltan 2 días', accion:'Ver postulación', post:'verde' },
+  { id:7, tipo:'Recordatorio de seguimiento', icono:'icon-bell', bg:'#F5F6F8', color:'#101B35', titulo:'Pliego · Product Designer, Design Systems', texto:'Aplicaste hace 8 días y no hay respuesta. Seguimiento programado para el jue 15 oct.', meta:'Jueves 15 oct', accion:'Ver postulación', post:'pliego' }
+];
+const PREFS = ['Vacante cerrada o no verificable','Solicitud que necesita información','Solicitud lista para revisión','Entrevista próxima','Recordatorio de seguimiento','Fallo o resultado incierto del envío'];
+const ACAT = ['Todas','Experiencia','Motivación','Proyectos','Herramientas','Colaboración','Disponibilidad','Expectativa salarial'];
+const ANS = [
+  { id:1, cat:'Experiencia', titulo:'¿Cuántos años de experiencia tienes?', texto:'Tengo 5 años y 10 meses de experiencia en diseño de producto, sin contar mi experiencia previa en marketing digital.', estado:'confirmada', idioma:'Español', fecha:'8 oct', usos:2, ad:'I have 5 years and 10 months of product design experience; my earlier digital marketing work is not counted here.' },
+  { id:2, cat:'Motivación', titulo:'¿Por qué te interesa este puesto?', texto:'Me interesa trabajar en productos donde el diseño simplifica tareas complejas para las personas que los usan.', estado:'confirmada', idioma:'Español', fecha:'8 oct', usos:1, ad:'I am drawn to Faro Salud’s focus on making care easier to navigate, where design can simplify complex tasks for the people who use the product.' },
+  { id:3, cat:'Proyectos', titulo:'Cuéntanos de un proyecto que simplificaste', texto:'Rediseñé el flujo de checkout de un e-commerce, desde la investigación con usuarios hasta los componentes en el sistema de diseño.', estado:'borrador', idioma:'Español', fecha:'Hoy', usos:0, ad:'I redesigned an e-commerce checkout flow end to end, from user research to the final components in our design system.' },
+  { id:4, cat:'Herramientas', titulo:'¿Qué herramientas usas?', texto:'Figma, prototipado y HTML/CSS para validar interacciones.', estado:'confirmada', idioma:'Español', fecha:'8 oct', usos:3, ad:'Figma, prototyping and HTML/CSS to validate interactions.' },
+  { id:5, cat:'Colaboración', titulo:'¿Cómo trabajas con ingeniería?', texto:'', estado:'borrador', idioma:'Español', fecha:'Sin contenido', usos:0, ad:'' },
+  { id:6, cat:'Disponibilidad', titulo:'¿Cuándo puedes empezar?', texto:'Con un mes de aviso.', estado:'confirmada', idioma:'Español', fecha:'8 oct', usos:1, ad:'', vencida:'Esta respuesta tiene más de 30 días en otras vacantes. Confirma que sigue vigente antes de reutilizarla.' },
+  { id:7, cat:'Expectativa salarial', titulo:'¿Cuál es tu expectativa salarial?', texto:'USD 3,500 – 4,200 mensual, salario bruto (ejemplo ficticio).', estado:'confirmada', idioma:'Español', fecha:'11 oct', usos:1, ad:'', vencida:'Cada formulario puede pedir otra moneda o periodicidad. Luni no convierte ni reutiliza esta cifra sin tu confirmación.' }
+];
+const chipS = (on, label, onClick, icon) => ({ label, on, onClick, icon, bg: on ? '#101B35' : '#FFFFFF', color: on ? '#FFFFFF' : '#101B35', border: on ? '1px solid #101B35' : '1px solid #C9CED8' });
+
+class Component extends DCLogic {
+  mainRef = React.createRef();
+  state = { dispositivo:(this.props.dispositivo ?? 'Desktop') === 'Móvil' ? 'movil' : 'desktop', pantalla:'vacantes', vq:'', vSort:'compat', fMod:'', fElig:'', fAp:'', fFecha:'', fCompat:'', soloFav:false, soloSal:false, filtrosAbiertos:false, favs:{ 1:true, 2:true }, pq:'', pEst:'Todas', abiertas:{}, leidas:{}, prefs:{ 0:true, 1:true, 2:true, 3:true, 4:true, 5:true }, hDesde:'21:00', hHasta:'07:00', hResumen:'08:00', aCat:'Todas', textos:{}, estados:{}, editando:{}, adaptando:{}, toast:'' };
+  componentDidMount() { const h = (window.location.hash || '').slice(1); if (['vacantes','postulaciones','notificaciones','respuestas'].includes(h)) this.setState({ pantalla:h }); }
+  componentWillUnmount() { clearTimeout(this.tt); }
+  componentDidUpdate(pp, ps) { if (ps.pantalla !== this.state.pantalla && this.mainRef.current) this.mainRef.current.scrollTop = 0; }
+  aviso(t) { this.setState({ toast:t }); clearTimeout(this.tt); this.tt = setTimeout(() => this.setState({ toast:'' }), 3200); }
+  ir(p) { this.setState({ pantalla:p }); }
+  renderVals() {
+    const s = this.state, m = s.dispositivo === 'movil';
+    const v = {
+      esDesktop:!m, esMovil:m, verDesktop:() => this.setState({ dispositivo:'desktop' }), verMovil:() => this.setState({ dispositivo:'movil' }),
+      bgDesk: m ? 'transparent' : '#101B35', fgDesk: m ? '#101B35' : '#FFFFFF', bgMov: m ? '#101B35' : 'transparent', fgMov: m ? '#FFFFFF' : '#101B35',
+      frameW: m ? '390px' : '1440px', frameH: m ? '844px' : '920px', frameBorder: m ? '10px solid #111111' : '1px solid #CBD0D9', frameR: m ? '48px' : '12px',
+      pantalla:s.pantalla, onPantalla: e => this.ir(e.target.value), mainRef:this.mainRef, demo:this.props.demo ?? true,
+      hayToast:!!s.toast, toast:s.toast, toastBottom: m ? '118px' : '28px', irNotif: () => this.ir('notificaciones'), irRespuestas: () => this.ir('respuestas'),
+      s_vacantes:s.pantalla === 'vacantes', s_postulaciones:s.pantalla === 'postulaciones', s_notificaciones:s.pantalla === 'notificaciones', s_respuestas:s.pantalla === 'respuestas', s_perfilhub:s.pantalla === 'perfilhub',
+      tituloBarra:{ vacantes:'Vacantes', postulaciones:'Postulaciones', notificaciones:'Notificaciones', respuestas:'Respuestas', perfilhub:'Perfil' }[s.pantalla],
+      fabDisplay: ['vacantes','postulaciones'].includes(s.pantalla) ? 'flex' : 'none'
+    };
+    const nNo = NOTIFS.filter(n => !s.leidas[n.id]).length; v.nNoLeidas = nNo;
+    const sec = s.pantalla;
+    v.navItems = [['Inicio','icon-house',() => { window.location.href = 'Luni.dc.html#2a'; },false],['Vacantes','icon-briefcase-business',() => this.ir('vacantes'),'vacantes'],['Postulaciones','icon-send',() => this.ir('postulaciones'),'postulaciones'],['Mis CV','icon-file-text',() => { window.location.href = 'Luni%20Configurar%20perfil.dc.html'; },false],['Perfil y respuestas','icon-user-round',() => this.ir('respuestas'),'respuestas'],['Notificaciones','icon-bell',() => this.ir('notificaciones'),'notificaciones']].map(([label, icon, onClick, key]) => { const on = key && sec === key; return { label, icon, onClick, current:on ? 'page' : undefined, bg:on ? '#1E2A48' : 'transparent', color:on ? '#FFFFFF' : '#D3D8E3', weight:on ? 700 : 500, iconColor:on ? '#C5FF45' : 'inherit', hasBadge:label === 'Notificaciones' && nNo > 0, badge:nNo }; });
+    v.tabs = [['Inicio','icon-house',() => { window.location.href = 'Luni.dc.html#2c'; },false],['Vacantes','icon-briefcase-business',() => this.ir('vacantes'),['vacantes']],['Postulaciones','icon-send',() => this.ir('postulaciones'),['postulaciones']],['Perfil','icon-user-round',() => this.ir('perfilhub'),['perfilhub','respuestas','notificaciones']]].map(([label, icon, onClick, keys]) => { const on = keys && keys.includes(sec); return { label, icon, onClick, current:on ? 'page' : undefined, color:on ? '#FFFFFF' : '#D3D8E3', weight:on ? 700 : 600, pill:on ? '#C5FF45' : 'transparent', ic:on ? '#101B35' : 'inherit' }; });
+
+    // VACANTES
+    const q = s.vq.trim().toLowerCase();
+    let list = VACS.filter(x => (!q || (x.empresa + ' ' + x.cargo).toLowerCase().includes(q)) && (!s.fMod || x.mod === s.fMod) && (!s.fElig || x.elig === s.fElig) && (!s.fAp || x.ap === s.fAp) && (!s.fFecha || diasDesde(x.f) <= Number(s.fFecha)) && (!s.fCompat || (x.compat != null && x.compat >= Number(s.fCompat))) && (!s.soloFav || s.favs[x.id]) && (!s.soloSal || x.sal));
+    list = list.slice().sort((a, b) => s.vSort === 'compat' ? ((b.compat ?? -1) - (a.compat ?? -1)) : s.vSort === 'fecha' ? (dt(b.f) - dt(a.f)) : a.empresa.localeCompare(b.empresa));
+    v.vacs = list.map(x => { const E = ELIG[x.elig], A = AP[x.ap], ES = EST[x.est], fav = !!s.favs[x.id]; return { empresa:x.empresa, cargo:x.cargo, compat:x.compat == null ? '—' : x.compat + '%', compatNota:x.compat == null ? 'Sin cálculo' : (x.prov ? 'Provisional' : 'Orientativa'), compatColor:x.compat == null ? '#5B6272' : (x.prov ? '#7A4E00' : '#4A5163'), mod:x.mod, ubic:x.ubic, eLabel:E[0], eIcon:E[1], eBg:E[2], eColor:E[3], salario:x.sal || 'No publicado', salColor:x.sal ? '#111111' : '#5B6272', fecha:fmt(x.f), estado:x.est, estBg:ES[0], estColor:ES[1], apertura:x.ap, apIcon:A[0], apColor:A[1], fav, favLabel:(fav ? 'Quitar de favoritas: ' : 'Marcar como favorita: ') + x.cargo, favIcon:fav ? 'icon-star' : 'icon-star', favColor:fav ? '#B07A00' : '#8A92A3', onFav:() => this.setState(st => ({ favs:{ ...st.favs, [x.id]:!st.favs[x.id] } })) }; });
+    v.vHay = list.length > 0; v.vVacio = !list.length;
+    v.vq = s.vq; v.onVq = e => this.setState({ vq:e.target.value }); v.vSort = s.vSort; v.onVSort = e => this.setState({ vSort:e.target.value });
+    v.fMod = s.fMod; v.onFMod = e => this.setState({ fMod:e.target.value }); v.fElig = s.fElig; v.onFElig = e => this.setState({ fElig:e.target.value }); v.fAp = s.fAp; v.onFAp = e => this.setState({ fAp:e.target.value }); v.fFecha = s.fFecha; v.onFFecha = e => this.setState({ fFecha:e.target.value }); v.fCompat = s.fCompat; v.onFCompat = e => this.setState({ fCompat:e.target.value });
+    v.vChips = [chipS(s.soloFav, 'Favoritas', () => this.setState({ soloFav:!s.soloFav }), 'icon-star'), chipS(s.soloSal, 'Con salario', () => this.setState({ soloSal:!s.soloSal }), 'icon-banknote')];
+    const nf = [s.fMod, s.fElig, s.fAp, s.fFecha, s.fCompat, s.soloFav, s.soloSal].filter(Boolean).length;
+    v.hayFiltros = nf > 0 || !!q; v.nFiltrosTxt = nf ? ` (${nf})` : '';
+    v.mostrarFiltros = !m || s.filtrosAbiertos; v.filtrosAbiertos = s.filtrosAbiertos; v.toggleFiltros = () => this.setState({ filtrosAbiertos:!s.filtrosAbiertos });
+    v.vConteo = `${list.length} de ${VACS.length} vacantes` + (VACS.some(x => !x.sal) ? ' · “No publicado” indica que el anuncio no trae salario' : '');
+    v.limpiarV = () => this.setState({ vq:'', fMod:'', fElig:'', fAp:'', fFecha:'', fCompat:'', soloFav:false, soloSal:false });
+
+    // POSTULACIONES
+    const pq = s.pq.trim().toLowerCase();
+    const base = POSTS.filter(p => !pq || (p.empresa + ' ' + p.cargo).toLowerCase().includes(pq));
+    v.pChips = ['Todas', ...PEST].map(k => { const n = k === 'Todas' ? base.length : base.filter(p => p.est === k).length; return { ...chipS(s.pEst === k, k, () => this.setState({ pEst:k }), ''), n }; }).filter(c => c.n > 0 || c.on || c.label === 'Todas');
+    const pl = base.filter(p => s.pEst === 'Todas' || p.est === s.pEst);
+    v.pVacio = !pl.length; v.pq = s.pq; v.onPq = e => this.setState({ pq:e.target.value }); v.limpiarP = () => this.setState({ pq:'', pEst:'Todas' });
+    v.posts = pl.map(p => { const C = PC[p.est], F = CF[p.cf], A = AP[p.vac], open = !!s.abiertas[p.id]; const dias = p.envio ? diasDesde(p.envio) : null;
+      return { empresa:p.empresa, cargo:p.cargo, estado:p.est, bg:C[0], color:C[1], icon:C[2], vacante:p.vac, vIcon:A[0], vColor:A[1], envio:p.envio ? fmt(p.envio) + ' 2026' : 'Sin enviar', hace:dias == null ? 'Nada enviado todavía' : (dias === 0 ? 'Aplicaste hoy' : `Aplicaste hace ${dias} ${dias === 1 ? 'día' : 'días'}`), actividad:p.act, proximo:p.prox, cv:p.cv, confirm:F[0], cIcon:F[1], cColor:F[2], open, toggleLabel:open ? 'Ocultar línea de tiempo' : 'Ver línea de tiempo', toggleIcon:open ? 'icon-chevron-up' : 'icon-chevron-down',
+        onToggle:() => this.setState(st => ({ abiertas:{ ...st.abiertas, [p.id]:!st.abiertas[p.id] } })), timeline:p.tl.map(e => ({ t:e[0], d:e[1], h:e[2], icon:e[3], border:e[2] === 'Pendiente' ? '1.5px dashed #8A92A3' : '1px solid #DDE1E8' })),
+        accion:!!p.accion, accionLabel:p.accion || '', onAccion:() => { if (p.href) window.location.href = p.href; else this.aviso('Comprobación simulada: la plataforma sigue sin confirmar. No se reintentó el envío.'); } }; });
+
+    // NOTIFICACIONES
+    const visibles = NOTIFS.filter(n => !s.leidas[n.id] || true);
+    v.notifs = visibles.map(n => { const no = !s.leidas[n.id]; return { tipo:n.tipo, icon:n.icono, bg:n.bg, color:n.color, titulo:n.titulo, texto:n.texto, meta:n.meta, accion:n.accion, noLeida:no, bgRow:no ? '#FAFBFC' : '#FFFFFF',
+      onLeer:() => this.setState(st => ({ leidas:{ ...st.leidas, [n.id]:true } })), onAccion:() => { this.setState(st => ({ leidas:{ ...st.leidas, [n.id]:true } })); if (n.href) window.location.href = n.href; else if (n.post) this.setState(st => ({ pantalla:'postulaciones', pEst:'Todas', pq:'', abiertas:{ ...st.abiertas, [n.post]:true } })); else this.aviso(n.msg); } }; });
+    v.nVacio = false; v.marcarTodas = () => { const l = {}; NOTIFS.forEach(n => { l[n.id] = true; }); this.setState({ leidas:l }); this.aviso('Todas marcadas como leídas.'); };
+    v.prefs = PREFS.map((label, i) => ({ label, on:!!s.prefs[i], onChange:e => { const on = e.target.checked; this.setState(st => ({ prefs:{ ...st.prefs, [i]:on } })); } }));
+    v.hDesde = s.hDesde; v.hHasta = s.hHasta; v.hResumen = s.hResumen;
+    v.onHDesde = e => this.setState({ hDesde:e.target.value }); v.onHHasta = e => this.setState({ hHasta:e.target.value }); v.onHResumen = e => this.setState({ hResumen:e.target.value });
+
+    // RESPUESTAS
+    v.aChips = ACAT.map(k => chipS(s.aCat === k, k, () => this.setState({ aCat:k }), ''));
+    v.answers = ANS.filter(a => s.aCat === 'Todas' || a.cat === s.aCat).map(a => { const est = s.estados[a.id] || a.estado, texto = s.textos[a.id] !== undefined ? s.textos[a.id] : a.texto, ed = !!s.editando[a.id], conf = est === 'confirmada', vacio = !texto.trim();
+      return { cat:a.cat, titulo:a.titulo, texto:vacio && !ed ? 'Sin contenido. Escríbela para poder reutilizarla.' : texto, idioma:a.idioma, estado:conf ? 'Confirmada por ti' : 'Borrador propuesto', icon:conf ? 'icon-circle-check' : 'icon-pencil-line', bg:conf ? '#E7F5EC' : '#FFFFFF', color:conf ? '#17663F' : '#3D4454',
+        meta:`${a.fecha === 'Sin contenido' ? a.fecha : 'Actualizada: ' + a.fecha} · usada ${a.usos} ${a.usos === 1 ? 'vez' : 'veces'}`, editando:ed, noEditando:!ed, editarLabel:ed ? 'Listo' : (vacio ? 'Escribir' : 'Editar'),
+        onEditar:() => this.setState(st => ({ editando:{ ...st.editando, [a.id]:!st.editando[a.id] } })), onTexto:e => { const val = e.target.value; this.setState(st => ({ textos:{ ...st.textos, [a.id]:val }, estados:{ ...st.estados, [a.id]:'borrador' } })); },
+        puedeConfirmar:!conf && !vacio, onConfirmar:() => { this.setState(st => ({ estados:{ ...st.estados, [a.id]:'confirmada' } })); this.aviso('Respuesta confirmada.'); },
+        vencida:!!a.vencida, vencidaTxt:a.vencida || '', adaptando:!!s.adaptando[a.id], adaptable:!!a.ad && !vacio, noAdaptable:!a.ad || vacio, adaptada:a.ad,
+        onAdaptar:() => this.setState(st => ({ adaptando:{ ...st.adaptando, [a.id]:!st.adaptando[a.id] } })), onUsar:() => { if (!conf) { this.aviso('Confirma la respuesta antes de usarla.'); return; } window.location.href = 'Luni%20Preparar%20solicitud.dc.html#respuestas'; } }; });
+    return v;
+  }
+}
+</script>
+</body>
+</html>

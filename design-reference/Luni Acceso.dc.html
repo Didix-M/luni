@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/lucide-static@0.460.0/font/lucide.css">
+<style>
+body{margin:0;background:#F5F6F8;font-family:'Nunito',system-ui,sans-serif;color:#111111;-webkit-font-smoothing:antialiased}
+a{color:#101B35;text-underline-offset:3px}a:hover{color:#1E55B8}
+[class^="icon-"],[class*=" icon-"]{line-height:1;display:inline-flex}
+input,select,button{font-family:'Nunito',sans-serif}
+@keyframes luni-spin{to{transform:rotate(360deg)}}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;background:#F5F6F8">
+  <div style="flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding:10px 20px;background:#FFFFFF;border-bottom:1px solid #DDE1E8;font-size:14px;color:#2E3445">
+    <span style="display:inline-flex;align-items:center;gap:6px;font-weight:700"><i class="icon-flask-conical" style="font-size:15px"></i>Acceso simulado: no hay servidor ni cuentas reales.</span>
+    <label style="display:flex;align-items:center;gap:6px;font-weight:600">Resultado<select value="{{ sim }}" onChange="{{ onSim }}" style="height:36px;padding:0 8px;border:1px solid #B9BFCB;border-radius:9px;background:#FFFFFF;font-size:14px;color:#111"><option value="ok">Acceso correcto</option><option value="cred">Credenciales incorrectas</option><option value="red">Error de red</option></select></label>
+    <label style="display:flex;align-items:center;gap:6px;font-weight:600">Visita<select value="{{ visita }}" onChange="{{ onVisita }}" style="height:36px;padding:0 8px;border:1px solid #B9BFCB;border-radius:9px;background:#FFFFFF;font-size:14px;color:#111"><option value="primera">Primera visita</option><option value="posterior">Visita posterior</option></select></label>
+    <label style="display:flex;align-items:center;gap:6px;font-weight:600">Pantalla<select value="{{ pantalla }}" onChange="{{ onPantalla }}" style="height:36px;padding:0 8px;border:1px solid #B9BFCB;border-radius:9px;background:#FFFFFF;font-size:14px;color:#111"><option value="login">Iniciar sesión</option><option value="recuperar">Recuperar contraseña</option><option value="expirada">Sesión expirada</option><option value="salida">Sesión cerrada</option></select></label>
+    <span style="font-size:13px;color:#5B6272;flex:1 1 260px">Primera visita y sesión se guardan solo en el almacenamiento local de este navegador. No es una conexión con ningún servicio.</span>
+  </div>
+  <div style="flex:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr))">
+    <section style="background:#101B35;color:#FFFFFF;padding:clamp(28px,6vw,72px);display:flex;flex-direction:column;justify-content:space-between;gap:32px;min-height:220px">
+      <div style="display:flex;align-items:center;gap:12px"><div style="position:relative;width:38px;height:24px;flex:none"><div style="position:absolute;left:0;top:2px;width:20px;height:20px;border-radius:50%;background:#C5FF45"></div><div style="position:absolute;left:14px;top:2px;width:20px;height:20px;border-radius:50%;border:2.5px solid #FFFFFF;box-sizing:border-box"></div></div><span style="font-family:'Quicksand',sans-serif;font-size:32px;font-weight:700;letter-spacing:-0.02em">luni</span></div>
+      <div style="display:flex;flex-direction:column;gap:12px;max-width:440px"><h1 style="margin:0;font-family:'Quicksand',sans-serif;font-size:clamp(26px,3.4vw,38px);line-height:1.15;font-weight:700;text-wrap:pretty">Tu espacio privado para preparar postulaciones.</h1><p style="margin:0;font-size:17px;line-height:1.55;color:#D3D8E3">Luni es una aplicación personal. No hay registro público: solo la persona autorizada puede entrar.</p></div>
+      <span style="font-size:14px;color:#A9B1C4">Cada postulación necesita tu autorización final antes del envío.</span>
+    </section>
+    <section style="display:flex;align-items:center;justify-content:center;padding:clamp(24px,5vw,64px)">
+      <div style="width:100%;max-width:420px;display:flex;flex-direction:column;gap:18px">
+
+        <sc-if value="{{ p_login }}" hint-placeholder-val="{{ true }}">
+          <h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:28px;font-weight:700;color:#101B35">Iniciar sesión</h2>
+          <sc-if value="{{ aviso }}"><div role="status" style="display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:12px;background:{{ avisoBg }};color:{{ avisoColor }};font-size:15px;line-height:1.5"><i class="{{ avisoIcon }}" style="font-size:18px;margin-top:2px;flex:none"></i><span>{{ avisoTxt }}</span></div></sc-if>
+          <sc-if value="{{ error }}"><div role="alert" style="display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:12px;background:#FDECEA;border:1px solid #EBB4AD;color:#5A1710;font-size:15px;line-height:1.5"><i class="icon-circle-alert" style="font-size:18px;margin-top:2px;flex:none;color:#A4271B"></i><span>{{ error }}</span></div></sc-if>
+          <sc-if value="{{ cargando }}" hint-placeholder-val="{{ false }}"><div role="status" style="display:flex;flex-direction:column;gap:12px;padding:20px;background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px"><div style="display:flex;align-items:center;gap:12px">{{ spinner }}<span style="font-size:17px;font-weight:700">Iniciando sesión (simulado)…</span></div><span style="font-size:15px;line-height:1.5;color:#2E3445">{{ destinoTxt }}</span><a href="{{ destino }}" style="font-size:15px;font-weight:700">Continuar ahora</a></div></sc-if>
+          <sc-if value="{{ formVisible }}" hint-placeholder-val="{{ true }}">
+          <form onSubmit="{{ enviar }}" style="display:flex;flex-direction:column;gap:16px" novalidate>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:15px;font-weight:700">Correo
+              <input id="correo" type="email" autocomplete="username" value="{{ correo }}" onChange="{{ onCorreo }}" aria-invalid="{{ errCorreo }}" placeholder="nombre@ejemplo.com" style="height:50px;padding:0 14px;border:{{ bordeCorreo }};border-radius:12px;font-size:16px;font-weight:400;color:#111;background:#FFFFFF" style-focus="outline:2px solid #101B35;outline-offset:2px">
+              <sc-if value="{{ errCorreo }}"><span role="alert" style="font-size:14px;font-weight:600;color:#A4271B;display:flex;align-items:center;gap:5px"><i class="icon-circle-alert" style="font-size:14px"></i>{{ errCorreo }}</span></sc-if>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:15px;font-weight:700">Contraseña
+              <span style="display:flex;align-items:center;border:{{ bordePass }};border-radius:12px;background:#FFFFFF"><input id="pass" type="{{ passTipo }}" autocomplete="current-password" value="{{ pass }}" onChange="{{ onPass }}" aria-invalid="{{ errPass }}" style="flex:1;min-width:0;height:48px;padding:0 14px;border:0;outline:0;border-radius:12px;font-size:16px;font-weight:400;color:#111;background:transparent"><button type="button" onClick="{{ togglePass }}" aria-label="{{ passAria }}" aria-pressed="{{ verPass }}" style="width:48px;height:48px;border:0;border-radius:12px;background:transparent;color:#4A5163;display:flex;align-items:center;justify-content:center;cursor:pointer" style-focus="outline:2px solid #101B35"><i class="{{ passIcono }}" style="font-size:19px"></i></button></span>
+              <sc-if value="{{ errPass }}"><span role="alert" style="font-size:14px;font-weight:600;color:#A4271B;display:flex;align-items:center;gap:5px"><i class="icon-circle-alert" style="font-size:14px"></i>{{ errPass }}</span></sc-if>
+            </label>
+            <button type="submit" style="height:52px;border:0;border-radius:12px;background:#C5FF45;color:#101B35;font-size:17px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px" style-hover="background:#B5F02E" style-focus="outline:2px solid #101B35;outline-offset:2px">Iniciar sesión<i class="icon-arrow-right" style="font-size:18px"></i></button>
+            <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 12px"><button type="button" onClick="{{ irRecuperar }}" style="min-height:44px;padding:0;border:0;background:none;color:#101B35;font-size:15px;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Recuperar contraseña</button><button type="button" onClick="{{ usarDemo }}" style="min-height:44px;padding:0;border:0;background:none;color:#4A5163;font-size:15px;font-weight:600;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Usar correo de demostración</button></div>
+          </form>
+          <p style="margin:0;padding:12px 14px;border:1.5px dashed #8A92A3;border-radius:12px;font-size:14px;line-height:1.5;color:#2E3445">En el prototipo, el correo de demostración acepta cualquier contraseña de 8 o más caracteres. Con otro correo se muestra que no tiene acceso. No se guarda ninguna contraseña.</p>
+          </sc-if>
+        </sc-if>
+
+        <sc-if value="{{ p_recuperar }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ irLogin }}" style="align-self:flex-start;min-height:44px;padding:0;border:0;background:none;color:#101B35;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px"><i class="icon-arrow-left" style="font-size:17px"></i>Volver a iniciar sesión</button>
+          <h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:28px;font-weight:700;color:#101B35">Recuperar contraseña</h2>
+          <sc-if value="{{ recEnviado }}" hint-placeholder-val="{{ false }}"><div role="status" style="display:flex;flex-direction:column;gap:10px;padding:18px;background:#FFFFFF;border:1px solid #DDE1E8;border-radius:16px"><span style="display:flex;align-items:center;gap:8px;font-size:17px;font-weight:700;color:#17663F"><i class="icon-mail-check" style="font-size:20px"></i>Revisa tu correo</span><span style="font-size:15px;line-height:1.55;color:#2E3445">Si ese correo tiene acceso a Luni, recibirás un enlace para crear una contraseña nueva. Por seguridad, no confirmamos si el correo existe.</span><span style="font-size:14px;color:#5B6272">Simulado: no se envió ningún correo.</span><button onClick="{{ irLogin }}" style="align-self:flex-start;height:46px;padding:0 18px;border:0;border-radius:11px;background:#101B35;color:#FFFFFF;font-size:15px;font-weight:700;cursor:pointer">Volver a iniciar sesión</button></div></sc-if>
+          <sc-if value="{{ recForm }}" hint-placeholder-val="{{ true }}"><form onSubmit="{{ enviarRec }}" style="display:flex;flex-direction:column;gap:16px" novalidate><p style="margin:0;font-size:16px;line-height:1.5;color:#2E3445">Escribe el correo de acceso y te enviaremos un enlace.</p><label style="display:flex;flex-direction:column;gap:6px;font-size:15px;font-weight:700">Correo<input type="email" autocomplete="username" value="{{ correo }}" onChange="{{ onCorreo }}" aria-invalid="{{ errCorreo }}" style="height:50px;padding:0 14px;border:{{ bordeCorreo }};border-radius:12px;font-size:16px;font-weight:400;color:#111;background:#FFFFFF" style-focus="outline:2px solid #101B35;outline-offset:2px"><sc-if value="{{ errCorreo }}"><span role="alert" style="font-size:14px;font-weight:600;color:#A4271B">{{ errCorreo }}</span></sc-if></label><button type="submit" style="height:52px;border:0;border-radius:12px;background:#101B35;color:#FFFFFF;font-size:16px;font-weight:700;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Enviar enlace</button></form></sc-if>
+        </sc-if>
+
+        <sc-if value="{{ p_expirada }}" hint-placeholder-val="{{ false }}">
+          <div style="width:52px;height:52px;border-radius:50%;background:#FFF4D9;color:#7A4E00;display:flex;align-items:center;justify-content:center"><i class="icon-clock-alert" style="font-size:24px"></i></div>
+          <h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:28px;font-weight:700;color:#101B35">Tu sesión expiró</h2>
+          <p style="margin:0;font-size:16px;line-height:1.55;color:#2E3445">Por seguridad cerramos la sesión tras un tiempo sin actividad. Inicia sesión para continuar donde estabas. En el prototipo, tus borradores del navegador se conservan.</p>
+          <button onClick="{{ irLoginExpirada }}" style="height:52px;border:0;border-radius:12px;background:#C5FF45;color:#101B35;font-size:17px;font-weight:700;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Iniciar sesión de nuevo</button>
+        </sc-if>
+
+        <sc-if value="{{ p_salida }}" hint-placeholder-val="{{ false }}">
+          <div style="width:52px;height:52px;border-radius:50%;background:#E7F5EC;color:#17663F;display:flex;align-items:center;justify-content:center"><i class="icon-log-out" style="font-size:24px"></i></div>
+          <h2 style="margin:0;font-family:'Quicksand',sans-serif;font-size:28px;font-weight:700;color:#101B35">Cerraste sesión</h2>
+          <p style="margin:0;font-size:16px;line-height:1.55;color:#2E3445">Tu sesión en este dispositivo terminó (simulado). Tus datos de demostración siguen en el prototipo.</p>
+          <button onClick="{{ irLogin }}" style="height:52px;border:0;border-radius:12px;background:#C5FF45;color:#101B35;font-size:17px;font-weight:700;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Iniciar sesión</button>
+        </sc-if>
+
+        <button onClick="{{ reiniciar }}" style="align-self:flex-start;min-height:44px;padding:0;border:0;background:none;color:#5B6272;font-size:14px;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer" style-focus="outline:2px solid #101B35;outline-offset:2px">Reiniciar demostración (borra solo lo que guardó este prototipo)</button>
+      </div>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const K_PERFIL = 'luni.demo.perfilConfirmado';
+const K_SESION = 'luni.demo.sesion';
+const DEMO = 'alma.ruiz@ejemplo.com';
+const ls = { get:k => { try { return window.localStorage.getItem(k); } catch (e) { return null; } }, set:(k, v) => { try { window.localStorage.setItem(k, v); } catch (e) {} }, del:k => { try { window.localStorage.removeItem(k); } catch (e) {} } };
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+class Component extends DCLogic {
+  state = { pantalla:'login', sim:'ok', visita:ls.get(K_PERFIL) ? 'posterior' : 'primera', correo:'', pass:'', verPass:false, errCorreo:'', errPass:'', error:'', cargando:false, recEnviado:false, desdeExpirada:false, destino:'' };
+  componentDidMount() { const h = (window.location.hash || '').slice(1); if (['recuperar','expirada','salida'].includes(h)) this.setState({ pantalla:h }); }
+  componentWillUnmount() { clearTimeout(this.t); }
+  irP(p, extra = {}) { this.setState({ pantalla:p, errCorreo:'', errPass:'', error:'', cargando:false, recEnviado:false, ...extra }); }
+  enviar(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const s = this.state; let errC = '', errP = '';
+    if (!s.correo.trim()) errC = 'Escribe tu correo.'; else if (!EMAIL.test(s.correo.trim())) errC = 'Revisa el formato del correo.';
+    if (!s.pass) errP = 'Escribe tu contraseña.';
+    if (errC || errP) { this.setState({ errCorreo:errC, errPass:errP, error:'' }); return; }
+    this.setState({ errCorreo:'', errPass:'', error:'', cargando:true, desdeExpirada:false });
+    clearTimeout(this.t);
+    this.t = setTimeout(() => {
+      if (s.sim === 'red') { this.setState({ cargando:false, error:'No pudimos conectar (simulado). Revisa tu conexión e inténtalo de nuevo.' }); return; }
+      if (s.sim === 'cred' || s.correo.trim().toLowerCase() !== DEMO || s.pass.length < 8) { this.setState({ cargando:false, error:'Correo o contraseña incorrectos, o este correo no tiene acceso a Luni.' }); return; }
+      ls.set(K_SESION, '1');
+      const primera = !ls.get(K_PERFIL);
+      const destino = primera ? 'Luni%20Configurar%20perfil.dc.html' : 'Luni.dc.html#2a';
+      this.setState({ cargando:true, destino });
+      this.t = setTimeout(() => { window.location.href = destino; }, 1800);
+    }, 900);
+  }
+  renderVals() {
+    const s = this.state, p = s.pantalla, primera = s.visita === 'primera';
+    const v = { sim:s.sim, onSim:e => this.setState({ sim:e.target.value }), visita:s.visita, pantalla:p,
+      onVisita:e => { const val = e.target.value; if (val === 'primera') ls.del(K_PERFIL); else ls.set(K_PERFIL, '1'); this.setState({ visita:val }); },
+      onPantalla:e => this.irP(e.target.value),
+      p_login:p === 'login', p_recuperar:p === 'recuperar', p_expirada:p === 'expirada', p_salida:p === 'salida',
+      correo:s.correo, pass:s.pass, onCorreo:e => this.setState({ correo:e.target.value, errCorreo:'' }), onPass:e => this.setState({ pass:e.target.value, errPass:'' }),
+      errCorreo:s.errCorreo, errPass:s.errPass, error:s.error, bordeCorreo:s.errCorreo ? '2px solid #A4271B' : '1px solid #B9BFCB', bordePass:s.errPass ? '2px solid #A4271B' : '1px solid #B9BFCB',
+      verPass:s.verPass, passTipo:s.verPass ? 'text' : 'password', passAria:s.verPass ? 'Ocultar contraseña' : 'Mostrar contraseña', passIcono:s.verPass ? 'icon-eye-off' : 'icon-eye', togglePass:() => this.setState({ verPass:!s.verPass }),
+      cargando:s.cargando && !!s.destino, formVisible:!(s.cargando && s.destino), destino:s.destino, destinoTxt:primera ? 'Es tu primera visita: te llevamos a configurar tu perfil.' : 'Te llevamos a tu dashboard.',
+      spinner:React.createElement('i', { className:'icon-loader-circle', 'aria-hidden':true, style:{ fontSize:24, color:'#101B35', animation:'luni-spin 1s linear infinite', flex:'none' } }),
+      aviso:s.desdeExpirada, avisoBg:'#FFF4D9', avisoColor:'#5C3B00', avisoIcon:'icon-clock-alert', avisoTxt:'Tu sesión expiró. Inicia sesión para continuar.',
+      enviar:e => this.enviar(e), irRecuperar:() => this.irP('recuperar'), irLogin:() => this.irP('login'), irLoginExpirada:() => this.irP('login', { desdeExpirada:true }),
+      usarDemo:() => this.setState({ correo:DEMO, errCorreo:'' }), recEnviado:s.recEnviado, recForm:!s.recEnviado,
+      enviarRec:e => { if (e && e.preventDefault) e.preventDefault(); if (!s.correo.trim() || !EMAIL.test(s.correo.trim())) { this.setState({ errCorreo:'Escribe un correo válido.' }); return; } this.setState({ recEnviado:true, errCorreo:'' }); },
+      reiniciar:() => { ls.del(K_PERFIL); ls.del(K_SESION); this.setState({ visita:'primera', pantalla:'login', correo:'', pass:'', error:'', errCorreo:'', errPass:'', cargando:false, destino:'', desdeExpirada:false, recEnviado:false }); }
+    };
+    return v;
+  }
+}
+</script>
+</body>
+</html>
