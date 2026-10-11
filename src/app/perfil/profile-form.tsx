@@ -19,6 +19,8 @@ export function ProfileForm() {
   const [userId, setUserId] = useState("");
   const [loading, setLoading] = useState(true);
   const [isEmpty, setIsEmpty] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [updatedAt, setUpdatedAt] = useState("");
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [message, setMessage] = useState("");
 
@@ -34,7 +36,7 @@ export function ProfileForm() {
       if (!active) return;
       if (error) { setMessage("No pudimos cargar el perfil. Comprueba que aplicaste la migración de Supabase."); setSaveState("error"); }
       else if (!data) { setIsEmpty(true); setProfile({ ...emptyProfile, professional_email: userData.user.email ?? "" }); }
-      else setProfile(normalizeProfile(data));
+      else { setProfile(normalizeProfile(data)); setUpdatedAt(typeof data.updated_at === "string" ? data.updated_at : ""); }
       setLoading(false);
     }
     load();
@@ -68,14 +70,21 @@ export function ProfileForm() {
       salary_period: profile.salary_period || null,
       contract_types: profile.contract_types,
     };
-    const { error } = await createClient().from("profiles").upsert(payload, { onConflict: "user_id" });
+    const { data, error } = await createClient().from("profiles").upsert(payload, { onConflict: "user_id" }).select("updated_at").single();
     if (error) { setSaveState("error"); setMessage(error.code === "23514" ? "Revisa el rango salarial: el máximo no puede ser menor que el mínimo." : "No pudimos guardar el perfil. Inténtalo de nuevo."); }
-    else { setIsEmpty(false); setSaveState("success"); setMessage("Perfil guardado correctamente."); }
+    else { setIsEmpty(false); setUpdatedAt(data.updated_at); setSaveState("success"); setMessage("Perfil guardado correctamente."); }
   }
 
   if (loading) return <div className="mx-auto max-w-5xl px-5 py-12 md:px-12"><div role="status" className="animate-pulse space-y-5"><div className="h-9 w-64 rounded bg-[#dde1e8]" /><div className="h-52 rounded-2xl bg-white" /><div className="h-72 rounded-2xl bg-white" /><span className="sr-only">Cargando perfil…</span></div></div>;
 
+  if (!expanded) {
+    const lastUpdate = updatedAt ? new Intl.DateTimeFormat("es-PA", { dateStyle: "long", timeStyle: "short", timeZone: "America/Panama" }).format(new Date(updatedAt)) : "Aún no se ha guardado";
+    const initials = profile.full_name ? profile.full_name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase() : "—";
+    return <div className="mx-auto max-w-[900px] px-5 py-6 pb-28 md:px-12 md:py-10"><header><p className="text-sm font-bold text-muted">PERFIL PROFESIONAL</p><h1 className="mt-1 font-display text-[30px] font-bold text-navy md:text-[34px]">Mi perfil</h1><p className="mt-2 max-w-2xl text-[#4a5163]">Consulta el resumen de tu información y ábrelo cuando necesites revisar o editar los detalles.</p></header>{message && saveState === "error" && <div role="alert" className="mt-6 rounded-xl bg-[#fdecea] p-4 text-sm font-semibold text-[#a4271b]">{message}</div>}<button type="button" onClick={() => setExpanded(true)} className="mt-6 w-full rounded-2xl border border-line bg-white p-5 text-left shadow-[0_2px_8px_rgba(16,27,53,.04)] transition hover:border-[#aab2c1] hover:shadow-[0_8px_24px_rgba(16,27,53,.08)] sm:p-7"><div className="flex flex-col gap-5 sm:flex-row sm:items-center"><span className="flex size-16 shrink-0 items-center justify-center rounded-full bg-navy font-display text-xl font-bold text-lime">{initials}</span><span className="min-w-0 flex-1"><span className="block font-display text-2xl font-bold text-navy">{profile.full_name || "Perfil sin nombre"}</span><span className="mt-1 block text-sm text-muted">Última modificación: {lastUpdate}</span>{profile.professional_email && <span className="mt-2 block truncate text-[15px] text-[#4a5163]">{profile.professional_email}{profile.location ? ` · ${profile.location}` : ""}</span>}</span><span className="flex h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-lime px-5 font-bold text-navy">Ver y editar perfil<Icon name="chevron" className="size-[18px]"/></span></div><span className="mt-5 grid grid-cols-3 gap-2 border-t border-line pt-5 text-center"><span><strong className="block font-display text-xl text-navy">{profile.experiences.length}</strong><span className="text-xs text-muted">Experiencias</span></span><span><strong className="block font-display text-xl text-navy">{profile.education.length}</strong><span className="text-xs text-muted">Formaciones</span></span><span><strong className="block font-display text-xl text-navy">{profile.skills.filter(Boolean).length}</strong><span className="text-xs text-muted">Habilidades</span></span></span></button>{isEmpty && <div className="mt-4 rounded-xl border border-[#bfd0ef] bg-[#e9f0fd] p-4 text-sm text-[#1e55b8]">Tu perfil todavía está vacío. Abre la tarjeta para añadir tu información.</div>}</div>;
+  }
+
   return <div className="mx-auto max-w-[1080px] px-5 py-6 md:px-12 md:py-10">
+    <button type="button" onClick={() => setExpanded(false)} className="mb-2 flex min-h-11 items-center gap-1.5 text-sm font-bold text-muted hover:text-navy"><Icon name="chevron" className="size-4 rotate-180"/>Volver a Mi perfil</button>
     <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><p className="text-sm font-bold text-muted">PERFIL PROFESIONAL</p><h1 className="mt-1 font-display text-[30px] font-bold text-navy md:text-[34px]">Tu información profesional</h1><p className="mt-2 max-w-2xl text-[#4a5163]">Guarda solo información confirmada. Los campos vacíos permanecen pendientes y Luni no los completará por ti.</p></div><button type="button" onClick={save} disabled={saveState === "saving" || !userId} className="flex h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-lime px-5 font-bold text-navy hover:bg-[#b5f02e] disabled:cursor-wait disabled:opacity-60"><Icon name="check" className="size-[18px]" />{saveState === "saving" ? "Guardando…" : "Guardar perfil"}</button></header>
     {isEmpty && <div className="mt-6 rounded-xl border border-[#bfd0ef] bg-[#e9f0fd] p-4 text-[#1e55b8]"><strong>Tu perfil está vacío.</strong><p className="mt-1 text-sm">Completa únicamente los datos que quieras guardar. Ningún dato de demostración se copiará aquí.</p></div>}
     {message && <div role="status" className={`mt-6 rounded-xl p-4 text-sm font-semibold ${saveState === "success" ? "bg-[#e7f5ec] text-[#17663f]" : "bg-[#fdecea] text-[#a4271b]"}`}>{message}</div>}
