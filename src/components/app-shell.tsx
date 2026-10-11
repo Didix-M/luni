@@ -12,7 +12,7 @@ const primary = [
   { href: "/vacantes", label: "Vacantes", icon: "briefcase" },
   { href: "/postulaciones", label: "Postulaciones", icon: "send" },
   { href: "/cv", label: "Mis CV", icon: "file" },
-  { href: "/perfil", label: "Perfil y respuestas", icon: "user" },
+  { href: "/perfil", label: "Perfil", icon: "user" },
 ] satisfies { href: string; label: string; icon: IconName; count?: string }[];
 
 function Brand({ dark = false }: { dark?: boolean }) {

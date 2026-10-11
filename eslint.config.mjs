@@ -14,6 +14,8 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Static design prototype; it is reference material, not application code.
     "design-reference/**",
+    // Third-party PDF.js worker copied verbatim for in-browser extraction.
+    "public/pdf.worker.min.mjs",
   ]),
 ]);
 
