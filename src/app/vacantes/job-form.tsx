@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Icon } from "@/components/icons";
 import { createClient } from "@/lib/supabase/client";
@@ -9,20 +9,38 @@ import { eligibilityLabels, emptyJob, normalizeJob, openingLabels, stageLabels, 
 
 type Status = "idle" | "loading" | "saving" | "success" | "error" | "deleting";
 type ImportStatus = "idle" | "loading" | "success" | "error";
+type ImportResult = { error?: string; job?: Partial<Job>; detected?: string[]; source?: "structured" | "metadata" };
 const input = "h-12 w-full rounded-xl border border-[#b9bfcb] bg-white px-3.5 outline-none placeholder:text-[#8a92a3]";
 const textarea = "min-h-32 w-full resize-y rounded-xl border border-[#b9bfcb] bg-white px-3.5 py-3 outline-none placeholder:text-[#8a92a3]";
 
 function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) { return <label className="flex flex-col gap-1.5 text-[15px] font-bold text-[#2e3445]">{label}{children}{hint && <span className="text-sm font-normal text-muted">{hint}</span>}</label>; }
 function Card({ title, description, children }: { title: string; description?: string; children: React.ReactNode }) { return <section className="rounded-2xl border border-line bg-white p-5 sm:p-6"><h2 className="font-display text-xl font-bold text-navy">{title}</h2>{description && <p className="mt-1 text-sm text-muted">{description}</p>}<div className="mt-5">{children}</div></section>; }
 
-export function JobForm({ jobId }: { jobId?: string }) {
+async function requestImport(url: string) {
+  const response = await fetch("/api/jobs/import", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ url }) });
+  const result = await response.json() as ImportResult;
+  if (!response.ok || !result.job) throw new Error(result.error || "No pudimos importar la vacante.");
+  return result;
+}
+
+function mergeImportedJob(current: Job, imported: Partial<Job>) {
+  const next = { ...current };
+  for (const key of Object.keys(imported) as (keyof Job)[]) {
+    const value = imported[key];
+    if (value && !current[key]) Object.assign(next, { [key]: value });
+  }
+  return next;
+}
+
+export function JobForm({ jobId, initialUrl = "", autoImport = false }: { jobId?: string; initialUrl?: string; autoImport?: boolean }) {
   const router = useRouter();
-  const [job, setJob] = useState<Job>(emptyJob);
+  const [job, setJob] = useState<Job>(() => ({ ...emptyJob, source_url: initialUrl }));
   const [userId, setUserId] = useState("");
   const [status, setStatus] = useState<Status>(jobId ? "loading" : "idle");
   const [message, setMessage] = useState("");
-  const [importStatus, setImportStatus] = useState<ImportStatus>("idle");
-  const [importMessage, setImportMessage] = useState("");
+  const [importStatus, setImportStatus] = useState<ImportStatus>(autoImport ? "loading" : "idle");
+  const [importMessage, setImportMessage] = useState(autoImport ? "Leyendo la información pública del enlace…" : "");
+  const autoImportStarted = useRef(false);
 
   useEffect(() => {
     let active = true;
@@ -42,24 +60,27 @@ export function JobForm({ jobId }: { jobId?: string }) {
     return () => { active = false; };
   }, [jobId]);
 
+  useEffect(() => {
+    if (!autoImport || !initialUrl || autoImportStarted.current) return;
+    autoImportStarted.current = true;
+    void requestImport(initialUrl).then((result) => {
+      setJob((current) => mergeImportedJob(current, result.job ?? {}));
+      setImportStatus("success");
+      setImportMessage(result.source === "structured" ? "Encontramos datos estructurados de la vacante. Revisa cada campo antes de guardar." : "Encontramos información básica en la página. Completa y revisa los campos faltantes antes de guardar.");
+    }).catch((error: unknown) => {
+      setImportStatus("error");
+      setImportMessage(error instanceof Error ? error.message : "No pudimos importar la vacante. Puedes completar el formulario manualmente.");
+    });
+  }, [autoImport, initialUrl]);
+
   function set<K extends keyof Job>(key: K, value: Job[K]) { setJob((current) => ({ ...current, [key]: value })); if (status === "success") { setStatus("idle"); setMessage(""); } }
 
   async function importFromUrl() {
     if (!job.source_url.trim()) { setImportStatus("error"); setImportMessage("Pega primero el enlace público de la vacante."); return; }
     setImportStatus("loading"); setImportMessage("Leyendo la información pública del enlace…");
     try {
-      const response = await fetch("/api/jobs/import", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ url: job.source_url.trim() }) });
-      const result = await response.json() as { error?: string; job?: Partial<Job>; detected?: string[]; source?: "structured" | "metadata" };
-      if (!response.ok || !result.job) throw new Error(result.error || "No pudimos importar la vacante.");
-      const imported = result.job;
-      setJob((current) => {
-        const next = { ...current };
-        for (const key of Object.keys(imported) as (keyof Job)[]) {
-          const value = imported[key];
-          if (value && !current[key]) Object.assign(next, { [key]: value });
-        }
-        return next;
-      });
+      const result = await requestImport(job.source_url.trim());
+      setJob((current) => mergeImportedJob(current, result.job ?? {}));
       setImportStatus("success");
       setImportMessage(result.source === "structured" ? "Encontramos datos estructurados de la vacante. Revisa cada campo antes de guardar." : "Encontramos información básica en la página. Completa y revisa los campos faltantes antes de guardar.");
     } catch (error) {

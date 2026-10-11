@@ -21,6 +21,8 @@ export type Job = {
   tracking_stage: TrackingStage;
   published_on: string;
   notes: string;
+  is_favorite: boolean;
+  compatibility_score: number | null;
   created_at?: string;
   updated_at?: string;
 };
@@ -28,7 +30,7 @@ export type Job = {
 export const emptyJob: Job = {
   company: "", title: "", source_url: "", description: "", workplace_mode: "", location: "", contract_type: "",
   salary_min: "", salary_max: "", salary_currency: "", salary_period: "", opening_status: "unverified",
-  panama_eligibility: "unconfirmed", tracking_stage: "new", published_on: "", notes: "",
+  panama_eligibility: "unconfirmed", tracking_stage: "new", published_on: "", notes: "", is_favorite: false, compatibility_score: null,
 };
 
 export const openingLabels: Record<OpeningStatus, string> = { open: "Abierta", closed: "Cerrada", unverified: "No se pudo verificar" };
@@ -56,6 +58,8 @@ export function normalizeJob(row: Record<string, unknown>): Job {
     tracking_stage: row.tracking_stage === "saved" || row.tracking_stage === "approved" || row.tracking_stage === "discarded" ? row.tracking_stage : "new",
     published_on: typeof row.published_on === "string" ? row.published_on : "",
     notes: typeof row.notes === "string" ? row.notes : "",
+    is_favorite: row.is_favorite === true,
+    compatibility_score: typeof row.compatibility_score === "number" ? row.compatibility_score : null,
     created_at: typeof row.created_at === "string" ? row.created_at : undefined,
     updated_at: typeof row.updated_at === "string" ? row.updated_at : undefined,
   };
