@@ -18,6 +18,8 @@ type ImportedJob = {
   salary_currency?: string;
   salary_period?: string;
   published_on?: string;
+  panama_eligibility?: "confirmed" | "unconfirmed" | "excluded";
+  opening_status?: "open" | "closed" | "unverified";
 };
 
 function isPrivateAddress(address: string) {
@@ -98,6 +100,58 @@ function plainText(html: string) {
   return cheerio.load(`<body>${html}</body>`)("body").text().replace(/\s+/g, " ").trim();
 }
 
+function richText(html: string) {
+  const withBreaks = html
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/li>/gi, "\n")
+    .replace(/<\/(?:p|ul|ol|h[1-6])>/gi, "\n");
+  return cheerio.load(`<body>${withBreaks}</body>`)("body").text()
+    .replace(/[ \t]+/g, " ")
+    .replace(/ *\n */g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function employmentType(value: string) {
+  if (/contract|temporary|contrato|temporal/i.test(value)) return "Contractor";
+  if (/intern|práctica|pasantía/i.test(value)) return "Práctica";
+  if (/full.?time|part.?time|permanent|jornada completa|media jornada|indefinido/i.test(value)) return "Empleado";
+  return "";
+}
+
+function linkedInCriteria($: cheerio.CheerioAPI, label: RegExp) {
+  let value = "";
+  $(".description__job-criteria-item").each((_, element) => {
+    const heading = $(element).find(".description__job-criteria-subheader").text().replace(/\s+/g, " ").trim();
+    if (label.test(heading)) value = $(element).find(".description__job-criteria-text").text().replace(/\s+/g, " ").trim();
+  });
+  return value;
+}
+
+function parseLinkedIn($: cheerio.CheerioAPI): ImportedJob | undefined {
+  const title = $(".top-card-layout__title, .topcard__title").first().text().replace(/\s+/g, " ").trim();
+  const company = $(".topcard__org-name-link").first().text().replace(/\s+/g, " ").trim();
+  if (!title && !company) return undefined;
+  const descriptionHtml = $(".show-more-less-html__markup").first().html() ?? "";
+  const description = richText(descriptionHtml);
+  const location = $(".topcard__flavor-row").first().find(".topcard__flavor--bullet").first().text().replace(/\s+/g, " ").trim();
+  const employment = linkedInCriteria($, /employment type|tipo de empleo/i);
+  const explicitlyRemote = /fully remote|100% remote|work from anywhere|remote position|trabajo remoto|trabaja desde cualquier lugar/i.test(description);
+  const worldwide = /work from anywhere|anywhere in the world|worldwide|trabaja desde cualquier lugar/i.test(description);
+  const publishedOn = $(".posted-time-ago__text[datetime]").first().attr("datetime")?.slice(0, 10) ?? "";
+  return {
+    title,
+    company,
+    description,
+    location,
+    workplace_mode: explicitlyRemote ? "Remoto" : "",
+    panama_eligibility: worldwide ? "confirmed" : "unconfirmed",
+    contract_type: employmentType(employment),
+    published_on: publishedOn,
+    opening_status: $("a.top-card-layout__cta, .apply-button").length ? "open" : "unverified",
+  };
+}
+
 function parseJob(html: string) {
   const $ = cheerio.load(html);
   let posting: Record<string, unknown> | undefined;
@@ -107,7 +161,7 @@ function parseJob(html: string) {
   });
   const result: ImportedJob = {};
   const detected: string[] = [];
-  let source: "structured" | "metadata" = "metadata";
+  let source: "structured" | "linkedin" | "metadata" = "metadata";
 
   if (posting) {
     source = "structured";
@@ -135,14 +189,30 @@ function parseJob(html: string) {
       published_on: stringValue(posting.datePosted).slice(0, 10),
     });
   } else {
-    const meta = (property: string) => $(`meta[property="${property}"]`).attr("content")?.trim() || $(`meta[name="${property}"]`).attr("content")?.trim() || "";
-    result.title = meta("og:title") || $("title").text().trim();
-    result.company = meta("og:site_name");
-    result.description = meta("description") || meta("og:description");
+    const linkedIn = parseLinkedIn($);
+    if (linkedIn) {
+      source = "linkedin";
+      Object.assign(result, linkedIn);
+    } else {
+      const meta = (property: string) => $(`meta[property="${property}"]`).attr("content")?.trim() || $(`meta[name="${property}"]`).attr("content")?.trim() || "";
+      result.title = meta("og:title") || $("title").text().trim();
+      result.company = meta("og:site_name");
+      result.description = meta("description") || meta("og:description");
+    }
   }
 
   for (const [key, value] of Object.entries(result)) if (value) detected.push(key);
-  return { job: result, detected, source };
+  const missing = [
+    ["company", "empresa"], ["published_on", "fecha exacta de publicación"], ["description", "descripción"],
+    ["location", "ubicación"], ["workplace_mode", "modalidad"], ["contract_type", "tipo de contratación"],
+    ["salary_min", "salario"],
+  ].filter(([key]) => !result[key as keyof ImportedJob]).map(([, label]) => label);
+  const missingSalary = missing.indexOf("salario");
+  if (result.salary_max && missingSalary >= 0) missing.splice(missingSalary, 1);
+  const notices: string[] = [];
+  if (source === "linkedin" && !result.published_on && $(".posted-time-ago__text").first().text().trim()) notices.push("LinkedIn muestra una antigüedad relativa, pero no la fecha exacta; ese campo quedó pendiente.");
+  if (!result.salary_min && !result.salary_max) notices.push("La publicación no informa un salario; Luni no estimó ningún importe.");
+  return { job: result, detected, missing, notices, source };
 }
 
 export async function POST(request: Request) {

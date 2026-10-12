@@ -9,7 +9,7 @@ import { eligibilityLabels, emptyJob, normalizeJob, openingLabels, stageLabels, 
 
 type Status = "idle" | "loading" | "saving" | "success" | "error" | "deleting";
 type ImportStatus = "idle" | "loading" | "success" | "error";
-type ImportResult = { error?: string; job?: Partial<Job>; detected?: string[]; source?: "structured" | "metadata" };
+type ImportResult = { error?: string; job?: Partial<Job>; detected?: string[]; missing?: string[]; notices?: string[]; source?: "structured" | "linkedin" | "metadata" };
 const input = "h-12 w-full rounded-xl border border-[#b9bfcb] bg-white px-3.5 outline-none placeholder:text-[#8a92a3]";
 const textarea = "min-h-32 w-full resize-y rounded-xl border border-[#b9bfcb] bg-white px-3.5 py-3 outline-none placeholder:text-[#8a92a3]";
 
@@ -27,9 +27,21 @@ function mergeImportedJob(current: Job, imported: Partial<Job>) {
   const next = { ...current };
   for (const key of Object.keys(imported) as (keyof Job)[]) {
     const value = imported[key];
-    if (value && !current[key]) Object.assign(next, { [key]: value });
+    const defaultCanBeReplaced = (key === "panama_eligibility" && current[key] === "unconfirmed") || (key === "opening_status" && current[key] === "unverified");
+    if (value && (!current[key] || defaultCanBeReplaced)) Object.assign(next, { [key]: value });
   }
   return next;
+}
+
+function importSummary(result: ImportResult) {
+  const base = result.source === "linkedin"
+    ? "Leímos la información pública disponible en LinkedIn."
+    : result.source === "structured"
+      ? "Encontramos datos estructurados de la vacante."
+      : "Encontramos información básica en la página.";
+  const pending = result.missing?.length ? ` Pendiente de completar: ${result.missing.join(", ")}.` : "";
+  const notices = result.notices?.length ? ` ${result.notices.join(" ")}` : "";
+  return `${base}${pending}${notices} Revisa cada campo antes de guardar.`;
 }
 
 export function JobForm({ jobId, initialUrl = "", autoImport = false }: { jobId?: string; initialUrl?: string; autoImport?: boolean }) {
@@ -66,7 +78,7 @@ export function JobForm({ jobId, initialUrl = "", autoImport = false }: { jobId?
     void requestImport(initialUrl).then((result) => {
       setJob((current) => mergeImportedJob(current, result.job ?? {}));
       setImportStatus("success");
-      setImportMessage(result.source === "structured" ? "Encontramos datos estructurados de la vacante. Revisa cada campo antes de guardar." : "Encontramos información básica en la página. Completa y revisa los campos faltantes antes de guardar.");
+      setImportMessage(importSummary(result));
     }).catch((error: unknown) => {
       setImportStatus("error");
       setImportMessage(error instanceof Error ? error.message : "No pudimos importar la vacante. Puedes completar el formulario manualmente.");
@@ -82,7 +94,7 @@ export function JobForm({ jobId, initialUrl = "", autoImport = false }: { jobId?
       const result = await requestImport(job.source_url.trim());
       setJob((current) => mergeImportedJob(current, result.job ?? {}));
       setImportStatus("success");
-      setImportMessage(result.source === "structured" ? "Encontramos datos estructurados de la vacante. Revisa cada campo antes de guardar." : "Encontramos información básica en la página. Completa y revisa los campos faltantes antes de guardar.");
+      setImportMessage(importSummary(result));
     } catch (error) {
       setImportStatus("error");
       setImportMessage(error instanceof Error ? error.message : "No pudimos importar la vacante. Puedes completar el formulario manualmente.");
