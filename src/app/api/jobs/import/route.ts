@@ -1,6 +1,7 @@
 import { lookup } from "node:dns/promises";
 import { isIP } from "node:net";
 import * as cheerio from "cheerio";
+import { parseGreenhouseUrl, type GreenhouseBoard, type GreenhouseJob } from "@/lib/greenhouse";
 import { createClient } from "@/lib/supabase/server";
 
 const MAX_HTML_BYTES = 2 * 1024 * 1024;
@@ -215,6 +216,39 @@ function parseJob(html: string) {
   return { job: result, detected, missing, notices, source };
 }
 
+async function fetchGreenhouseJob(url: string) {
+  const parsed = parseGreenhouseUrl(url);
+  if (!parsed) return null;
+  const [jobResponse, boardResponse] = await Promise.all([
+    fetch(`https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(parsed.boardToken)}/jobs/${parsed.jobId}?questions=true`, { signal: AbortSignal.timeout(15000), cache: "no-store" }),
+    fetch(`https://boards-api.greenhouse.io/v1/boards/${encodeURIComponent(parsed.boardToken)}`, { signal: AbortSignal.timeout(15000), cache: "no-store" }),
+  ]);
+  if (!jobResponse.ok) throw new Error("Greenhouse no expuso públicamente esta vacante. Puedes completar la descripción manualmente.");
+  const job = await jobResponse.json() as GreenhouseJob;
+  const board = boardResponse.ok ? await boardResponse.json() as GreenhouseBoard : {};
+  const description = richText(job.content ?? "");
+  const location = job.location?.name?.trim() || job.offices?.map((office) => office.location || office.name).filter(Boolean).join(", ") || "";
+  const text = normalizeForRules(`${description} ${location}`);
+  const worldwide = /worldwide|anywhere in the world|work from anywhere|global remote|cualquier lugar del mundo/.test(text);
+  const remote = /remote|remoto|work from anywhere/.test(text);
+  const result: ImportedJob = {
+    company: board.name?.trim() ?? "",
+    title: job.title?.trim() ?? "",
+    description,
+    location,
+    workplace_mode: remote ? "Remoto" : "",
+    panama_eligibility: worldwide ? "confirmed" : "unconfirmed",
+    opening_status: "open",
+  };
+  const detected = Object.entries(result).filter(([, value]) => value).map(([key]) => key);
+  const missing = [["company", "empresa"], ["published_on", "fecha exacta de publicación"], ["description", "descripción"], ["location", "ubicación"], ["workplace_mode", "modalidad"], ["contract_type", "tipo de contratación"], ["salary_min", "salario"]].filter(([key]) => !result[key as keyof ImportedJob]).map(([, label]) => label);
+  return { job: result, detected, missing, notices: ["Greenhouse no siempre publica fecha, contratación o salario en su API pública; los campos ausentes quedaron pendientes."], source: "greenhouse" };
+}
+
+function normalizeForRules(value: string) {
+  return value.toLocaleLowerCase("es").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
 export async function POST(request: Request) {
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
@@ -222,8 +256,8 @@ export async function POST(request: Request) {
   try {
     const body = await request.json() as { url?: unknown };
     if (typeof body.url !== "string" || body.url.length > 2048) return Response.json({ error: "Introduce un enlace válido." }, { status: 400 });
-    const html = await fetchPublicHtml(body.url.trim());
-    const parsed = parseJob(html);
+    const greenhouse = await fetchGreenhouseJob(body.url.trim());
+    const parsed = greenhouse ?? parseJob(await fetchPublicHtml(body.url.trim()));
     if (parsed.detected.length === 0) return Response.json({ error: "La página no expone información que Luni pueda reconocer. Copia los datos manualmente." }, { status: 422 });
     return Response.json(parsed);
   } catch (error) {
