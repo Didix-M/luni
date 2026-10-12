@@ -6,5 +6,6 @@ export const instant = false;
 export default async function NewJobPage({ searchParams }: PageProps<"/vacantes/nueva">) {
   const query = await searchParams;
   const initialUrl = typeof query.url === "string" ? query.url.slice(0, 2048) : "";
-  return <AppShell><JobForm initialUrl={initialUrl} autoImport={query.analizar === "1" && Boolean(initialUrl)} /></AppShell>;
+  const journey = query.analizar === "1" && Boolean(initialUrl);
+  return <AppShell><JobForm initialUrl={initialUrl} autoImport={journey} prepareApplication={journey} /></AppShell>;
 }
