@@ -4,7 +4,7 @@ export type IconName =
   | "home" | "briefcase" | "send" | "file" | "user" | "bell"
   | "settings" | "plus" | "link" | "arrow" | "chevron" | "flask"
   | "shield" | "help" | "alert" | "list" | "pin" | "check"
-  | "eye" | "calendar" | "more" | "star";
+  | "eye" | "calendar" | "more" | "star" | "door";
 
 const paths: Record<IconName, React.ReactNode> = {
   home: <><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></>,
@@ -27,6 +27,7 @@ const paths: Record<IconName, React.ReactNode> = {
   calendar: <><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></>,
   more: <><circle cx="5" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1" fill="currentColor" stroke="none"/></>,
   star: <path d="m12 2.8 2.8 5.7 6.3.9-4.6 4.4 1.1 6.3-5.6-3-5.6 3 1.1-6.3-4.6-4.4 6.3-.9Z"/>,
+  door: <><path d="M4 21h16M6 21V4.5L16 2v19M16 5h3v16"/><circle cx="13" cy="12" r=".7" fill="currentColor" stroke="none"/></>,
 };
 
 export function Icon({ name, ...props }: { name: IconName } & SVGProps<SVGSVGElement>) {

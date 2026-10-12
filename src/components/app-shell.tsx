@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { Icon, type IconName } from "./icons";
 import { createClient } from "@/lib/supabase/client";
@@ -22,7 +22,6 @@ function Brand({ dark = false }: { dark?: boolean }) {
 
 function Sidebar() {
   const pathname = usePathname();
-  const router = useRouter();
   const [account, setAccount] = useState({ name: "", email: "" });
   const configured = isSupabaseConfigured();
 
@@ -38,27 +37,18 @@ function Sidebar() {
     return () => { active = false; };
   }, [configured]);
 
-  async function signOut() {
-    await createClient().auth.signOut();
-    router.replace("/acceso");
-    router.refresh();
-  }
-
   return <aside className="fixed inset-y-0 left-0 z-20 hidden w-[264px] flex-col gap-7 bg-navy px-[18px] py-7 text-white md:flex">
     <div className="px-2.5"><Brand dark /></div>
     <Link href="/vacantes/nueva" className="flex h-[46px] items-center justify-center gap-2 rounded-xl bg-lime text-[15px] font-bold text-navy transition hover:bg-[#d4ff73]"><Icon name="plus" className="size-[18px]" />Añadir vacante</Link>
     <nav aria-label="Navegación principal" className="flex flex-col gap-0.5">{primary.map((item) => { const active = item.href === "/" ? pathname === "/" : item.href === "/perfil" ? pathname === "/perfil" : pathname.startsWith(item.href); return <Link key={item.href} href={item.href} aria-current={active ? "page" : undefined} className={`flex h-11 items-center gap-3 rounded-[10px] px-3 text-base ${active ? "bg-[#1e2a48] font-bold text-white" : "font-medium text-[#d3d8e3] hover:bg-[#18233f] hover:text-white"}`}><Icon name={item.icon} className={`size-[19px] ${active ? "text-lime" : ""}`} /><span className="flex-1">{item.label}</span></Link> })}</nav>
     <div className="flex-1" />
     <nav aria-label="Cuenta" className="flex flex-col gap-0.5"><Link href="/notificaciones" className="flex h-11 items-center gap-3 rounded-[10px] px-3 text-[#d3d8e3] hover:bg-[#18233f] hover:text-white"><Icon name="bell" className="size-[19px]" /><span className="flex-1">Notificaciones</span></Link><Link href="/configuracion" className="flex h-11 items-center gap-3 rounded-[10px] px-3 text-[#d3d8e3] hover:bg-[#18233f] hover:text-white"><Icon name="settings" className="size-[19px]" />Configuración</Link></nav>
-    <div className="border-t border-[#26314d] px-2.5 pt-4"><div className="flex items-center gap-2.5"><span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#2a3656] text-sm font-bold">{account.name ? account.name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase() : "—"}</span><span className="min-w-0"><span className="block truncate text-[15px] font-semibold">{account.name || (configured ? "Perfil sin nombre" : "Supabase sin configurar")}</span><span className="block truncate text-sm text-[#a9b1c4]">{account.email || "Sin sesión"}</span></span></div>{configured && <button type="button" onClick={signOut} className="mt-3 flex min-h-11 w-full items-center gap-2 rounded-[10px] px-2 text-sm font-semibold text-[#d3d8e3] hover:bg-[#18233f] hover:text-white"><Icon name="arrow" className="size-4 rotate-180" />Cerrar sesión</button>}</div>
+    <div className="border-t border-[#26314d] px-2.5 pt-4"><div className="flex items-center gap-2.5"><span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#2a3656] text-sm font-bold">{account.name ? account.name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase() : "—"}</span><span className="min-w-0"><span className="block truncate text-[15px] font-semibold">{account.name || (configured ? "Perfil sin nombre" : "Supabase sin configurar")}</span><span className="block truncate text-sm text-[#a9b1c4]">{account.email || "Sin sesión"}</span></span></div></div>
   </aside>;
 }
 
 function MobileHeader() {
-  const router = useRouter();
-  const configured = isSupabaseConfigured();
-  async function signOut() { await createClient().auth.signOut(); router.replace("/acceso"); router.refresh(); }
-  return <header className="flex items-center justify-between px-5 pb-2 pt-5 md:hidden"><Brand /><div className="flex gap-2">{configured && <button type="button" onClick={signOut} aria-label="Cerrar sesión" className="flex size-11 items-center justify-center rounded-xl border border-line bg-white text-navy"><Icon name="arrow" className="size-5 rotate-180" /></button>}<Link href="/notificaciones" aria-label="Notificaciones" className="relative flex size-11 items-center justify-center rounded-xl border border-line bg-white text-navy"><Icon name="bell" className="size-5" /></Link></div></header>;
+  return <header className="flex items-center justify-between px-5 pb-2 pt-5 md:hidden"><Brand /><Link href="/notificaciones" aria-label="Notificaciones" className="relative flex size-11 items-center justify-center rounded-xl border border-line bg-white text-navy"><Icon name="bell" className="size-5" /></Link></header>;
 }
 
 function MobileNav() {
