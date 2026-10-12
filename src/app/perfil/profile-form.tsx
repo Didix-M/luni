@@ -15,6 +15,19 @@ function Card({ title, description, children }: { title: string; description?: s
 function RemoveButton({ onClick, label }: { onClick: () => void; label: string }) { return <button type="button" onClick={onClick} className="h-11 rounded-[10px] px-3 text-sm font-bold text-[#a4271b] hover:bg-[#fdecea]">Eliminar {label}</button>; }
 function Toggle({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) { return <button type="button" aria-pressed={active} onClick={onClick} className={`min-h-11 rounded-[10px] border px-3.5 text-sm font-bold ${active ? "border-navy bg-navy text-white" : "border-[#b9bfcb] bg-white text-[#4a5163] hover:border-navy"}`}>{children}</button>; }
 
+function portfolioUrlError(value: string) {
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+  let parsed: URL;
+  try { parsed = new URL(trimmed); }
+  catch { return "Escribe una URL completa, por ejemplo https://tuportafolio.com/."; }
+  return parsed.protocol === "http:" || parsed.protocol === "https:" ? "" : "La URL debe comenzar con http:// o https://.";
+}
+
+function safePortfolioUrl(value: string) {
+  return portfolioUrlError(value) ? "" : value.trim();
+}
+
 export function ProfileForm() {
   const [profile, setProfile] = useState<Profile>(emptyProfile);
   const [userId, setUserId] = useState("");
@@ -22,6 +35,8 @@ export function ProfileForm() {
   const [isEmpty, setIsEmpty] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [updatedAt, setUpdatedAt] = useState("");
+  const [savedPortfolioUrl, setSavedPortfolioUrl] = useState("");
+  const [portfolioTouched, setPortfolioTouched] = useState(false);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [message, setMessage] = useState("");
 
@@ -37,7 +52,7 @@ export function ProfileForm() {
       if (!active) return;
       if (error) { setMessage("No pudimos cargar el perfil. Comprueba que aplicaste la migración de Supabase."); setSaveState("error"); }
       else if (!data) { setIsEmpty(true); setProfile({ ...emptyProfile, professional_email: userData.user.email ?? "" }); }
-      else { setProfile(normalizeProfile(data)); setUpdatedAt(typeof data.updated_at === "string" ? data.updated_at : ""); }
+      else { const loadedProfile = normalizeProfile(data); setProfile(loadedProfile); setSavedPortfolioUrl(safePortfolioUrl(loadedProfile.portfolio_url)); setUpdatedAt(typeof data.updated_at === "string" ? data.updated_at : ""); }
       setLoading(false);
     }
     load();
@@ -50,6 +65,9 @@ export function ProfileForm() {
 
   async function save() {
     if (!userId) return;
+    setPortfolioTouched(true);
+    const urlError = portfolioUrlError(profile.portfolio_url);
+    if (urlError) { setSaveState("error"); setMessage("Revisa la URL del portafolio antes de guardar."); return; }
     setSaveState("saving"); setMessage("");
     const payload = {
       user_id: userId,
@@ -73,7 +91,7 @@ export function ProfileForm() {
     };
     const { data, error } = await createClient().from("profiles").upsert(payload, { onConflict: "user_id" }).select("updated_at").single();
     if (error) { setSaveState("error"); setMessage(error.code === "23514" ? "Revisa el rango salarial: el máximo no puede ser menor que el mínimo." : "No pudimos guardar el perfil. Inténtalo de nuevo."); }
-    else { setIsEmpty(false); setUpdatedAt(data.updated_at); setSaveState("success"); setMessage("Perfil guardado correctamente."); }
+    else { setIsEmpty(false); setSavedPortfolioUrl(safePortfolioUrl(profile.portfolio_url)); setUpdatedAt(data.updated_at); setSaveState("success"); setMessage("Perfil guardado correctamente."); }
   }
 
   if (loading) return <div className="mx-auto max-w-5xl px-5 py-12 md:px-12"><div role="status" className="animate-pulse space-y-5"><div className="h-9 w-64 rounded bg-[#dde1e8]" /><div className="h-52 rounded-2xl bg-white" /><div className="h-72 rounded-2xl bg-white" /><span className="sr-only">Cargando perfil…</span></div></div>;
@@ -81,7 +99,7 @@ export function ProfileForm() {
   if (!expanded) {
     const lastUpdate = updatedAt ? new Intl.DateTimeFormat("es-PA", { dateStyle: "long", timeStyle: "short", timeZone: "America/Panama" }).format(new Date(updatedAt)) : "Aún no se ha guardado";
     const initials = profile.full_name ? profile.full_name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase() : "—";
-    return <div className="mx-auto max-w-[900px] px-5 py-6 pb-28 md:px-12 md:py-10"><header><p className="text-sm font-bold text-muted">PERFIL PROFESIONAL</p><h1 className="mt-1 font-display text-[30px] font-bold text-navy md:text-[34px]">Mi perfil</h1><p className="mt-2 max-w-2xl text-[#4a5163]">Consulta el resumen de tu información y ábrelo cuando necesites revisar o editar los detalles.</p></header>{message && saveState === "error" && <div role="alert" className="mt-6 rounded-xl bg-[#fdecea] p-4 text-sm font-semibold text-[#a4271b]">{message}</div>}<button type="button" onClick={() => setExpanded(true)} className="mt-6 w-full rounded-2xl border border-line bg-white p-5 text-left shadow-[0_2px_8px_rgba(16,27,53,.04)] transition hover:border-[#aab2c1] hover:shadow-[0_8px_24px_rgba(16,27,53,.08)] sm:p-7"><div className="flex flex-col gap-5 sm:flex-row sm:items-center"><span className="flex size-16 shrink-0 items-center justify-center rounded-full bg-navy font-display text-xl font-bold text-lime">{initials}</span><span className="min-w-0 flex-1"><span className="block font-display text-2xl font-bold text-navy">{profile.full_name || "Perfil sin nombre"}</span><span className="mt-1 block text-sm text-muted">Última modificación: {lastUpdate}</span>{profile.professional_email && <span className="mt-2 block truncate text-[15px] text-[#4a5163]">{profile.professional_email}{profile.location ? ` · ${profile.location}` : ""}</span>}</span><span className="flex h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-lime px-5 font-bold text-navy">Ver y editar perfil<Icon name="chevron" className="size-[18px]"/></span></div><span className="mt-5 grid grid-cols-3 gap-2 border-t border-line pt-5 text-center"><span><strong className="block font-display text-xl text-navy">{profile.experiences.length}</strong><span className="text-xs text-muted">Experiencias</span></span><span><strong className="block font-display text-xl text-navy">{profile.education.length}</strong><span className="text-xs text-muted">Formaciones</span></span><span><strong className="block font-display text-xl text-navy">{profile.skills.filter(Boolean).length}</strong><span className="text-xs text-muted">Habilidades</span></span></span></button>{isEmpty && <div className="mt-4 rounded-xl border border-[#bfd0ef] bg-[#e9f0fd] p-4 text-sm text-[#1e55b8]">Tu perfil todavía está vacío. Abre la tarjeta para añadir tu información.</div>}<SlideToSignOut /></div>;
+    return <div className="mx-auto max-w-[900px] px-5 py-6 pb-28 md:px-12 md:py-10"><header><p className="text-sm font-bold text-muted">PERFIL PROFESIONAL</p><h1 className="mt-1 font-display text-[30px] font-bold text-navy md:text-[34px]">Mi perfil</h1><p className="mt-2 max-w-2xl text-[#4a5163]">Consulta el resumen de tu información y ábrelo cuando necesites revisar o editar los detalles.</p></header>{message && saveState === "error" && <div role="alert" className="mt-6 rounded-xl bg-[#fdecea] p-4 text-sm font-semibold text-[#a4271b]">{message}</div>}<button type="button" onClick={() => setExpanded(true)} className="mt-6 w-full rounded-2xl border border-line bg-white p-5 text-left shadow-[0_2px_8px_rgba(16,27,53,.04)] transition hover:border-[#aab2c1] hover:shadow-[0_8px_24px_rgba(16,27,53,.08)] sm:p-7"><div className="flex flex-col gap-5 sm:flex-row sm:items-center"><span className="flex size-16 shrink-0 items-center justify-center rounded-full bg-navy font-display text-xl font-bold text-lime">{initials}</span><span className="min-w-0 flex-1"><span className="block font-display text-2xl font-bold text-navy">{profile.full_name || "Perfil sin nombre"}</span><span className="mt-1 block text-sm text-muted">Última modificación: {lastUpdate}</span>{profile.professional_email && <span className="mt-2 block truncate text-[15px] text-[#4a5163]">{profile.professional_email}{profile.location ? ` · ${profile.location}` : ""}</span>}</span><span className="flex h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-lime px-5 font-bold text-navy">Ver y editar perfil<Icon name="chevron" className="size-[18px]"/></span></div><span className="mt-5 grid grid-cols-3 gap-2 border-t border-line pt-5 text-center"><span><strong className="block font-display text-xl text-navy">{profile.experiences.length}</strong><span className="text-xs text-muted">Experiencias</span></span><span><strong className="block font-display text-xl text-navy">{profile.education.length}</strong><span className="text-xs text-muted">Formaciones</span></span><span><strong className="block font-display text-xl text-navy">{profile.skills.filter(Boolean).length}</strong><span className="text-xs text-muted">Habilidades</span></span></span></button>{savedPortfolioUrl && <a href={savedPortfolioUrl} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-xl border border-navy px-4 font-bold text-navy hover:bg-navy hover:text-white"><Icon name="link" className="size-4"/>Ver portafolio</a>}{isEmpty && <div className="mt-4 rounded-xl border border-[#bfd0ef] bg-[#e9f0fd] p-4 text-sm text-[#1e55b8]">Tu perfil todavía está vacío. Abre la tarjeta para añadir tu información.</div>}<SlideToSignOut /></div>;
   }
 
   return <div className="mx-auto max-w-[1080px] px-5 py-6 md:px-12 md:py-10">
@@ -91,7 +109,7 @@ export function ProfileForm() {
     {message && <div role="status" className={`mt-6 rounded-xl p-4 text-sm font-semibold ${saveState === "success" ? "bg-[#e7f5ec] text-[#17663f]" : "bg-[#fdecea] text-[#a4271b]"}`}>{message}</div>}
 
     <div className="mt-6 grid gap-6">
-      <Card title="Datos personales" description="Información de contacto para tus solicitudes."><div className="grid gap-4 sm:grid-cols-2"><Field label="Nombre completo"><input value={profile.full_name} onChange={(e) => set("full_name", e.target.value)} className={input} /></Field><Field label="Correo profesional"><input type="email" value={profile.professional_email} onChange={(e) => set("professional_email", e.target.value)} className={input} /></Field><Field label="Teléfono"><input type="tel" value={profile.phone} onChange={(e) => set("phone", e.target.value)} className={input} /></Field><Field label="Ubicación"><input value={profile.location} onChange={(e) => set("location", e.target.value)} className={input} placeholder="Ciudad, país" /></Field><Field label="Portfolio"><input type="url" value={profile.portfolio_url} onChange={(e) => set("portfolio_url", e.target.value)} className={input} placeholder="https://" /></Field><Field label="LinkedIn"><input type="url" value={profile.linkedin_url} onChange={(e) => set("linkedin_url", e.target.value)} className={input} placeholder="https://linkedin.com/in/…" /></Field></div><div className="mt-4"><Field label="Resumen profesional"><textarea value={profile.professional_summary} onChange={(e) => set("professional_summary", e.target.value)} className={textarea} /></Field></div></Card>
+      <Card title="Datos personales" description="Información de contacto para tus solicitudes."><div className="grid gap-4 sm:grid-cols-2"><Field label="Nombre completo"><input value={profile.full_name} onChange={(e) => set("full_name", e.target.value)} className={input} /></Field><Field label="Correo profesional"><input type="email" value={profile.professional_email} onChange={(e) => set("professional_email", e.target.value)} className={input} /></Field><Field label="Teléfono"><input type="tel" value={profile.phone} onChange={(e) => set("phone", e.target.value)} className={input} /></Field><Field label="Ubicación"><input value={profile.location} onChange={(e) => set("location", e.target.value)} className={input} placeholder="Ciudad, país" /></Field><div><Field label="URL del portafolio"><input type="url" inputMode="url" value={profile.portfolio_url} onChange={(e) => { set("portfolio_url", e.target.value); setPortfolioTouched(true); }} onBlur={() => setPortfolioTouched(true)} aria-invalid={Boolean(portfolioTouched && portfolioUrlError(profile.portfolio_url))} aria-describedby="portfolio-help portfolio-error" className={`${input} ${portfolioTouched && portfolioUrlError(profile.portfolio_url) ? "border-[#a4271b] focus:border-[#a4271b]" : ""}`} placeholder="https://tuportafolio.com/" /></Field>{portfolioTouched && portfolioUrlError(profile.portfolio_url) ? <p id="portfolio-error" role="alert" className="mt-1.5 text-sm font-semibold text-[#a4271b]">{portfolioUrlError(profile.portfolio_url)}</p> : <p id="portfolio-help" className="mt-1.5 text-sm font-normal text-muted">Se guardará en tu perfil privado para usos futuros.</p>}{savedPortfolioUrl && <a href={savedPortfolioUrl} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex min-h-11 items-center gap-2 font-bold text-[#1e55b8] hover:underline"><Icon name="link" className="size-4"/>Ver portafolio</a>}</div><Field label="LinkedIn"><input type="url" value={profile.linkedin_url} onChange={(e) => set("linkedin_url", e.target.value)} className={input} placeholder="https://linkedin.com/in/…" /></Field></div><div className="mt-4"><Field label="Resumen profesional"><textarea value={profile.professional_summary} onChange={(e) => set("professional_summary", e.target.value)} className={textarea} /></Field></div></Card>
 
       <Card title="Experiencia profesional"><div className="space-y-4">{profile.experiences.length === 0 && <p className="rounded-xl bg-canvas p-4 text-sm text-muted">Aún no has añadido experiencias.</p>}{profile.experiences.map((experience, index) => <ExperienceEditor key={index} value={experience} onChange={(value) => set("experiences", profile.experiences.map((item, i) => i === index ? value : item))} onRemove={() => set("experiences", profile.experiences.filter((_, i) => i !== index))} />)}<button type="button" onClick={() => set("experiences", [...profile.experiences, { role: "", company: "", start: "", end: "", description: "" }])} className="flex h-11 items-center gap-2 rounded-[10px] border border-[#b9bfcb] px-4 font-bold text-navy hover:bg-canvas"><Icon name="plus" className="size-4" />Añadir experiencia</button></div></Card>
 
