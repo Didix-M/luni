@@ -23,12 +23,12 @@ async function requestImport(url: string) {
   return result;
 }
 
-function mergeImportedJob(current: Job, imported: Partial<Job>) {
+function mergeImportedJob(current: Job, imported: Partial<Job>, refresh = false) {
   const next = { ...current };
   for (const key of Object.keys(imported) as (keyof Job)[]) {
     const value = imported[key];
     const defaultCanBeReplaced = (key === "panama_eligibility" && current[key] === "unconfirmed") || (key === "opening_status" && current[key] === "unverified");
-    if (value && (!current[key] || defaultCanBeReplaced)) Object.assign(next, { [key]: value });
+    if (value && (refresh || !current[key] || defaultCanBeReplaced)) Object.assign(next, { [key]: value });
   }
   return next;
 }
@@ -92,7 +92,7 @@ export function JobForm({ jobId, initialUrl = "", autoImport = false }: { jobId?
     setImportStatus("loading"); setImportMessage("Leyendo la información pública del enlace…");
     try {
       const result = await requestImport(job.source_url.trim());
-      setJob((current) => mergeImportedJob(current, result.job ?? {}));
+      setJob((current) => mergeImportedJob(current, result.job ?? {}, true));
       setImportStatus("success");
       setImportMessage(importSummary(result));
     } catch (error) {
